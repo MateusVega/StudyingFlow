@@ -1,0 +1,58 @@
+{% extends "layout.html" %}
+{% block content%}
+    <section class="flex items-center justify-center w-full h-full">
+        <div class="relative flex flex-col m-6 space-y-8 bg-white shadow-2xl rounded-2xl md:flex-row md:space-y-0 max-h-[85vh] overflow-auto">
+            <form action="" method="POST" class="flex flex-col justify-center p-6 md:p-8 mb-0">
+                {{ form.hidden_tag() }}
+                <span class="mb-3 text-4xl font-bold">Welcome back</span>
+                <span class="font-light text-gray-400 mb-8">Welcome back! Please enter your details</span>
+                <div class="py-2">
+                    {{ form.email.label(class="mb-2 text-base") }}
+                    {% if form.email.errors %}
+                        {{ form.email(class="w-full p-2 border border-gray-300 rounded-md placeholder:font-light placeholder:text-gray-500") }}
+                        <div>
+                            {% for error in form.email.errors %}
+                                <span class="text-red-500 text-sm">{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.email(class="w-full p-2 border border-gray-300 rounded-md placeholder:font-light placeholder:text-gray-500") }}
+                    {% endif %}
+                </div>
+                <div class="py-2">
+                    {{ form.password.label(class="mb-2 text-base") }}
+                    {% if form.password.errors %}
+                        {{ form.password(class="w-full p-2 border border-gray-300 rounded-md placeholder:font-light placeholder:text-gray-500") }}
+                        <div>
+                            {% for error in form.password.errors %}
+                            <span class="text-red-500 text-sm">{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.password(class="w-full p-2 border border-gray-300 rounded-md placeholder:font-light placeholder:text-gray-500") }}
+                    {% endif %}
+                </div>
+                <div class="py-2 w-full flex justify-between">
+                    <span>
+                        {{ form.remember() }}
+                        {{ form.remember.label(class="mb-2 text-sm text-left") }}
+                    </span>
+                    <span class="text-sm text-right">
+                        <a class="hover:border-b-2" href="{{ url_for('reset_request') }}">Forgot Password?</a>
+                    </span>
+                </div>
+                <div class="py-2">
+                    {{ form.submit(class="w-full bg-black text-white p-2 rounded-lg hover:bg-white hover:text-black hover:border hover:border-gray-300")}}
+                </div>
+                <div>
+                    <small>
+                        Need An Account? <a class="hover:border-b-2 text-gray-700" href="{{ url_for('register') }}">Sign Up Now</a>
+                    </small>
+                </div>
+            </form>
+            <div class="relative">
+                <img src="{{ url_for('static', filename='vertical_image.webp') }}" alt="vertical_image" class="w-[400px] h-full hidden rounded-r-2xl md:block object-cover">
+            </div>
+        </div>
+    </section>
+{% endblock content %}

@@ -1,0 +1,119 @@
+from flask import render_template, redirect, url_for, flash, request
+from StudyApp import app, db, bcrypt, mail
+from StudyApp.forms import *
+from StudyApp.models import *
+from StudyApp.utils import generate_reset_token, verify_reset_token
+from flask_login import login_user, current_user, logout_user, login_required
+from flask_mail import Message
+import datetime
+
+
+@app.route("/")
+def index():
+    return render_template("index.html")
+
+@app.route("/register", methods=["GET", "POST"])
+def register():
+    if current_user.is_authenticated:
+        return redirect(url_for("index"))
+    form = RegistrationForm()
+    if form.validate_on_submit():
+        hashed_password = bcrypt.generate_password_hash(form.password.data).decode("utf-8")
+        user = User(username=form.username.data, email=form.email.data, password=hashed_password)
+        db.session.add(user)
+        db.session.commit()
+        flash({"title": "Congratulations!", "message": f"Account created for {form.username.data}!"}, "green")
+        return redirect(url_for("login"))
+    return render_template("register.html", title="Register", form=form)
+
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    if current_user.is_authenticated:
+        return redirect(url_for("index"))
+    form = LoginForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(email=form.email.data).first()
+        if user and bcrypt.check_password_hash(user.password, form.password.data):
+            login_user(user, remember=form.remember.data)
+            next_page = request.args.get("next")
+            flash({"title": "Congratulations!", "message": "You have been logged in!"}, "green")
+            return redirect(next_page) if next_page else redirect(url_for("index"))
+        else:
+            flash({"title": "Login Unsuccssful...", "message": "Please check email and password"}, "red")
+    return render_template("login.html", title="Login", form=form)
+
+@app.route("/reset_password", methods=["GET", "POST"])
+def reset_request():
+    if current_user.is_authenticated:
+        return redirect(url_for("index"))
+    form = ResetRequestForm()
+    if form.validate_on_submit():
+        email = form.email.data
+        user = User.query.filter_by(email=email).first()
+        if user:
+            token = generate_reset_token(user.email)
+            reset_link = url_for("reset_token", token=token, _external=True)
+            reset_link = reset_link.encode('utf-8').decode('utf-8')
+
+            msg = Message(
+                subject="Reset Password",
+                sender="mateusggvega@gmail.com",
+                recipients=[user.email]
+            )
+
+            msg.body = f"Click the link to reset your password: {reset_link}"
+            msg.body = msg.body.encode('utf-8').decode('utf-8')
+
+            msg.charset = "utf-8"
+
+            print(msg)
+
+            mail.send(msg)
+
+            flash({"title": "Almost there!", "message": "Check your email for a password reset link."}, "blue")
+            return redirect(url_for("login"))
+        else:
+            flash({"title": "Unsuccssful...", "message": "Email not found."}, "red")
+
+    return render_template("reset_request.html", title="Reset Password", form=form)
+
+@app.route("/reset_password/<token>", methods=["GET", "POST"])
+def reset_token(token):
+    if current_user.is_authenticated:
+        return redirect(url_for("index"))
+    form = ResetPasswordForm()
+    email = verify_reset_token(token)
+    if email is None:
+        flash("Invalid or expired token.", "danger")
+        return redirect(url_for("reset_request"))
+
+    user = User.query.filter_by(email=email).first()
+    
+    if form.validate_on_submit():
+        hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+        user.password = hashed_password
+        db.session.commit()
+        flash({"title": "Congratulations!", "message": "Your password has been updated!"}, "green")
+        return redirect(url_for("login"))
+
+    return render_template("reset_password.html", title="Reset Password", form=form)
+
+@app.route("/logout")
+def logout():
+    logout_user()
+    flash({"title": "Success", "message": "You have logout successfully!"}, "green")
+    return redirect(url_for("index"))
+
+@app.route("/account")
+@login_required
+def account():
+    return render_template("account.html", title="Account")
+
+@app.route("/account/update", methods=["GET", "POST"])
+@login_required
+def update_account():
+    form = UpdateAccountForm()
+    if form.validate_on_submit():
+        flash({"title": "Congratulations!", "message": "The account is updated!"}, "green")
+        return redirect(url_for("account"))
+    return render_template("update_account.html", title="Update Account", form=form)

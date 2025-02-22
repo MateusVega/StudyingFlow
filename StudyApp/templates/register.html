@@ -1,0 +1,75 @@
+{% extends "layout.html" %}
+{% block content%}
+    <section class="flex items-center justify-center w-full h-full">
+        <div class="relative flex flex-col m-6 space-y-8 bg-white shadow-2xl rounded-2xl md:flex-row md:space-y-0 max-h-[85vh] overflow-auto">
+            <form action="" method="POST" class="flex flex-col justify-center p-6 md:p-8 mb-0">
+                {{ form.hidden_tag() }}
+                <span class="mb-3 text-4xl font-bold">Welcome</span>
+                <span class="font-light text-gray-400 mb-8">Welcome! Please create your account</span>
+                <div class="py-2">
+                    {{ form.username.label(class="mb-2 text-base") }}
+                    {% if form.username.errors %}
+                        {{ form.username(class="w-full p-2 border border-gray-300 rounded-md placeholder:font-light placeholder:text-gray-500") }}
+                        <div>
+                            {% for error in form.username.errors %}
+                                <span class="text-red-500 text-sm">{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.username(class="w-full p-2 border border-gray-300 rounded-md placeholder:font-light placeholder:text-gray-500") }}
+                    {% endif %}
+                </div class="py-2">
+                <div>
+                    {{ form.email.label(class="mb-2 text-base") }}
+                    {% if form.email.errors %}
+                        {{ form.email(class="w-full p-2 border border-gray-300 rounded-md placeholder:font-light placeholder:text-gray-500") }}
+                        <div>
+                            {% for error in form.email.errors %}
+                                <span class="text-red-500 text-sm">{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.email(class="w-full p-2 border border-gray-300 rounded-md placeholder:font-light placeholder:text-gray-500") }}
+                    {% endif %}
+                </div>
+                <div class="py-2">
+                    {{ form.password.label(class="mb-2 text-base") }}
+                    {% if form.password.errors %}
+                        {{ form.password(class="w-full p-2 border border-gray-300 rounded-md placeholder:font-light placeholder:text-gray-500") }}
+                        <div>
+                            {% for error in form.password.errors %}
+                                <span class="text-red-500 text-sm">{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.password(class="w-full p-2 border border-gray-300 rounded-md placeholder:font-light placeholder:text-gray-500") }}
+                    {% endif %}
+                </div>
+                <div class="py-2">
+                    {{ form.confirm_password.label(class="mb-2 text-base") }}
+                    {% if form.confirm_password.errors %}
+                        {{ form.confirm_password(class="w-full p-2 border border-gray-300 rounded-md placeholder:font-light placeholder:text-gray-500") }}
+                        <div>
+                            {% for error in form.confirm_password.errors %}
+                                <span class="text-red-500 text-sm">{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.confirm_password(class="w-full p-2 border border-gray-300 rounded-md placeholder:font-light placeholder:text-gray-500") }}
+                    {% endif %}
+                </div>
+                <div class="py-2">
+                    {{ form.submit(class="w-full bg-black text-white p-2 rounded-lg hover:bg-white hover:text-black hover:border hover:border-gray-300")}}
+                </div>
+                <div>
+                    <small>
+                        Already Have An Account? <a class="hover:border-b-2 text-gray-700" href="{{ url_for('login') }}">Sign In</a>
+                    </small>
+                </div>
+            </form>
+            <div class="relative">
+                <img src="{{ url_for('static', filename='vertical_image.webp') }}" alt="vertical_image" class="w-[400px] h-full hidden rounded-r-2xl md:block object-cover">
+            </div>
+        </div>
+    </section>
+{% endblock content %}

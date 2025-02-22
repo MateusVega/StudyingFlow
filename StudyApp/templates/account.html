@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+{% block content%}
+    <section class="flex justify-center w-full md:w-[80vw] min-h-full m-auto">
+        <div class="w-full h-full">
+            <header class="h-[45vh] flex flex-col md:flex-row md:py-0 py-2">
+                <div class="flex items-center justify-center gap-5 h-full] md:w-1/2 w-full">
+                    <img class="md:h-[30vh] h-[20vh] rounded-full" src="{{ url_for('static', filename=current_user.image_file) }}">
+                    <div class="md:h-[30vh] h-[20vh] flex flex-col justify-center md:gap-2">
+                        <p class="2xl:text-3xl md:text-xl text-md font-bold">{{ current_user.username }}</p>
+                        <p class="2xl:text-3xl md:text-xl text-md"><span class="lg:inline hidden">Here since</span> {{ current_user.date_created.strftime("%B %Y") }}</p>
+                        <a class="w-fit flex items-center gap-2 bg-black text-white md:px-5 px-3 md:py-2 py-1 rounded-full hover:bg-gray-500" href="{{ url_for('update_account')}}">
+                            Settings
+                            <ion-icon name="settings"></ion-icon>
+                        </a>
+                    </div>
+                </div>
+            </header>
+            <footer class="h-[40vh]">
+
+            </footer>
+        </div>
+    </section>
+{% endblock content %}

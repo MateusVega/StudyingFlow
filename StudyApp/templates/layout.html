@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700&display=swap"
+    rel="stylesheet">
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+
+    <link id="favicon-light" rel="icon" href="{{ url_for('static', filename='favicon-light.ico') }}" type="image/png">
+    
+    {% if title %}
+        <title>StudyFlow - {{ title }}</title>
+    {% else %}
+        <title>StudyFlow</title>
+    {% endif %}
+</head>
+<body class="font-[Poppins]">
+    <header class="bg-white">
+        <nav class="flex justify-between items-center w-[92%] mx-auto my-5">
+            <a href="{{ url_for('index') }}">
+                <img class="2xl:h-20 h-12 transition duration-300 ease-in-out hover:scale-110" src="{{ url_for('static', filename='Logo.png') }}" alt="StudyFlow Icon">
+            </a>
+            <div class="nav-links duration-500 md:static left-[-4%] absolute bg-white md:min-h-fit min-h-[34vh] top-[-600%] md:w-auto w-full flex items-center md:px-5 z-10 px-10">
+                <ul class="flex md:flex-row flex-col md:items-center md:gap-[4vw] gap-8">
+                    <li class="flex items-center gap-1">
+                        <a class="transition duration-300 ease-in-out hover:scale-110 2xl:text-2xl" href="#">Blog</a>
+                    </li>
+                    <li class="flex items-center gap-1">
+                        <a class="transition duration-300 ease-in-out hover:scale-110 2xl:text-2xl" href="#">Forum</a>
+                    </li>
+                    <div class="relative inline-block">
+                        <li class="dropdown-btn flex items-center gap-1 cursor-pointer transition duration-300 ease-in-out hover:scale-110 2xl:text-2xl">
+                            Finance Tools
+                            <ion-icon class="dropdown_ico" name="chevron-down"></ion-icon>
+                        </li>
+
+                        <ul class="dropdown-menu absolute left-0 mt-2 w-48 bg-white border border-gray-300 rounded-lg shadow-lg hidden z-10">
+                            <li class="px-4 py-2 transition duration-150 ease-in-out cursor-pointer hover:scale-105"><a href="#">Compound Interest Calculator</a></li>
+                            <li class="px-4 py-2 transition duration-150 ease-in-out cursor-pointer hover:scale-105"><a href="#">Personal Budget Calculator</a></li>
+                        </ul>
+                    </div>
+                    <div class="relative inline-block">
+                        <li class="dropdown-btn flex items-center gap-1 cursor-pointer transition duration-300 ease-in-out hover:scale-110 2xl:text-2xl">
+                            Study Tools
+                            <ion-icon class="dropdown_ico" name="chevron-down"></ion-icon>
+                        </li>
+
+                        <ul class="dropdown-menu absolute left-0 mt-2 w-48 bg-white border border-gray-300 rounded-lg shadow-lg hidden z-10">
+                            <li class="px-4 py-2 transition duration-150 ease-in-out cursor-pointer hover:scale-105"><a href="#">Pomodoro</a></li>
+                            <li class="px-4 py-2 transition duration-150 ease-in-out cursor-pointer hover:scale-105"><a href="#">Studying Cicle</a></li>
+                            <li class="px-4 py-2 transition duration-150 ease-in-out cursor-pointer hover:scale-105"><a href="#">Routine</a></li>
+                            <li class="px-4 py-2 transition duration-150 ease-in-out cursor-pointer hover:scale-105"><a href="#">Kanban</a></li>
+                        </ul>
+                    </div>
+                </ul>
+            </div>
+            <div class="flex items-center gap-6">
+                {% if current_user.is_authenticated %}
+                <div class="relative">
+                    <a id="profile-btn" class="flex justify-center items-center gap-2 rounded-full px-3 py-1 cursor-pointer transition duration-300 ease-in-out hover:scale-110">
+                        <span class="capitalize hidden md:inline 2xl:text-2xl">{{ current_user.username }}</span>
+                        <img class="rounded-full h-[7vh] border-2" src="{{ url_for('static', filename='default.jpg') }}" alt="Profile Image">
+                    </a>
+                
+                    <div id="profile-dropdown" class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg hidden">
+                        <ul class="flex flex-col">
+                            <li><a href="{{ url_for('account') }}" class="block px-4 py-2 transition duration-300 ease-in-out hover:scale-110">Account</a></li>
+                            <li><a href="{{ url_for('logout') }}" class="block px-4 py-2 transition duration-300 ease-in-out hover:scale-110">Logout</a></li>
+                        </ul>
+                    </div>
+                </div>
+                {% else %}
+                    <a href="{{ url_for('login') }}" class="bg-black text-white px-5 py-2 rounded-full hover:bg-gray-500">Sign In</a>
+                {% endif %}
+                <ion-icon onclick="onToggleMenu(this)" name="menu" class="text-3xl cursor-pointer md:hidden"></ion-icon>
+            </div>
+        </nav>
+    </header>
+    <main class="h-[85vh]">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, msg in messages %}
+                    <div id="flash_element" class="bg-{{ category }}-100 border border-{{ category }}-400 text-{{ category }}-700 px-4 py-3 rounded relative w-[50vw] mx-auto my-5" role="alert">
+                        <strong class="font-bold">{{ msg.title }}</strong>
+                        <span class="block sm:inline">{{ msg.message }}</span>
+                        <span class="absolute top-0 bottom-0 right-0 px-4 py-3 cursor-pointer hover:scale-125 transition" onclick="close_flash()">
+                          <svg class="fill-current h-6 w-6 text-{{ category }}-500" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><title>Close</title><path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z"/></svg>
+                        </span>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        {% block content %}
+        
+        {% endblock %}
+    </main>
+    <!-- Toggle Menu -->
+    <script>
+        function onToggleMenu(e){
+            const navLinks = document.querySelector(".nav-links")
+            const navHeight = document.querySelector('nav').offsetHeight
+            e.name = e.name === "menu" ? "close" : "menu"
+            navLinks.classList.toggle(`top-[${navHeight+20}px]`)
+        }
+    </script>
+    <!-- Dropdown Tools -->
+    <script>
+        const dropdownButtons = document.querySelectorAll(".dropdown-btn");
+        const dropdownMenus = document.querySelectorAll(".dropdown-menu");
+    
+        function closeAllDropdowns(exceptIndex = null) {
+            dropdownMenus.forEach((menu, index) => {
+                if (index !== exceptIndex) {
+                    menu.classList.add("hidden");
+                }
+            });
+        }
+    
+        dropdownButtons.forEach((btn, index) => {
+            btn.addEventListener("click", function (event) {
+                event.stopPropagation();
+                const dropdownMenu = dropdownMenus[index];
+
+                const isOpen = !dropdownMenu.classList.contains("hidden");
+    
+                closeAllDropdowns(index);
+    
+                if (isOpen) {
+                    dropdownMenu.classList.add("hidden");
+                } else {
+                    dropdownMenu.classList.remove("hidden");
+                }
+            });
+        });
+    
+        document.addEventListener("click", function () {
+            closeAllDropdowns();
+        });
+    </script>
+    <!-- Dropdown profile -->
+    <script>
+        const profileBtn = document.getElementById("profile-btn");
+        const profileDropdown = document.getElementById("profile-dropdown");
+    
+        profileBtn.addEventListener("click", function (event) {
+            event.stopPropagation(); // Prevents closing immediately
+            profileDropdown.classList.toggle("hidden"); // Show/Hide
+        });
+    
+        document.addEventListener("click", function () {
+            profileDropdown.classList.add("hidden"); // Close when clicking outside
+        });
+    </script>
+    <!-- Close Flash -->
+     <script>
+        function close_flash(){
+            const element = document.getElementById("flash_element")
+            element.remove()
+        }
+     </script>
+</body>
+</html>
