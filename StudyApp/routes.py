@@ -114,6 +114,19 @@ def account():
 def update_account():
     form = UpdateAccountForm()
     if form.validate_on_submit():
+        if form.current_password.data and form.new_password.data:
+            if bcrypt.check_password_hash(current_user.password, form.current_password.data):
+                hashed_password = bcrypt.generate_password_hash(form.new_password.data).decode("utf-8")
+                current_user.password = hashed_password
+            else:
+                flash({"title": "Error!", "message": "The current password is not right!"}, "red")
+                return redirect(url_for("update_account"))
+        current_user.email = form.email.data
+        current_user.username = form.username.data
+        db.session.commit()
         flash({"title": "Congratulations!", "message": "The account is updated!"}, "green")
         return redirect(url_for("account"))
+    elif request.method == 'GET':
+        form.email.data = current_user.email
+        form.username.data = current_user.username
     return render_template("update_account.html", title="Update Account", form=form)

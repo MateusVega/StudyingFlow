@@ -27,8 +27,8 @@ class RegistrationForm(FlaskForm):
             raise ValidationError("That email is taken. Please choose a different one")
 
 class LoginForm(FlaskForm):
-    username = StringField('Username',
-                           validators=[DataRequired(), Length(min=2, max=20)])
+    email = StringField('Email',
+                           validators=[DataRequired(), Email()])
     password = PasswordField('Password',
                            validators=[DataRequired()])
     remember = BooleanField('Remember Me')
@@ -42,11 +42,9 @@ class UpdateAccountForm(FlaskForm):
                            validators=[DataRequired(), Length(min=2, max=20)])
     email = StringField('Email',
                            validators=[DataRequired(), Email()])
-    current_password = PasswordField('Current Password',
-                           validators=[DataRequired()])
-    new_password = PasswordField('New Password',
-                           validators=[DataRequired()])
-    submit = SubmitField('Login')
+    current_password = PasswordField('Current Password')
+    new_password = PasswordField('New Password')
+    submit = SubmitField('Update')
 
 class ResetRequestForm(FlaskForm):
     email = StringField('Email',
