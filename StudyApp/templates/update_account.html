@@ -2,9 +2,21 @@
 {% block content%}
 <section class="flex items-center justify-center w-full h-full">
     <div class="relative flex flex-col m-6 space-y-8 bg-white shadow-2xl rounded-2xl md:flex-row md:space-y-0 max-h-[85vh] overflow-auto">
-        <form action="" method="POST" class="flex flex-col justify-center p-6 md:p-8 mb-0">
+        <form action="" method="POST" enctype="multipart/form-data" class="flex flex-col justify-center p-6 md:p-8 mb-0">
             {{ form.hidden_tag() }}
             <span class="mb-3 text-4xl font-bold">Update Account</span>
+            <div id="picture_input" class="py-2 flex flex-col justify-center items-center gap-2">
+                {{ form.picture.label(class="text-base bg-black rounded-full text-white px-3 py-1 hover:bg-white hover:text-black hover:border hover:border-gray-300 hover:scale-105 transition duration-300 ease-in-out") }}
+                {{ form.picture(class="invisible h-0") }}
+                <p id="file_name"></p>
+                {% if form.picture.errors %}
+                    <div>
+                        {% for error in form.picture.errors %}
+                            <span class="text-red-500 text-sm">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
             <div class="py-2">
                 {{ form.username.label(class="mb-2 text-base") }}
                 {% if form.username.errors %}
@@ -58,9 +70,14 @@
                 {% endif %}
             </div>
             <div class="py-2">
-                {{ form.submit(class="w-full bg-black text-white p-2 rounded-lg hover:bg-white hover:text-black hover:border hover:border-gray-300")}}
+                {{ form.submit(class="w-full bg-black text-white p-2 rounded-lg hover:bg-white hover:text-black hover:border hover:border-gray-300 hover:scale-105 transition duration-300 ease-in-out")}}
             </div>
         </form>
     </div>
 </section>
+<script>
+    document.querySelector("input[type=file]").addEventListener("change", function(e){
+        document.getElementById("file_name").innerText =  e.target.files[0].name
+    })
+</script>
 {% endblock content %}

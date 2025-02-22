@@ -2,11 +2,10 @@ from flask import render_template, redirect, url_for, flash, request
 from StudyApp import app, db, bcrypt, mail
 from StudyApp.forms import *
 from StudyApp.models import *
-from StudyApp.utils import generate_reset_token, verify_reset_token
+from StudyApp.utils import *
 from flask_login import login_user, current_user, logout_user, login_required
 from flask_mail import Message
 import datetime
-
 
 @app.route("/")
 def index():
@@ -66,8 +65,6 @@ def reset_request():
 
             msg.charset = "utf-8"
 
-            print(msg)
-
             mail.send(msg)
 
             flash({"title": "Almost there!", "message": "Check your email for a password reset link."}, "blue")
@@ -114,6 +111,9 @@ def account():
 def update_account():
     form = UpdateAccountForm()
     if form.validate_on_submit():
+        if form.picture.data:
+            picture_file = save_picture(form.picture.data)
+            current_user.image_file = picture_file
         if form.current_password.data and form.new_password.data:
             if bcrypt.check_password_hash(current_user.password, form.current_password.data):
                 hashed_password = bcrypt.generate_password_hash(form.new_password.data).decode("utf-8")
