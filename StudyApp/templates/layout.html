@@ -23,12 +23,12 @@
                 <img class="2xl:h-16 h-12 transition duration-300 ease-in-out hover:scale-110" src="{{ url_for('static', filename='Logo.png') }}" alt="StudyFlow Icon">
             </a>
             <div class="nav-links duration-500 md:static left-[-4%] absolute bg-white md:min-h-fit min-h-[34vh] top-[-600%] md:w-auto w-full flex items-center md:px-5 z-10 px-10">
-                <ul class="flex md:flex-row flex-col md:items-center md:gap-[4vw] gap-8">
-                    <li class="flex items-center gap-1">
-                        <a class="transition duration-300 ease-in-out hover:scale-110 2xl:text-xl" href="#">Blog</a>
+                <ul class="flex md:flex-row flex-col md:items-center md:gap-[4vw] gap-5">
+                    <li class="flex items-center gap-1 transition duration-300 ease-in-out hover:scale-110">
+                        <a class="2xl:text-xl" href="#">Blog</a>
                     </li>
-                    <li class="flex items-center gap-1">
-                        <a class="transition duration-300 ease-in-out hover:scale-110 2xl:text-xl" href="#">Forum</a>
+                    <li class="flex items-center gap-1 transition duration-300 ease-in-out hover:scale-110">
+                        <a class="2xl:text-xl" href="#">Forum</a>
                     </li>
                     <div class="relative inline-block">
                         <li class="dropdown-btn flex items-center gap-1 cursor-pointer transition duration-300 ease-in-out hover:scale-110 2xl:text-xl">
@@ -54,26 +54,43 @@
                             <li class="px-4 py-2 transition duration-150 ease-in-out cursor-pointer hover:scale-105"><a href="#">Kanban</a></li>
                         </ul>
                     </div>
+                    {% if current_user.is_authenticated %}
+                    <li class="md:hidden flex items-center gap-1 transition duration-300 ease-in-out hover:scale-110">
+                        <a class="2xl:text-xl" href="{{ url_for('account') }}">Account</a>
+                    </li>
+                        <li class="md:hidden flex items-center gap-1 transition duration-300 ease-in-out hover:scale-110">
+                            <a class="2xl:text-xl" href="{{ url_for('logout') }}">Logout</a>
+                        </li>
+                    {% else %}
+                        <li class="md:hidden flex items-center gap-1 transition duration-300 ease-in-out hover:scale-110">
+                            <a class="2xl:text-xl" href="{{ url_for('login') }}">Sign In</a>
+                        </li>
+                        <li class="md:hidden flex items-center gap-1 transition duration-300 ease-in-out hover:scale-110">
+                            <a class="2xl:text-xl" href="{{ url_for('register') }}">Sign Up</a>
+                        </li>
+                    {% endif %}
                 </ul>
             </div>
-            <div class="flex items-center gap-6">
-                {% if current_user.is_authenticated %}
-                <div class="relative">
-                    <a id="profile-btn" class="flex justify-center items-center gap-2 rounded-full px-3 py-1 cursor-pointer transition duration-300 ease-in-out hover:scale-110">
-                        <span class="capitalize hidden md:inline 2xl:text-xl">{{ current_user.username }}</span>
-                        <img class="rounded-full h-[7vh] w-[7vh]" src="{{ url_for('static', filename='profile_pics/' + current_user.image_file) }}" alt="Profile Image">
-                    </a>
-                
-                    <div id="profile-dropdown" class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg hidden">
-                        <ul class="flex flex-col">
-                            <li><a href="{{ url_for('account') }}" class="block px-4 py-2 transition duration-300 ease-in-out hover:scale-110">Account</a></li>
-                            <li><a href="{{ url_for('logout') }}" class="block px-4 py-2 transition duration-300 ease-in-out hover:scale-110">Logout</a></li>
-                        </ul>
+            <div class="flex items-center gap-6 ">
+                <div class="md:block hidden">
+                    {% if current_user.is_authenticated %}
+                    <div class="relative">
+                        <a id="profile-btn" class="flex justify-center items-center gap-2 rounded-full px-3 py-1 cursor-pointer transition duration-300 ease-in-out hover:scale-110">
+                            <span class="capitalize hidden md:inline 2xl:text-xl">{{ current_user.username }}</span>
+                            <img class="rounded-full h-[7vh] w-[7vh]" src="{{ url_for('static', filename='profile_pics/' + current_user.image_file) }}" alt="Profile Image">
+                        </a>
+                    
+                        <div id="profile-dropdown" class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg hidden">
+                            <ul class="flex flex-col">
+                                <li><a href="{{ url_for('account') }}" class="block px-4 py-2 transition duration-300 ease-in-out hover:scale-110">Account</a></li>
+                                <li><a href="{{ url_for('logout') }}" class="block px-4 py-2 transition duration-300 ease-in-out hover:scale-110">Logout</a></li>
+                            </ul>
+                        </div>
                     </div>
+                    {% else %}
+                        <a href="{{ url_for('login') }}" class="bg-black text-white px-5 py-2 rounded-full hover:bg-gray-500 transition duration-300 ease-in-out hover:scale-110">Sign In</a>
+                    {% endif %}
                 </div>
-                {% else %}
-                    <a href="{{ url_for('login') }}" class="bg-black text-white px-5 py-2 rounded-full hover:bg-gray-500 transition duration-300 ease-in-out hover:scale-110">Sign In</a>
-                {% endif %}
                 <ion-icon onclick="onToggleMenu(this)" name="menu" class="text-3xl cursor-pointer md:hidden transition duration-300 ease-in-out hover:scale-110"></ion-icon>
             </div>
         </nav>
@@ -82,10 +99,10 @@
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
                 {% for category, msg in messages %}
-                    <div id="flash_element" class="bg-{{ category }}-100 border border-{{ category }}-400 text-{{ category }}-700 px-4 py-3 rounded relative w-[50vw] mx-auto my-5" role="alert">
+                    <div id="flash_element" class="bg-{{ category }}-100 border border-{{ category }}-400 text-{{ category }}-700 px-4 py-3 rounded relative md:w-[50vw] w-[90vw] mx-auto my-5" role="alert">
                         <strong class="font-bold">{{ msg.title }}</strong>
                         <span class="block sm:inline">{{ msg.message }}</span>
-                        <span class="absolute top-0 bottom-0 right-0 px-4 py-3 cursor-pointer hover:scale-125 transition" onclick="close_flash()">
+                        <span class="flex items-center absolute top-0 bottom-0 right-0 px-4 py-3 cursor-pointer hover:scale-125 transition" onclick="close_flash()">
                           <svg class="fill-current h-6 w-6 text-{{ category }}-500" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><title>Close</title><path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z"/></svg>
                         </span>
                     </div>
