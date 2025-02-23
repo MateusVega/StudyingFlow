@@ -20,57 +20,57 @@
             <div class="py-2">
                 {{ form.username.label(class="mb-2 text-base") }}
                 {% if form.username.errors %}
-                    {{ form.username(class="w-full p-2 border border-gray-300 rounded-md placeholder:font-light placeholder:text-gray-500") }}
+                    {{ form.username(class="transition duration-300 ease-in-out hover:scale-105 w-full p-2 border border-gray-300 rounded-md placeholder:font-light placeholder:text-gray-500") }}
                     <div>
                         {% for error in form.username.errors %}
                             <span class="text-red-500 text-sm">{{ error }}</span>
                         {% endfor %}
                     </div>
                 {% else %}
-                    {{ form.username(class="w-full p-2 border border-gray-300 rounded-md placeholder:font-light placeholder:text-gray-500") }}
+                    {{ form.username(class="transition duration-300 ease-in-out hover:scale-105 w-full p-2 border border-gray-300 rounded-md placeholder:font-light placeholder:text-gray-500") }}
                 {% endif %}
             </div>
             <div class="py-2">
                 {{ form.email.label(class="mb-2 text-base") }}
                 {% if form.email.errors %}
-                    {{ form.email(class="w-full p-2 border border-gray-300 rounded-md placeholder:font-light placeholder:text-gray-500") }}
+                    {{ form.email(class="transition duration-300 ease-in-out hover:scale-105 w-full p-2 border border-gray-300 rounded-md placeholder:font-light placeholder:text-gray-500") }}
                     <div>
                         {% for error in form.email.errors %}
                             <span class="text-red-500 text-sm">{{ error }}</span>
                         {% endfor %}
                     </div>
                 {% else %}
-                    {{ form.email(class="w-full p-2 border border-gray-300 rounded-md placeholder:font-light placeholder:text-gray-500") }}
+                    {{ form.email(class="transition duration-300 ease-in-out hover:scale-105 w-full p-2 border border-gray-300 rounded-md placeholder:font-light placeholder:text-gray-500") }}
                 {% endif %}
             </div>
             <div class="py-2">
                 {{ form.current_password.label(class="mb-2 text-base") }}
                 {% if form.current_password.errors %}
-                    {{ form.current_password(class="w-full p-2 border border-gray-300 rounded-md placeholder:font-light placeholder:text-gray-500") }}
+                    {{ form.current_password(class="transition duration-300 ease-in-out hover:scale-105 w-full p-2 border border-gray-300 rounded-md placeholder:font-light placeholder:text-gray-500") }}
                     <div>
                         {% for error in form.current_password.errors %}
                         <span class="text-red-500 text-sm">{{ error }}</span>
                         {% endfor %}
                     </div>
                 {% else %}
-                    {{ form.current_password(class="w-full p-2 border border-gray-300 rounded-md placeholder:font-light placeholder:text-gray-500") }}
+                    {{ form.current_password(class="transition duration-300 ease-in-out hover:scale-105 w-full p-2 border border-gray-300 rounded-md placeholder:font-light placeholder:text-gray-500") }}
                 {% endif %}
             </div>
             <div class="py-2">
                 {{ form.new_password.label(class="mb-2 text-base") }}
                 {% if form.new_password.errors %}
-                    {{ form.new_password(class="w-full p-2 border border-gray-300 rounded-md placeholder:font-light placeholder:text-gray-500") }}
+                    {{ form.new_password(class="transition duration-300 ease-in-out hover:scale-105 w-full p-2 border border-gray-300 rounded-md placeholder:font-light placeholder:text-gray-500") }}
                     <div>
                         {% for error in form.new_password.errors %}
                         <span class="text-red-500 text-sm">{{ error }}</span>
                         {% endfor %}
                     </div>
                 {% else %}
-                    {{ form.new_password(class="w-full p-2 border border-gray-300 rounded-md placeholder:font-light placeholder:text-gray-500") }}
+                    {{ form.new_password(class="transition duration-300 ease-in-out hover:scale-105 w-full p-2 border border-gray-300 rounded-md placeholder:font-light placeholder:text-gray-500") }}
                 {% endif %}
             </div>
             <div class="py-2">
-                {{ form.submit(class="w-full bg-black text-white p-2 rounded-lg hover:bg-white hover:text-black hover:border hover:border-gray-300 hover:scale-105 transition duration-300 ease-in-out")}}
+                {{ form.submit(class="w-full bg-black text-white p-2 rounded-lg hover:bg-white hover:text-black hover:border hover:border-gray-300 hover:scale-[103%] transition duration-300 ease-in-out")}}
             </div>
         </form>
     </div>

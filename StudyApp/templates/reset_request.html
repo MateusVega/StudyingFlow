@@ -9,18 +9,18 @@
                 <div class="py-2">
                     {{ form.email.label(class="mb-2 text-base") }}
                     {% if form.email.errors %}
-                        {{ form.email(class="w-full p-2 border border-gray-300 rounded-md placeholder:font-light placeholder:text-gray-500") }}
+                        {{ form.email(class="transition duration-300 ease-in-out hover:scale-105 w-full p-2 border border-gray-300 rounded-md placeholder:font-light placeholder:text-gray-500") }}
                         <div>
                             {% for error in form.email.errors %}
                                 <span class="text-red-500 text-sm">{{ error }}</span>
                             {% endfor %}
                         </div>
                     {% else %}
-                        {{ form.email(class="w-full p-2 border border-gray-300 rounded-md placeholder:font-light placeholder:text-gray-500") }}
+                        {{ form.email(class="transition duration-300 ease-in-out hover:scale-105 w-full p-2 border border-gray-300 rounded-md placeholder:font-light placeholder:text-gray-500") }}
                     {% endif %}
                 </div>
                 <div class="py-2">
-                    {{ form.submit(class="w-full bg-black text-white p-2 rounded-lg hover:bg-white hover:text-black hover:border hover:border-gray-300")}}
+                    {{ form.submit(class="w-full bg-black text-white p-2 rounded-lg hover:bg-white hover:text-black hover:border hover:border-gray-300 hover:scale-[103%] transition duration-300 ease-in-out")}}
                 </div>
             </form>
         </div>
