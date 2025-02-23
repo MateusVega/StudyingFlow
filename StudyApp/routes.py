@@ -130,3 +130,15 @@ def update_account():
         form.email.data = current_user.email
         form.username.data = current_user.username
     return render_template("update_account.html", title="Update Account", form=form)
+
+@app.errorhandler(404)
+def error_404(error):
+    return render_template('errors/404.html'), 404
+
+@app.errorhandler(403)
+def error_403(error):
+    return render_template('errors/403.html'), 403
+
+@app.errorhandler(500)
+def error_500(error):
+    return render_template('errors/500.html'), 500
