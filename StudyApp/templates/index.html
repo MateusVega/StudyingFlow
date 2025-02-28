@@ -1,4 +1,11 @@
 {% extends "layout.html" %}
 {% block content%}
-    <h1 class="m-10">Index Page</h1>
+    <section class="w-[95vw] flex flex-col md:flex-row h-[85vh] mx-auto">
+        <div class="w-full md:w-1/2 h-auto my-10 md:h-full md:my-0 flex flex-col justify-center gap-2">
+            <h1 class="font-bold text-7xl">Master Your<br>Study Routine</h1>
+            <p class="text-lg text-gray-700/70">Tools to help you stay organized, study smarter,<br> and achieve better results.</p>
+            <a class="w-fit bg-black text-white px-6 py-3 rounded-full hover:bg-white hover:text-black hover:border hover:border-gray-300 hover:scale-[103%] transition duration-300 ease-in-out" href="{{ url_for('register') }}">Get Started</a>
+        </div>
+        <img class="w-full md:w-1/2 rounded-2xl" src="{{ url_for('static', filename='ImageHomePage.jpg') }}" alt="Preview website functions">
+    </section>
 {% endblock content %}
