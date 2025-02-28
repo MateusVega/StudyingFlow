@@ -7,6 +7,7 @@
     rel="stylesheet">
     <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0">
 
     <link id="favicon-light" rel="icon" href="{{ url_for('static', filename='favicon-light.ico') }}" type="image/png">
     
@@ -32,19 +33,23 @@
                     </li>
                     <div class="relative inline-block">
                         <li class="dropdown-btn flex items-center gap-1 cursor-pointer transition duration-300 ease-in-out hover:scale-110 2xl:text-xl">
-                            Finance Tools
-                            <ion-icon class="dropdown_ico" name="chevron-down"></ion-icon>
+                            Utils
+                            <span class="material-symbols-outlined">
+                                keyboard_arrow_down
+                            </span>
                         </li>
 
                         <ul class="dropdown-menu absolute left-0 mt-2 w-48 bg-white border border-gray-300 rounded-lg shadow-lg hidden z-10">
-                            <li class="px-4 py-2 transition duration-150 ease-in-out cursor-pointer hover:scale-105"><a href="#">Compound Interest Calculator</a></li>
-                            <li class="px-4 py-2 transition duration-150 ease-in-out cursor-pointer hover:scale-105"><a href="#">Personal Budget Calculator</a></li>
+                            <li class="px-4 py-2 transition duration-150 ease-in-out cursor-pointer hover:scale-105"><a href="#">#</a></li>
+                            <li class="px-4 py-2 transition duration-150 ease-in-out cursor-pointer hover:scale-105"><a href="#">#</a></li>
                         </ul>
                     </div>
                     <div class="relative inline-block">
                         <li class="dropdown-btn flex items-center gap-1 cursor-pointer transition duration-300 ease-in-out hover:scale-110 2xl:text-xl">
                             Study Tools
-                            <ion-icon class="dropdown_ico" name="chevron-down"></ion-icon>
+                            <span class="material-symbols-outlined">
+                                keyboard_arrow_down
+                            </span>
                         </li>
 
                         <ul class="dropdown-menu absolute left-0 mt-2 w-48 bg-white border border-gray-300 rounded-lg shadow-lg hidden z-10">
@@ -91,7 +96,9 @@
                         <a href="{{ url_for('login') }}" class="bg-black text-white px-5 py-2 rounded-full hover:bg-gray-500 transition duration-300 ease-in-out hover:scale-110">Sign In</a>
                     {% endif %}
                 </div>
-                <ion-icon onclick="onToggleMenu(this)" name="menu" class="text-3xl cursor-pointer md:hidden transition duration-300 ease-in-out hover:scale-110"></ion-icon>
+                <span class="material-symbols-outlined text-3xl cursor-pointer !block md:!hidden transition duration-300 ease-in-out hover:scale-110" onclick="onToggleMenu(this)">
+                    menu
+                </span>
             </div>
         </nav>
     </header>
@@ -118,7 +125,7 @@
         function onToggleMenu(e){
             const navLinks = document.querySelector(".nav-links")
             const navHeight = document.querySelector('nav').offsetHeight
-            e.name = e.name === "menu" ? "close" : "menu"
+            e.innerText = e.innerText === "menu" ? "close" : "menu"
             navLinks.classList.toggle(`top-[${navHeight+20}px]`)
         }
     </script>

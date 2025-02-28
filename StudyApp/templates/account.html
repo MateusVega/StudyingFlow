@@ -10,7 +10,9 @@
                         <p class="2xl:text-3xl md:text-xl text-md"><span class="lg:inline hidden">Here since</span> {{ current_user.date_created.strftime("%B %Y") }}</p>
                         <a class="w-fit flex items-center gap-2 bg-black text-white md:px-5 px-3 md:py-2 py-1 rounded-full hover:bg-gray-500" href="{{ url_for('update_account')}}">
                             Settings
-                            <ion-icon name="settings"></ion-icon>
+                            <span class="material-symbols-outlined">
+                                settings
+                            </span>
                         </a>
                     </div>
                 </div>
