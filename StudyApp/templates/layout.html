@@ -12,16 +12,16 @@
     <link id="favicon-light" rel="icon" href="{{ url_for('static', filename='favicon-light.ico') }}" type="image/png">
     
     {% if title %}
-        <title>StudyFlow - {{ title }}</title>
+        <title>StudyingFlow - {{ title }}</title>
     {% else %}
-        <title>StudyFlow</title>
+        <title>StudyingFlow</title>
     {% endif %}
 </head>
 <body class="font-[Poppins]">
-    <header class="bg-white h-[10vh]">
+    <header class="bg-white h-[8vh]">
         <nav class="flex justify-between items-center w-[92%] mx-auto my-5">
             <a href="{{ url_for('index') }}">
-                <img class="2xl:h-16 h-12 transition duration-300 ease-in-out hover:scale-110" src="{{ url_for('static', filename='Logo.png') }}" alt="StudyFlow Icon">
+                <img class="2xl:h-16 h-12 transition duration-300 ease-in-out hover:scale-110" src="{{ url_for('static', filename='Logo.png') }}" alt="StudyingFlow Icon">
             </a>
             <div class="nav-links duration-500 md:static left-[-4%] absolute bg-white md:min-h-fit min-h-[34vh] top-[-600%] md:w-auto w-full flex items-center md:px-5 z-10 px-10">
                 <ul class="flex md:flex-row flex-col md:items-center md:gap-[4vw] gap-5">
@@ -53,7 +53,7 @@
                         </li>
 
                         <ul class="dropdown-menu absolute left-0 mt-2 w-48 bg-white border border-gray-300 rounded-lg shadow-lg hidden z-10">
-                            <li class="px-4 py-2 transition duration-150 ease-in-out cursor-pointer hover:scale-105"><a href="#">Pomodoro</a></li>
+                            <li class="px-4 py-2 transition duration-150 ease-in-out cursor-pointer hover:scale-105"><a href="{{ url_for('pomodoro') }}">Pomodoro</a></li>
                             <li class="px-4 py-2 transition duration-150 ease-in-out cursor-pointer hover:scale-105"><a href="#">Studying Cicle</a></li>
                             <li class="px-4 py-2 transition duration-150 ease-in-out cursor-pointer hover:scale-105"><a href="#">Routine</a></li>
                             <li class="px-4 py-2 transition duration-150 ease-in-out cursor-pointer hover:scale-105"><a href="#">Kanban</a></li>

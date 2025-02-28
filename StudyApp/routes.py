@@ -27,7 +27,7 @@ def register():
         db.session.commit()
         flash({"title": "Congratulations!", "message": f"Account created for {form.username.data}!"}, "green")
         return redirect(url_for("login"))
-    return render_template("register.html", title="Register", form=form)
+    return render_template("account/register.html", title="Register", form=form)
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -44,7 +44,7 @@ def login():
             return redirect(next_page) if next_page else redirect(url_for("index"))
         else:
             flash({"title": "Login Unsuccssful...", "message": "Please check email and password"}, "red")
-    return render_template("login.html", title="Login", form=form)
+    return render_template("account/login.html", title="Login", form=form)
 
 @app.route("/reset_password", methods=["GET", "POST"])
 def reset_request():
@@ -78,7 +78,7 @@ def reset_request():
         else:
             flash({"title": "Unsuccssful...", "message": "Email not found."}, "red")
 
-    return render_template("reset_request.html", title="Reset Password", form=form)
+    return render_template("account/reset_request.html", title="Reset Password", form=form)
 
 @app.route("/reset_password/<token>", methods=["GET", "POST"])
 def reset_token(token):
@@ -100,7 +100,7 @@ def reset_token(token):
         flash({"title": "Congratulations!", "message": "Your password has been updated!"}, "green")
         return redirect(url_for("login"))
 
-    return render_template("reset_password.html", title="Reset Password", form=form)
+    return render_template("account/reset_password.html", title="Reset Password", form=form)
 
 @app.route("/logout")
 def logout():
@@ -111,7 +111,7 @@ def logout():
 @app.route("/account")
 @login_required
 def account():
-    return render_template("account.html", title="Account")
+    return render_template("account/account.html", title="Account")
 
 @app.route("/account/update", methods=["GET", "POST"])
 @login_required
@@ -136,9 +136,13 @@ def update_account():
     elif request.method == 'GET':
         form.email.data = current_user.email
         form.username.data = current_user.username
-    return render_template("update_account.html", title="Update Account", form=form)
+    return render_template("account/update_account.html", title="Update Account", form=form)
 
 # Tools
+
+@app.route("/pomodoro", methods=["GET", "POST"])
+def pomodoro():
+    return render_template("tools/pomodoro.html", title="Pomodor")
 
 # Errors
 
