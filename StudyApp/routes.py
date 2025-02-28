@@ -10,6 +10,8 @@ from flask_mail import Message
 def index():
     return render_template("index.html")
 
+# Contas
+
 @app.route("/register", methods=["GET", "POST"])
 def register():
     if current_user.is_authenticated:
@@ -19,6 +21,8 @@ def register():
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode("utf-8")
         user = User(username=form.username.data, email=form.email.data, password=hashed_password)
+        stat = Stats(owner=user)
+        db.session.add(stat)
         db.session.add(user)
         db.session.commit()
         flash({"title": "Congratulations!", "message": f"Account created for {form.username.data}!"}, "green")
@@ -133,6 +137,10 @@ def update_account():
         form.email.data = current_user.email
         form.username.data = current_user.username
     return render_template("update_account.html", title="Update Account", form=form)
+
+# Tools
+
+# Errors
 
 @app.errorhandler(404)
 def error_404(error):

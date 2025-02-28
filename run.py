@@ -4,7 +4,6 @@ if __name__ == '__main__':
     app.run(debug=True)
 
 """
-    from StudyApp import db, app
-    app.app_context().push()
-    db.create_all()
+flask db migrate -m "Descrição da mudança"
+flask db upgradethan
 """
