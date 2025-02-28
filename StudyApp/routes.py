@@ -5,7 +5,6 @@ from StudyApp.models import *
 from StudyApp.utils import *
 from flask_login import login_user, current_user, logout_user, login_required
 from flask_mail import Message
-import datetime
 
 @app.route("/")
 def index():
@@ -14,6 +13,7 @@ def index():
 @app.route("/register", methods=["GET", "POST"])
 def register():
     if current_user.is_authenticated:
+        flash({"title": "Authenticated!", "message": "You are already logged in!"}, "blue")
         return redirect(url_for("index"))
     form = RegistrationForm()
     if form.validate_on_submit():
@@ -28,6 +28,7 @@ def register():
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if current_user.is_authenticated:
+        flash({"title": "Authenticated!", "message": "You are already logged in!"}, "blue")
         return redirect(url_for("index"))
     form = LoginForm()
     if form.validate_on_submit():
@@ -44,6 +45,7 @@ def login():
 @app.route("/reset_password", methods=["GET", "POST"])
 def reset_request():
     if current_user.is_authenticated:
+        flash({"title": "Authenticated!", "message": "You are already logged in!"}, "blue")
         return redirect(url_for("index"))
     form = ResetRequestForm()
     if form.validate_on_submit():
@@ -77,6 +79,7 @@ def reset_request():
 @app.route("/reset_password/<token>", methods=["GET", "POST"])
 def reset_token(token):
     if current_user.is_authenticated:
+        flash({"title": "Authenticated!", "message": "You are already logged in!"}, "blue")
         return redirect(url_for("index"))
     form = ResetPasswordForm()
     email = verify_reset_token(token)

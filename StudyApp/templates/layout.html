@@ -18,7 +18,7 @@
     {% endif %}
 </head>
 <body class="font-[Poppins]">
-    <header class="bg-white">
+    <header class="bg-white h-[10vh]">
         <nav class="flex justify-between items-center w-[92%] mx-auto my-5">
             <a href="{{ url_for('index') }}">
                 <img class="2xl:h-16 h-12 transition duration-300 ease-in-out hover:scale-110" src="{{ url_for('static', filename='Logo.png') }}" alt="StudyFlow Icon">
@@ -102,11 +102,11 @@
             </div>
         </nav>
     </header>
-    <main class="h-[85vh]">
+    <main class="h-[90vh]">
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
                 {% for category, msg in messages %}
-                    <div id="flash_element" class="bg-{{ category }}-100 border border-{{ category }}-400 text-{{ category }}-700 px-4 py-3 rounded relative md:w-[50vw] w-[90vw] mx-auto my-5" role="alert">
+                    <div id="flash_element" class="bg-{{ category }}-100 border border-{{ category }}-400 text-{{ category }}-700 px-4 py-3 rounded relative md:w-[50vw] w-[90vw] mx-auto my-2" role="alert">
                         <strong class="font-bold">{{ msg.title }}</strong>
                         <span class="block sm:inline">{{ msg.message }}</span>
                         <span class="flex items-center absolute top-0 bottom-0 right-0 px-4 py-3 cursor-pointer hover:scale-125 transition" onclick="close_flash()">

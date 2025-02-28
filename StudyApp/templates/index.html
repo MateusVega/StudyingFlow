@@ -1,11 +1,60 @@
 {% extends "layout.html" %}
 {% block content%}
-    <section class="w-[95vw] flex flex-col md:flex-row h-[85vh] mx-auto">
-        <div class="w-full md:w-1/2 h-auto my-10 md:h-full md:my-0 flex flex-col justify-center gap-2">
-            <h1 class="font-bold text-7xl">Master Your<br>Study Routine</h1>
-            <p class="text-lg text-gray-700/70">Tools to help you stay organized, study smarter,<br> and achieve better results.</p>
-            <a class="w-fit bg-black text-white px-6 py-3 rounded-full hover:bg-white hover:text-black hover:border hover:border-gray-300 hover:scale-[103%] transition duration-300 ease-in-out" href="{{ url_for('register') }}">Get Started</a>
+    <section class="w-[95vw] flex flex-col lg:flex-row h-full mx-auto md:items-center">
+        <div class="w-4/5 md:w-1/2 h-auto my-10 md:h-full md:my-0 flex flex-col justify-center gap-2 2xl:gap-3 mx-auto">
+            <h1 class="font-bold sm:text-7xl 2xl:text-8xl text-4xl">Master Your<br>Study Routine</h1>
+            <p class="text-base sm:text-lg text-gray-700/70 2xl:text-xl">Tools to help you stay organized, study smarter,<br> and achieve better results.</p>
+            <a class="text-sm w-fit bg-black text-white px-6 py-3 2xl:text-xl rounded-full hover:bg-white hover:text-black hover:border hover:border-gray-300 hover:scale-[103%] transition duration-300 ease-in-out" href="{{ url_for('register') }}">Get Started</a>
         </div>
-        <img class="w-full md:w-1/2 rounded-2xl" src="{{ url_for('static', filename='ImageHomePage.jpg') }}" alt="Preview website functions">
+        <img class="w-4/5 md:w-[45%] h-2/3 md:h-[95%] rounded-2xl mx-auto" src="{{ url_for('static', filename='ImageHomePage.jpg') }}" alt="Preview website functions">
     </section>
+    <footer class="bg-black py-5">
+        <div class="container mx-auto grid grid-cols-4">
+            <div class="text-white">
+                <h2 class="text-2xl font-bold my-3">Study Tools</h2>
+                <ul class="space-y-3">
+                    <li><a href="#">Pomodoro Timer</a></li>
+                    <li><a href="#">Studying Cicle</a></li>
+                    <li><a href="#">Routine</a></li>
+                    <li><a href="#">Kanban</a></li>
+                </ul>
+            </div>
+            <div class="text-white">
+                <h2 class="text-2xl font-bold my-3">Utils</h2>
+                <ul class="space-y-3">
+                    <li><a href="#">Utils 1</a></li>
+                    <li><a href="#">Utils 2</a></li>
+                </ul>
+            </div>
+            <div class="text-white">
+                <h2 class="text-2xl font-bold my-3">Community</h2>
+                <ul class="space-y-3">
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Forum</a></li>
+                    <li><a href="#">FAQ</a></li>
+                </ul>
+            </div>
+            <div class="text-white">
+                <h2 class="text-2xl font-bold my-3">Account</h2>
+                <ul class="space-y-3">
+                    <li><a href="{{ url_for('account') }}">My Account</a></li>
+                    <li><a href="{{ url_for('login') }}">Sign In</a></li>
+                    <li><a href="{{ url_for('register') }}">Sign Up</a></li>
+                    <li><a href="{{ url_for('reset_request') }}">Forgot Password</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-4 text-white container mx-auto py-5">
+            <div class="col-span-3">
+                <p>&copy; All Copyright 2025</p>
+            </div>
+            <div>
+                <ul class="flex space-x-4">
+                    <li><a href="">Term</a></li>
+                    <li><a href="">Privacy</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
 {% endblock content %}
