@@ -102,7 +102,7 @@
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
                 {% for category, msg in messages %}
-                    <div id="flash_element" class="bg-{{ category }}-100 border border-{{ category }}-400 text-{{ category }}-700 px-4 py-3 rounded relative md:w-[50vw] w-[90vw] mx-auto my-2" role="alert">
+                    <div id="flash_element" class="alert-{{ category }} px-4 py-3 rounded relative md:w-[50vw] w-[90vw] mx-auto my-2" role="alert">
                         <strong class="font-bold">{{ msg.title }}</strong>
                         <span class="block sm:inline">{{ msg.message }}</span>
                         <span class="flex items-center absolute top-0 bottom-0 right-0 px-4 py-3 cursor-pointer hover:scale-125 transition" onclick="close_flash()">

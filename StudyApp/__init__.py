@@ -26,6 +26,6 @@ mail = Mail(app)
 login_manager = LoginManager(app)
 login_manager.login_view = "login"
 login_manager.login_message = {"title": "You need a account!", "message": "Please log in to your account"}
-login_manager.login_message_category = "blue"
+login_manager.login_message_category = "info"
 
 from StudyApp import routes

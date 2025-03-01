@@ -4,7 +4,7 @@
   "main": "tailwind.config.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "npx @tailwindcss/cli -i ./StudyApp/static/css/input.css -o ./StudyApp/static/css/output.css --watch"
+    "tailwind": "npx @tailwindcss/cli -i ./StudyApp/static/css/input.css -o ./StudyApp/static/css/output.css --watch"
   },
   "repository": {
     "type": "git",

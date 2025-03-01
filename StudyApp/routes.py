@@ -15,7 +15,7 @@ def index():
 @app.route("/register", methods=["GET", "POST"])
 def register():
     if current_user.is_authenticated:
-        flash({"title": "Authenticated!", "message": "You are already logged in!"}, "blue")
+        flash({"title": "Authenticated!", "message": "You are already logged in!"}, "info")
         return redirect(url_for("index"))
     form = RegistrationForm()
     if form.validate_on_submit():
@@ -25,14 +25,14 @@ def register():
         db.session.add(stat)
         db.session.add(user)
         db.session.commit()
-        flash({"title": "Congratulations!", "message": f"Account created for {form.username.data}!"}, "green")
+        flash({"title": "Congratulations!", "message": f"Account created for {form.username.data}!"}, "success")
         return redirect(url_for("login"))
     return render_template("account/register.html", title="Register", form=form)
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if current_user.is_authenticated:
-        flash({"title": "Authenticated!", "message": "You are already logged in!"}, "blue")
+        flash({"title": "Authenticated!", "message": "You are already logged in!"}, "info")
         return redirect(url_for("index"))
     form = LoginForm()
     if form.validate_on_submit():
@@ -40,16 +40,16 @@ def login():
         if user and bcrypt.check_password_hash(user.password, form.password.data):
             login_user(user, remember=form.remember.data)
             next_page = request.args.get("next")
-            flash({"title": "Congratulations!", "message": "You have been logged in!"}, "green")
+            flash({"title": "Congratulations!", "message": "You have been logged in!"}, "success")
             return redirect(next_page) if next_page else redirect(url_for("index"))
         else:
-            flash({"title": "Login Unsuccssful...", "message": "Please check email and password"}, "red")
+            flash({"title": "Login Unsuccssful...", "message": "Please check email and password"}, "error")
     return render_template("account/login.html", title="Login", form=form)
 
 @app.route("/reset_password", methods=["GET", "POST"])
 def reset_request():
     if current_user.is_authenticated:
-        flash({"title": "Authenticated!", "message": "You are already logged in!"}, "blue")
+        flash({"title": "Authenticated!", "message": "You are already logged in!"}, "info")
         return redirect(url_for("index"))
     form = ResetRequestForm()
     if form.validate_on_submit():
@@ -73,17 +73,17 @@ def reset_request():
 
             mail.send(msg)
 
-            flash({"title": "Almost there!", "message": "Check your email for a password reset link."}, "blue")
+            flash({"title": "Almost there!", "message": "Check your email for a password reset link."}, "info")
             return redirect(url_for("login"))
         else:
-            flash({"title": "Unsuccssful...", "message": "Email not found."}, "red")
+            flash({"title": "Unsuccssful...", "message": "Email not found."}, "error")
 
     return render_template("account/reset_request.html", title="Reset Password", form=form)
 
 @app.route("/reset_password/<token>", methods=["GET", "POST"])
 def reset_token(token):
     if current_user.is_authenticated:
-        flash({"title": "Authenticated!", "message": "You are already logged in!"}, "blue")
+        flash({"title": "Authenticated!", "message": "You are already logged in!"}, "info")
         return redirect(url_for("index"))
     form = ResetPasswordForm()
     email = verify_reset_token(token)
@@ -97,7 +97,7 @@ def reset_token(token):
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
         user.password = hashed_password
         db.session.commit()
-        flash({"title": "Congratulations!", "message": "Your password has been updated!"}, "green")
+        flash({"title": "Congratulations!", "message": "Your password has been updated!"}, "success")
         return redirect(url_for("login"))
 
     return render_template("account/reset_password.html", title="Reset Password", form=form)
@@ -105,7 +105,7 @@ def reset_token(token):
 @app.route("/logout")
 def logout():
     logout_user()
-    flash({"title": "Success", "message": "You have logout successfully!"}, "green")
+    flash({"title": "Success", "message": "You have logout successfully!"}, "success")
     return redirect(url_for("index"))
 
 @app.route("/account")
@@ -126,12 +126,12 @@ def update_account():
                 hashed_password = bcrypt.generate_password_hash(form.new_password.data).decode("utf-8")
                 current_user.password = hashed_password
             else:
-                flash({"title": "Error!", "message": "The current password is not right!"}, "red")
+                flash({"title": "Error!", "message": "The current password is not right!"}, "error")
                 return redirect(url_for("update_account"))
         current_user.email = form.email.data
         current_user.username = form.username.data
         db.session.commit()
-        flash({"title": "Congratulations!", "message": "The account is updated!"}, "green")
+        flash({"title": "Congratulations!", "message": "The account is updated!"}, "success")
         return redirect(url_for("account"))
     elif request.method == 'GET':
         form.email.data = current_user.email
