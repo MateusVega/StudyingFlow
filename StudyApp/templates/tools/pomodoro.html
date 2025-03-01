@@ -1,4 +1,114 @@
 {% extends "layout.html" %}
 {% block content%}
-    <h1>Pomodoro</h1>
+    <section class="flex justify-center min-h-screen w-full">
+        <div class="h-fit md:mt-10 mt-5 text-center bg-white p-7 rounded-[10px] shadow-2xl">
+            <h1 class="text-4xl font-bold mb-2">Pomodoro Timer</h1>
+            <nav class="mb-2">
+                <button onclick="change_mode(this)" class="btn_mode py-2 px-4 m-1 border-0 rounded-lg cursor-pointer bg-gray-200 text-black">Pomodoro</button>
+                <button onclick="change_mode(this)" class="btn_mode py-2 px-4 m-1 border-0 rounded-lg cursor-pointer bg-gray-100 text-black">Short Break</button>
+                <button onclick="change_mode(this)" class="btn_mode py-2 px-4 m-1 border-0 rounded-lg cursor-pointer bg-gray-100 text-black">Long Break</button>
+            </nav>
+            <div class="mb-5 text-5xl" id="timer">25:00</div>
+            <button class="py-2 px-6 m-2 border-0 rounded-lg cursor-pointer bg-green-600 text-white font-bold" id="start" onclick="startTimer()">Start</button>
+            <button class="py-2 px-6 m-2 border-0 rounded-lg cursor-pointer bg-yellow-500 text-white font-bold" id="pause" onclick="pauseTimer()">Pause</button>
+            <button class="py-2 px-6 m-2 border-0 rounded-lg cursor-pointer bg-red-600 text-white font-bold" id="reset" onclick="resetTimer(25)">Reset</button>
+        </div>
+    </section>
+    <script>
+        let timer;
+        let timing = 25;
+        let breaking = false
+        let minutes = timing;
+        let seconds = 0;
+        let isRunning = false;
+
+        const start_btn = document.getElementById("start");
+        const pause_btn = document.getElementById("pause");
+        const reset_btn = document.getElementById("reset");
+
+        pause_btn.style.display = "none";
+
+        function updateDisplay() {
+            document.getElementById('timer').textContent = 
+                `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+        }
+
+        function startTimer() {
+            if (!isRunning) {
+                isRunning = true;
+                start_btn.style.display = "none";
+                pause_btn.style.display = "inline";
+                timer = setInterval(() => {
+                    if (seconds === 0) {
+                        if (minutes === 0) {
+                            clearInterval(timer);
+                            isRunning = false;
+                            start_btn.style.display = "inline";
+                            pause_btn.style.display = "none";
+                            {% if current_user.is_authenticated %}
+                                fetch("{{ url_for('pomodoro') }}", {
+                                    method: "POST",
+                                    headers: {'Content-Type': 'application/json'}, 
+                                    body: JSON.stringify({time: timing, mode: breaking})
+                                }).then(res => {
+                                    console.log("Request complete! response:", res);
+                                });
+                            {% endif %}
+                            resetTimer();
+                            return;
+                        }
+                        minutes--;
+                        seconds = 59;
+                    } else {
+                        seconds--;
+                    }
+                    "Pomodoro Timer - " + minutes + ":" + seconds
+                    document.title = `Pomodoro Timer - ${minutes}:${seconds}`
+                    updateDisplay();
+                }, 1000);
+            }
+        }
+
+        function pauseTimer() {
+            start_btn.style.display = "inline";
+            pause_btn.style.display = "none";
+            clearInterval(timer);
+            isRunning = false;
+        }
+
+        function resetTimer() {
+            clearInterval(timer);
+            start_btn.style.display = "inline";
+            pause_btn.style.display = "none";
+            minutes = timing;
+            seconds = 0;
+            isRunning = false;
+            updateDisplay();
+        }
+
+        function change_mode(btn) {
+            const btns = document.querySelectorAll(".btn_mode");
+            btns.forEach(element => {
+                element.classList.remove("bg-gray-200");
+                element.classList.add("bg-gray-100");
+            });
+            btn.classList.remove("bg-gray-100");
+            btn.classList.add("bg-gray-200");
+            if (btn.innerText == "Pomodoro"){
+                timing = 25;
+                breaking = false
+                resetTimer();
+            } else if (btn.innerText == "Short Break"){
+                timing = 5;
+                breaking = true
+                resetTimer();
+            } else{
+                timing = 15;
+                breaking = true
+                resetTimer();
+            }
+        }
+
+        updateDisplay();
+    </script>
 {% endblock content %}

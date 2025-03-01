@@ -14,7 +14,7 @@
     {% endif %}
 </head>
 <body class="font-poppins">
-    <header class="bg-white h-[8vh]">
+    <header class="bg-white h-[10vh] z-50">
         <nav class="flex justify-between items-center w-[92%] mx-auto my-5">
             <a href="{{ url_for('index') }}">
                 <img class="2xl:h-16 h-12 transition duration-300 ease-in-out hover:scale-110" src="{{ url_for('static', filename='Logo.png') }}" alt="StudyingFlow Icon">
@@ -98,7 +98,7 @@
             </div>
         </nav>
     </header>
-    <main class="h-[90vh]">
+    <main class="h-[88vh]">
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
                 {% for category, msg in messages %}

@@ -1,4 +1,4 @@
-from flask import render_template, redirect, url_for, flash, request
+from flask import render_template, redirect, url_for, flash, request, jsonify
 from StudyApp import app, db, bcrypt, mail
 from StudyApp.forms import *
 from StudyApp.models import *
@@ -152,7 +152,20 @@ def forum():
 
 @app.route("/pomodoro", methods=["GET", "POST"])
 def pomodoro():
-    return render_template("tools/pomodoro.html", title="Pomodoro")
+    if request.method == "POST":
+        response = request.get_json()
+        time = response.get("time")
+        mode = response.get("mode")
+
+        stats = Stats.query.get(current_user.id)
+        if mode: # is break time
+            stats.pomodoro_breaks += time
+        else: # is focus time
+            stats.pomodoro_focus += time
+        db.session.commit()
+        return jsonify({"status": "success", "time": time})
+    else:
+        return render_template("tools/pomodoro.html", title="Pomodoro")
 
 @app.route("/kanban", methods=["GET", "POST"])
 def kanban():
