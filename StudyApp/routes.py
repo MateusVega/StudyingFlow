@@ -138,11 +138,35 @@ def update_account():
         form.username.data = current_user.username
     return render_template("account/update_account.html", title="Update Account", form=form)
 
+# Community
+
+@app.route("/blog", methods=["GET", "POST"])
+def blog():
+    return render_template("community/blog.html", title="Blog")
+
+@app.route("/forum", methods=["GET", "POST"])
+def forum():
+    return render_template("community/forum.html", title="Forum")
+
 # Tools
 
 @app.route("/pomodoro", methods=["GET", "POST"])
 def pomodoro():
-    return render_template("tools/pomodoro.html", title="Pomodor")
+    return render_template("tools/pomodoro.html", title="Pomodoro")
+
+@app.route("/kanban", methods=["GET", "POST"])
+def kanban():
+    return render_template("tools/kanban.html", title="Kanban")
+
+
+@app.route("/studyingcicle", methods=["GET", "POST"])
+def studyingcicle():
+    return render_template("tools/studyingcicle.html", title="Studying Cicle")
+
+
+@app.route("/routine", methods=["GET", "POST"])
+def routine():
+    return render_template("tools/routine.html", title="Routine")
 
 # Errors
 

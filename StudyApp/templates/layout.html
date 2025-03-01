@@ -19,13 +19,13 @@
             <a href="{{ url_for('index') }}">
                 <img class="2xl:h-16 h-12 transition duration-300 ease-in-out hover:scale-110" src="{{ url_for('static', filename='Logo.png') }}" alt="StudyingFlow Icon">
             </a>
-            <div class="nav-links duration-500 md:static left-[-4%] absolute bg-white md:min-h-fit min-h-[34vh] top-[-600%] md:w-auto w-full flex items-center md:px-5 z-10 px-10">
+            <div class="nav-links duration-500 md:static left-0 absolute bg-white md:min-h-fit min-h-[34vh] top-[-600%] md:w-auto w-full flex items-center md:px-5 z-10 px-10 py-2 ">
                 <ul class="flex md:flex-row flex-col md:items-center md:gap-[4vw] gap-5">
                     <li class="flex items-center gap-1 transition duration-300 ease-in-out hover:scale-110">
-                        <a class="2xl:text-xl" href="blog/">Blog</a>
+                        <a class="2xl:text-xl" href="{{ url_for('blog') }}">Blog</a>
                     </li>
                     <li class="flex items-center gap-1 transition duration-300 ease-in-out hover:scale-110">
-                        <a class="2xl:text-xl" href="forum/">Forum</a>
+                        <a class="2xl:text-xl" href="{{ url_for('forum') }}">Forum</a>
                     </li>
                     <div class="relative inline-block">
                         <li class="dropdown-btn flex items-center gap-1 cursor-pointer transition duration-300 ease-in-out hover:scale-110 2xl:text-xl">
@@ -36,8 +36,8 @@
                         </li>
 
                         <ul class="dropdown-menu absolute left-0 mt-2 w-48 bg-white border border-gray-300 rounded-lg shadow-lg hidden z-10">
-                            <li class="px-4 py-2 transition duration-150 ease-in-out cursor-pointer hover:scale-105"><a href="#">#</a></li>
-                            <li class="px-4 py-2 transition duration-150 ease-in-out cursor-pointer hover:scale-105"><a href="#">#</a></li>
+                            <li class="px-4 py-2 transition duration-150 ease-in-out cursor-pointer hover:scale-105"><a class="inline-block w-full" href="#">#</a></li>
+                            <li class="px-4 py-2 transition duration-150 ease-in-out cursor-pointer hover:scale-105"><a class="inline-block w-full" href="#">#</a></li>
                         </ul>
                     </div>
                     <div class="relative inline-block">
@@ -49,10 +49,10 @@
                         </li>
 
                         <ul class="dropdown-menu absolute left-0 mt-2 w-48 bg-white border border-gray-300 rounded-lg shadow-lg hidden z-10">
-                            <li class="px-4 py-2 transition duration-150 ease-in-out cursor-pointer hover:scale-105"><a href="{{ url_for('pomodoro') }}">Pomodoro</a></li>
-                            <li class="px-4 py-2 transition duration-150 ease-in-out cursor-pointer hover:scale-105"><a href="#">Studying Cicle</a></li>
-                            <li class="px-4 py-2 transition duration-150 ease-in-out cursor-pointer hover:scale-105"><a href="#">Routine</a></li>
-                            <li class="px-4 py-2 transition duration-150 ease-in-out cursor-pointer hover:scale-105"><a href="#">Kanban</a></li>
+                            <li class="px-4 py-2 transition duration-150 ease-in-out cursor-pointer hover:scale-105"><a class="inline-block w-full" href="{{ url_for('pomodoro') }}">Pomodoro</a></li>
+                            <li class="px-4 py-2 transition duration-150 ease-in-out cursor-pointer hover:scale-105"><a class="inline-block w-full" href="{{ url_for('studyingcicle') }}">Studying Cicle</a></li>
+                            <li class="px-4 py-2 transition duration-150 ease-in-out cursor-pointer hover:scale-105"><a class="inline-block w-full" href="{{ url_for('routine') }}">Routine</a></li>
+                            <li class="px-4 py-2 transition duration-150 ease-in-out cursor-pointer hover:scale-105"><a class="inline-block w-full" href="{{ url_for('kanban') }}">Kanban</a></li>
                         </ul>
                     </div>
                     {% if current_user.is_authenticated %}
@@ -122,7 +122,12 @@
             const navLinks = document.querySelector(".nav-links")
             const navHeight = document.querySelector('nav').offsetHeight
             e.innerText = e.innerText === "menu" ? "close" : "menu"
-            navLinks.classList.toggle(`top-[${navHeight+20}px]`)
+            
+            if (navLinks.style.top === `${navHeight + 24}px`) {
+                navLinks.style.top = "-100%";
+            } else {
+                navLinks.style.top = `${navHeight + 24}px`;
+            }
         }
     </script>
     <!-- Dropdown Tools -->
