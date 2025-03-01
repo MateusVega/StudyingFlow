@@ -3,21 +3,17 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700&display=swap"
-    rel="stylesheet">
-    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
-    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/output.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0">
-
-    <link id="favicon-light" rel="icon" href="{{ url_for('static', filename='favicon-light.ico') }}" type="image/png">
-    
+    <link rel="icon" href="{{ url_for('static', filename='favicon-light.ico') }}" type="image/png">
     {% if title %}
         <title>StudyingFlow - {{ title }}</title>
     {% else %}
         <title>StudyingFlow</title>
     {% endif %}
 </head>
-<body class="font-[Poppins]">
+<body class="font-poppins">
     <header class="bg-white h-[8vh]">
         <nav class="flex justify-between items-center w-[92%] mx-auto my-5">
             <a href="{{ url_for('index') }}">
