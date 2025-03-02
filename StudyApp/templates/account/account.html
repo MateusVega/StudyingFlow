@@ -17,8 +17,27 @@
                     </div>
                 </div>
             </header>
-            <footer class="h-[40vh]">
-
+            <footer class="h-[40vh] grid lg:grid-cols-6 md:grid-cols-4 sm:grid-cols-3 grid-cols-2 mx-auto">            
+                <div class="relative w-40 mx-auto">
+                    <img class="w-full" src="{{ url_for('static', filename='stats_pics/pom_focus.png') }}" alt="Pomodoro Focus">
+                    <p class="absolute inset-0 flex items-end justify-center text-white font-bold text-lg sm:mb-12 mb-6">
+                        {% if stats.pomodoro_focus > 1 %}
+                            {{ stats.pomodoro_focus }} Minutes
+                        {% else %}
+                            {{ stats.pomodoro_focus }} Minute
+                        {% endif %}
+                    </p>
+                </div>
+                <div class="relative w-40 mx-auto">
+                    <img class="w-full" src="{{ url_for('static', filename='stats_pics/pom_breaks.png') }}" alt="Pomodoro Focus">
+                    <p class="absolute inset-0 flex items-end justify-center text-white font-bold text-lg sm:mb-12 mb-6">
+                        {% if stats.pomodoro_breaks > 1 %}
+                            {{ stats.pomodoro_breaks }} Minutes
+                        {% else %}
+                            {{ stats.pomodoro_breaks }} Minute
+                        {% endif %}
+                    </p>
+                </div>
             </footer>
         </div>
     </section>
