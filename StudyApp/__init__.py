@@ -1,31 +1,39 @@
-import os
-from dotenv import load_dotenv
 from flask import Flask
 from flask_mail import Mail
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 from flask_migrate import Migrate
+from StudyApp.config import Config
 
-load_dotenv()
-
-app = Flask(__name__)
-app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY")
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("SQLALCHEMY_DATABASE_URI")
-app.config["MAIL_SERVER"] = "smtp.gmail.com"
-app.config["MAIL_PORT"] = 587
-app.config["MAIL_USE_TLS"] = True
-app.config["MAIL_USERNAME"] = os.environ.get("MAIL_USERNAME")
-app.config["MAIL_PASSWORD"] = os.environ.get("MAIL_PASSWORD")
-app.config["MAIL_DEFAULT_SENDER"] = "mateusggvega@gmail.com"
-app.config["MAIL_ASCII_ATTACHMENTS"] = False
-db = SQLAlchemy(app)
-migrate = Migrate(app, db)
-bcrypt = Bcrypt(app)
-mail = Mail(app)
-login_manager = LoginManager(app)
+db = SQLAlchemy()
+bcrypt = Bcrypt()
+mail = Mail()
+login_manager = LoginManager()
 login_manager.login_view = "login"
 login_manager.login_message = {"title": "You need a account!", "message": "Please log in to your account"}
 login_manager.login_message_category = "info"
 
-from StudyApp import routes
+def create_app(config_class=Config):
+    app = Flask(__name__)
+    app.config.from_object(Config)
+
+    db.init_app(app)
+    bcrypt.init_app(app)
+    login_manager.init_app(app)
+    mail.init_app(app)
+
+    migrate = Migrate(app, db)
+
+    from StudyApp.users.routes import users
+    from StudyApp.main.routes import main
+    from StudyApp.errors.routes import errors
+    from StudyApp.tools.routes import tools
+    from StudyApp.community.routes import community
+    app.register_blueprint(users)
+    app.register_blueprint(main)
+    app.register_blueprint(errors)
+    app.register_blueprint(tools)
+    app.register_blueprint(community)
+
+    return app

@@ -47,7 +47,7 @@
                             start_btn.style.display = "inline";
                             pause_btn.style.display = "none";
                             {% if current_user.is_authenticated %}
-                                fetch("{{ url_for('pomodoro') }}", {
+                                fetch("{{ url_for('tools.pomodoro') }}", {
                                     method: "POST",
                                     headers: {'Content-Type': 'application/json'}, 
                                     body: JSON.stringify({time: timing, mode: breaking})

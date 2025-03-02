@@ -2,5 +2,3 @@
 .alert-success { @apply bg-green-100 border border-green-400 text-green-700; }
 .alert-error { @apply bg-red-100 border border-red-400 text-red-700; }
 .alert-info { @apply bg-blue-100 border border-blue-400 text-blue-700; }
-
-.pom_focus { @apply bg-[url({{ url_for('static', filename='stats_pics/pom_focus.png') }})]}

@@ -8,7 +8,7 @@
                     <div class="md:h-[30vh] h-[20vh] flex flex-col justify-center md:gap-2">
                         <p class="capitalize 2xl:text-3xl md:text-xl text-md font-bold">{{ current_user.username }}</p>
                         <p class="2xl:text-3xl md:text-xl text-md"><span class="lg:inline hidden">Here since</span> {{ current_user.date_created.strftime("%B %Y") }}</p>
-                        <a class="w-fit flex items-center gap-2 bg-black text-white md:px-5 px-3 md:py-2 py-1 rounded-full hover:bg-gray-500" href="{{ url_for('update_account')}}">
+                        <a class="w-fit flex items-center gap-2 bg-black text-white md:px-5 px-3 md:py-2 py-1 rounded-full hover:bg-gray-500" href="{{ url_for('users.update_account')}}">
                             Settings
                             <span class="material-symbols-outlined">
                                 settings
@@ -18,19 +18,19 @@
                 </div>
             </header>
             <footer class="h-[40vh] grid lg:grid-cols-6 md:grid-cols-4 sm:grid-cols-3 grid-cols-2 mx-auto">            
-                <div class="relative w-40 mx-auto">
-                    <img class="w-full" src="{{ url_for('static', filename='stats_pics/pom_focus.png') }}" alt="Pomodoro Focus">
-                    <p class="absolute inset-0 flex items-end justify-center text-white font-bold text-lg sm:mb-12 mb-6">
+                <div class="relative w-40 h-55 inline-block text-center mx-auto">
+                    <img src="{{ url_for('static', filename='stats_pics/pom_focus.png') }}" alt="Pomodoro Focus" class="block w-full">
+                    <p class="absolute bottom-6 left-1/2 transform -translate-x-1/2 text-white font-bold text-sm">
                         {% if stats.pomodoro_focus > 1 %}
                             {{ stats.pomodoro_focus }} Minutes
                         {% else %}
                             {{ stats.pomodoro_focus }} Minute
                         {% endif %}
                     </p>
-                </div>
-                <div class="relative w-40 mx-auto">
-                    <img class="w-full" src="{{ url_for('static', filename='stats_pics/pom_breaks.png') }}" alt="Pomodoro Focus">
-                    <p class="absolute inset-0 flex items-end justify-center text-white font-bold text-lg sm:mb-12 mb-6">
+                </div>                                  
+                <div class="relative w-40 h-55 inline-block text-center mx-auto">
+                    <img src="{{ url_for('static', filename='stats_pics/pom_breaks.png') }}" alt="Pomodoro Focus" class="block w-full">
+                    <p class="absolute bottom-6 left-1/2 transform -translate-x-1/2 text-white font-bold text-sm">
                         {% if stats.pomodoro_breaks > 1 %}
                             {{ stats.pomodoro_breaks }} Minutes
                         {% else %}

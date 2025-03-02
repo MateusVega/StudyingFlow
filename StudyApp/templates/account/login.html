@@ -38,7 +38,7 @@
                         {{ form.remember.label(class="ml-1 text-sm cursor-pointer") }}
                     </span>
                     <span class="text-sm text-right transition duration-300 ease-in-out hover:scale-110">
-                        <a href="{{ url_for('reset_request') }}">Forgot Password?</a>
+                        <a href="{{ url_for('users.reset_request') }}">Forgot Password?</a>
                     </span>
                 </div>
                 <div class="py-2">
@@ -46,7 +46,7 @@
                 </div>
                 <div>
                     <small>
-                        Need An Account? <a class="inline-block text-gray-700 hover:scale-110 transition duration-300 ease-in-out" href="{{ url_for('register') }}">Sign Up Now</a>
+                        Need An Account? <a class="inline-block text-gray-700 hover:scale-110 transition duration-300 ease-in-out" href="{{ url_for('users.register') }}">Sign Up Now</a>
                     </small>
                 </div>
             </form>

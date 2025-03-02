@@ -16,16 +16,16 @@
 <body class="font-poppins">
     <header class="bg-white h-[10vh] z-50">
         <nav class="flex justify-between items-center w-[92%] mx-auto my-5">
-            <a href="{{ url_for('index') }}">
+            <a href="{{ url_for('main.index') }}">
                 <img class="2xl:h-16 h-12 transition duration-300 ease-in-out hover:scale-110" src="{{ url_for('static', filename='Logo.png') }}" alt="StudyingFlow Icon">
             </a>
             <div class="nav-links duration-500 md:static left-0 absolute bg-white md:min-h-fit min-h-[34vh] top-[-600%] md:w-auto w-full flex items-center md:px-5 z-10 px-10 py-2 ">
                 <ul class="flex md:flex-row flex-col md:items-center md:gap-[4vw] gap-5">
                     <li class="flex items-center gap-1 transition duration-300 ease-in-out hover:scale-110">
-                        <a class="2xl:text-xl" href="{{ url_for('blog') }}">Blog</a>
+                        <a class="2xl:text-xl" href="{{ url_for('community.blog') }}">Blog</a>
                     </li>
                     <li class="flex items-center gap-1 transition duration-300 ease-in-out hover:scale-110">
-                        <a class="2xl:text-xl" href="{{ url_for('forum') }}">Forum</a>
+                        <a class="2xl:text-xl" href="{{ url_for('community.forum') }}">Forum</a>
                     </li>
                     <div class="relative inline-block">
                         <li class="dropdown-btn flex items-center gap-1 cursor-pointer transition duration-300 ease-in-out hover:scale-110 2xl:text-xl">
@@ -49,25 +49,25 @@
                         </li>
 
                         <ul class="dropdown-menu absolute left-0 mt-2 w-48 bg-white border border-gray-300 rounded-lg shadow-lg hidden z-10">
-                            <li class="px-4 py-2 transition duration-150 ease-in-out cursor-pointer hover:scale-105"><a class="inline-block w-full" href="{{ url_for('pomodoro') }}">Pomodoro</a></li>
-                            <li class="px-4 py-2 transition duration-150 ease-in-out cursor-pointer hover:scale-105"><a class="inline-block w-full" href="{{ url_for('studyingcicle') }}">Studying Cicle</a></li>
-                            <li class="px-4 py-2 transition duration-150 ease-in-out cursor-pointer hover:scale-105"><a class="inline-block w-full" href="{{ url_for('routine') }}">Routine</a></li>
-                            <li class="px-4 py-2 transition duration-150 ease-in-out cursor-pointer hover:scale-105"><a class="inline-block w-full" href="{{ url_for('kanban') }}">Kanban</a></li>
+                            <li class="px-4 py-2 transition duration-150 ease-in-out cursor-pointer hover:scale-105"><a class="inline-block w-full" href="{{ url_for('tools.pomodoro') }}">Pomodoro</a></li>
+                            <li class="px-4 py-2 transition duration-150 ease-in-out cursor-pointer hover:scale-105"><a class="inline-block w-full" href="{{ url_for('tools.studyingcicle') }}">Studying Cicle</a></li>
+                            <li class="px-4 py-2 transition duration-150 ease-in-out cursor-pointer hover:scale-105"><a class="inline-block w-full" href="{{ url_for('tools.routine') }}">Routine</a></li>
+                            <li class="px-4 py-2 transition duration-150 ease-in-out cursor-pointer hover:scale-105"><a class="inline-block w-full" href="{{ url_for('tools.kanban') }}">Kanban</a></li>
                         </ul>
                     </div>
                     {% if current_user.is_authenticated %}
                     <li class="md:hidden flex items-center gap-1 transition duration-300 ease-in-out hover:scale-110">
-                        <a class="2xl:text-xl" href="{{ url_for('account') }}">Account</a>
+                        <a class="2xl:text-xl" href="{{ url_for('users.account') }}">Account</a>
                     </li>
                         <li class="md:hidden flex items-center gap-1 transition duration-300 ease-in-out hover:scale-110">
-                            <a class="2xl:text-xl" href="{{ url_for('logout') }}">Logout</a>
+                            <a class="2xl:text-xl" href="{{ url_for('users.logout') }}">Logout</a>
                         </li>
                     {% else %}
                         <li class="md:hidden flex items-center gap-1 transition duration-300 ease-in-out hover:scale-110">
-                            <a class="2xl:text-xl" href="{{ url_for('login') }}">Sign In</a>
+                            <a class="2xl:text-xl" href="{{ url_for('users.login') }}">Sign In</a>
                         </li>
                         <li class="md:hidden flex items-center gap-1 transition duration-300 ease-in-out hover:scale-110">
-                            <a class="2xl:text-xl" href="{{ url_for('register') }}">Sign Up</a>
+                            <a class="2xl:text-xl" href="{{ url_for('users.register') }}">Sign Up</a>
                         </li>
                     {% endif %}
                 </ul>
@@ -83,13 +83,13 @@
                     
                         <div id="profile-dropdown" class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg hidden">
                             <ul class="flex flex-col">
-                                <li><a href="{{ url_for('account') }}" class="block px-4 py-2 transition duration-300 ease-in-out hover:scale-110">Account</a></li>
-                                <li><a href="{{ url_for('logout') }}" class="block px-4 py-2 transition duration-300 ease-in-out hover:scale-110">Logout</a></li>
+                                <li><a href="{{ url_for('users.account') }}" class="block px-4 py-2 transition duration-300 ease-in-out hover:scale-110">Account</a></li>
+                                <li><a href="{{ url_for('users.logout') }}" class="block px-4 py-2 transition duration-300 ease-in-out hover:scale-110">Logout</a></li>
                             </ul>
                         </div>
                     </div>
                     {% else %}
-                        <a href="{{ url_for('login') }}" class="bg-black text-white px-5 py-2 rounded-full hover:bg-gray-500 transition duration-300 ease-in-out hover:scale-110">Sign In</a>
+                        <a href="{{ url_for('users.login') }}" class="bg-black text-white px-5 py-2 rounded-full hover:bg-gray-500 transition duration-300 ease-in-out hover:scale-110">Sign In</a>
                     {% endif %}
                 </div>
                 <span class="material-symbols-outlined text-3xl cursor-pointer !block md:!hidden transition duration-300 ease-in-out hover:scale-110" onclick="onToggleMenu(this)">
