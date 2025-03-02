@@ -10,7 +10,7 @@ db = SQLAlchemy()
 bcrypt = Bcrypt()
 mail = Mail()
 login_manager = LoginManager()
-login_manager.login_view = "login"
+login_manager.login_view = "users.login"
 login_manager.login_message = {"title": "You need a account!", "message": "Please log in to your account"}
 login_manager.login_message_category = "info"
 

@@ -1,6 +1,10 @@
 from datetime import datetime
 from StudyApp import db, login_manager
 from flask_login import UserMixin
+import uuid
+
+def generate_uuid():
+    return str(uuid.uuid4())
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -25,3 +29,23 @@ class Stats(db.Model):
 
     def __repr__(self):
         return f"Post('{self.title}', '{self.date_posted}')"
+
+class KanbanBoard(db.Model):
+    id = db.Column(db.String(36), primary_key=True, default=generate_uuid)
+    title = db.Column(db.String(100), nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    
+    columns = db.relationship('KanbanColumn', backref='board', cascade="all, delete-orphan", lazy=True)
+
+class KanbanColumn(db.Model):
+    id = db.Column(db.String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
+    name = db.Column(db.String(50), nullable=False)
+    board_id = db.Column(db.String(36), db.ForeignKey('kanban_board.id'), nullable=False)
+    tasks = db.relationship('KanbanTask', backref='column', lazy=True, cascade="all, delete-orphan")
+
+class KanbanTask(db.Model):
+    id = db.Column(db.String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
+    name = db.Column(db.String(200), nullable=False)
+    column_id = db.Column(db.String(36), db.ForeignKey('kanban_column.id'), nullable=False)
+    position = db.Column(db.Integer, nullable=False)

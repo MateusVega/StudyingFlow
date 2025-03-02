@@ -1,0 +1,39 @@
+{% extends "layout.html" %}
+{% block content%}
+    <section class="w-full h-full flex flex-col items-center">
+        <h2 class="font-bold md:text-4xl text-2xl my-2">Your Kanban Boards</h2>
+        <ul class="my-4">
+            {% for board in boards %}
+                <li class="bg-gray-100 px-4 py-2 rounded-full flex items-center gap-10">
+                    <a class="md:text-xl" href="{{ url_for('tools.board_detail', board_id=board.id) }}">{{ loop.index }}.  {{ board.title }}</a>
+                    <button class="bg-red-600 text-white px-4 py-1 rounded-full text-lg hover:bg-red-700" onclick="deleteBoard('{{ board.id }}')">Delete</button>
+                </li>
+            {% endfor %}
+        </ul>
+        <button onclick="createBoard()">Create New Board</button>
+    </section>
+
+    <script>
+        function createBoard() {
+            const name = prompt("Enter board name:");
+            if (!name) return;
+
+            fetch("{{ url_for('tools.new_board') }}", {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({name: name})
+            }).then(response => response.json())
+            .then(data => location.reload());
+        }
+
+        function deleteBoard(boardId) {
+            if (!confirm("Are you sure?")) return;
+
+            fetch(`/kanban/${boardId}/delete`, {
+                method: "DELETE",
+                headers: {"Content-Type": "application/json"}
+            }).then(response => response.json())
+            .then(data => location.reload());
+        }
+    </script>
+{% endblock content %}

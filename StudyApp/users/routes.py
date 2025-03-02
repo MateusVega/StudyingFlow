@@ -12,7 +12,7 @@ users = Blueprint("users", __name__)
 def register():
     if current_user.is_authenticated:
         flash({"title": "Authenticated!", "message": "You are already logged in!"}, "info")
-        return redirect(url_for("index"))
+        return redirect(url_for("main.index"))
     form = RegistrationForm()
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode("utf-8")
@@ -22,14 +22,14 @@ def register():
         db.session.add(user)
         db.session.commit()
         flash({"title": "Congratulations!", "message": f"Account created for {form.username.data}!"}, "success")
-        return redirect(url_for("login"))
+        return redirect(url_for("users.login"))
     return render_template("account/register.html", title="Register", form=form)
 
 @users.route("/login", methods=["GET", "POST"])
 def login():
     if current_user.is_authenticated:
         flash({"title": "Authenticated!", "message": "You are already logged in!"}, "info")
-        return redirect(url_for("index"))
+        return redirect(url_for("main.index"))
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
@@ -37,7 +37,7 @@ def login():
             login_user(user, remember=form.remember.data)
             next_page = request.args.get("next")
             flash({"title": "Congratulations!", "message": "You have been logged in!"}, "success")
-            return redirect(next_page) if next_page else redirect(url_for("index"))
+            return redirect(next_page) if next_page else redirect(url_for("main.index"))
         else:
             flash({"title": "Login Unsuccssful...", "message": "Please check email and password"}, "error")
     return render_template("account/login.html", title="Login", form=form)
@@ -46,14 +46,14 @@ def login():
 def reset_request():
     if current_user.is_authenticated:
         flash({"title": "Authenticated!", "message": "You are already logged in!"}, "info")
-        return redirect(url_for("index"))
+        return redirect(url_for("main.index"))
     form = ResetRequestForm()
     if form.validate_on_submit():
         email = form.email.data
         user = User.query.filter_by(email=email).first()
         if user:
             token = generate_reset_token(user.email)
-            reset_link = url_for("reset_token", token=token, _external=True)
+            reset_link = url_for("users.reset_token", token=token, _external=True)
             reset_link = reset_link.encode('utf-8').decode('utf-8')
 
             msg = Message(
@@ -70,7 +70,7 @@ def reset_request():
             mail.send(msg)
 
             flash({"title": "Almost there!", "message": "Check your email for a password reset link."}, "info")
-            return redirect(url_for("login"))
+            return redirect(url_for("users.login"))
         else:
             flash({"title": "Unsuccssful...", "message": "Email not found."}, "error")
 
@@ -80,12 +80,12 @@ def reset_request():
 def reset_token(token):
     if current_user.is_authenticated:
         flash({"title": "Authenticated!", "message": "You are already logged in!"}, "info")
-        return redirect(url_for("index"))
+        return redirect(url_for("main.index"))
     form = ResetPasswordForm()
     email = verify_reset_token(token)
     if email is None:
         flash("Invalid or expired token.", "danger")
-        return redirect(url_for("reset_request"))
+        return redirect(url_for("users.reset_request"))
 
     user = User.query.filter_by(email=email).first()
     
@@ -94,15 +94,16 @@ def reset_token(token):
         user.password = hashed_password
         db.session.commit()
         flash({"title": "Congratulations!", "message": "Your password has been updated!"}, "success")
-        return redirect(url_for("login"))
+        return redirect(url_for("users.login"))
 
     return render_template("account/reset_password.html", title="Reset Password", form=form)
 
 @users.route("/logout")
+@login_required
 def logout():
     logout_user()
     flash({"title": "Success", "message": "You have logout successfully!"}, "success")
-    return redirect(url_for("index"))
+    return redirect(url_for("main.index"))
 
 @users.route("/account")
 @login_required
@@ -124,12 +125,12 @@ def update_account():
                 current_user.password = hashed_password
             else:
                 flash({"title": "Error!", "message": "The current password is not right!"}, "error")
-                return redirect(url_for("update_account"))
+                return redirect(url_for("users.update_account"))
         current_user.email = form.email.data
         current_user.username = form.username.data
         db.session.commit()
         flash({"title": "Congratulations!", "message": "The account is updated!"}, "success")
-        return redirect(url_for("account"))
+        return redirect(url_for("users.account"))
     elif request.method == 'GET':
         form.email.data = current_user.email
         form.username.data = current_user.username
