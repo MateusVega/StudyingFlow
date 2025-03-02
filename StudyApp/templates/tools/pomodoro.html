@@ -4,9 +4,9 @@
         <div class="h-fit md:mt-10 mt-5 text-center bg-white p-7 rounded-[10px] shadow-2xl">
             <h1 class="text-4xl font-bold mb-2">Pomodoro Timer</h1>
             <nav class="mb-2">
-                <button onclick="change_mode(this)" class="btn_mode py-2 px-4 m-1 border-0 rounded-lg cursor-pointer bg-gray-200 text-black">Pomodoro</button>
-                <button onclick="change_mode(this)" class="btn_mode py-2 px-4 m-1 border-0 rounded-lg cursor-pointer bg-gray-100 text-black">Short Break</button>
-                <button onclick="change_mode(this)" class="btn_mode py-2 px-4 m-1 border-0 rounded-lg cursor-pointer bg-gray-100 text-black">Long Break</button>
+                <button id="pomodoro" onclick="change_mode(this)" class="btn_mode py-2 px-4 m-1 border-0 rounded-lg cursor-pointer bg-gray-200 text-black">Pomodoro</button>
+                <button id="short_break" onclick="change_mode(this)" class="btn_mode py-2 px-4 m-1 border-0 rounded-lg cursor-pointer bg-gray-100 text-black">Short Break</button>
+                <button id="long_break" onclick="change_mode(this)" class="btn_mode py-2 px-4 m-1 border-0 rounded-lg cursor-pointer bg-gray-100 text-black">Long Break</button>
             </nav>
             <div class="mb-5 text-5xl" id="timer">25:00</div>
             <button class="py-2 px-6 m-2 border-0 rounded-lg cursor-pointer bg-green-600 text-white font-bold" id="start" onclick="startTimer()">Start</button>
@@ -17,7 +17,8 @@
     <script>
         let timer;
         let timing = 25;
-        let breaking = false
+        let breaks = 0;
+        let breaking = false;
         let minutes = timing;
         let seconds = 0;
         let isRunning = false;
@@ -54,6 +55,15 @@
                                     console.log("Request complete! response:", res);
                                 });
                             {% endif %}
+                            if (timing == 25) {
+                                if (breaks == 2){
+                                    document.getElementById("long_break").click()
+                                } else{
+                                    document.getElementById("short_break").click()
+                                }
+                            } else if (timing == 5 || timer == 15) {
+                                document.getElementById("pomodoro").click()
+                            }
                             resetTimer();
                             return;
                         }
@@ -63,7 +73,7 @@
                         seconds--;
                     }
                     "Pomodoro Timer - " + minutes + ":" + seconds
-                    document.title = `Pomodoro Timer - ${minutes}:${seconds}`
+                    document.title = `StudyingFlow - ${minutes}:${seconds}`
                     updateDisplay();
                 }, 1000);
             }
@@ -101,10 +111,12 @@
             } else if (btn.innerText == "Short Break"){
                 timing = 5;
                 breaking = true
+                breaks += 1;
                 resetTimer();
             } else{
                 timing = 15;
                 breaking = true
+                breaks = 0;
                 resetTimer();
             }
         }
