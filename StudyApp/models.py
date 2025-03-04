@@ -36,16 +36,13 @@ class KanbanBoard(db.Model):
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     
-    columns = db.relationship('KanbanColumn', backref='board', cascade="all, delete-orphan", lazy=True)
-
-class KanbanColumn(db.Model):
-    id = db.Column(db.String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
-    name = db.Column(db.String(50), nullable=False)
-    board_id = db.Column(db.String(36), db.ForeignKey('kanban_board.id'), nullable=False)
-    tasks = db.relationship('KanbanTask', backref='column', lazy=True, cascade="all, delete-orphan")
+    tasks = db.relationship('KanbanTask', backref='board', lazy=True, cascade='all, delete-orphan')
 
 class KanbanTask(db.Model):
-    id = db.Column(db.String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
-    name = db.Column(db.String(200), nullable=False)
-    column_id = db.Column(db.String(36), db.ForeignKey('kanban_column.id'), nullable=False)
-    position = db.Column(db.Integer, nullable=False)
+    id = db.Column(db.String(36), primary_key=True, default=generate_uuid)
+    title = db.Column(db.String(200), nullable=False)
+    status = db.Column(db.String(10), nullable=False, default="todo")
+    board_id = db.Column(db.String(36), db.ForeignKey('kanban_board.id'), nullable=False)
+
+    def __repr__(self):
+        return f"KanbanTask('{self.title}', Status: '{self.status}', Board: '{self.board_id}')"

@@ -1,34 +1,48 @@
 {% extends "layout.html" %}
-{% block content%}
+{% block content %}
     <section class="w-full h-full flex flex-col items-center">
-        <h2 class="font-bold md:text-4xl text-2xl my-2">Your Kanban Boards</h2>
-        <ul class="my-4">
-            {% for board in boards %}
-                <li class="bg-gray-100 px-4 py-2 rounded-full flex items-center gap-10">
-                    <a class="md:text-xl" href="{{ url_for('tools.board_detail', board_id=board.id) }}">{{ loop.index }}.  {{ board.title }}</a>
-                    <button class="bg-red-600 text-white px-4 py-1 rounded-full text-lg hover:bg-red-700" onclick="deleteBoard('{{ board.id }}')">Delete</button>
-                </li>
-            {% endfor %}
+        <h2 class="font-bold md:text-4xl text-3xl my-2">Your Kanban Boards</h2>
+        <ul class="my-4 lg:w-2/7 md:w-[60%] w-[80%] flex flex-col items-center">
+            {% if boards %}
+                {% for board in boards %}
+                    <li class="bg-gray-100 px-4 py-2 w-full rounded-full flex items-center justify-between my-2">
+                        <a class="md:text-xl font-semibold" href="{{ url_for('tools.board_detail', board_id=board.id) }}">{{ loop.index }}. {{ board.title }}</a>
+                        <button class="bg-red-600 text-white px-4 py-1 rounded-full text-lg hover:bg-red-700" onclick="deleteBoard('{{ board.id }}')">Delete</button>
+                    </li>
+                {% endfor %}
+            {% else %}
+                <p>You don't have any Kanban boards yet</p>
+            {% endif %}
         </ul>
-        <button onclick="createBoard()">Create New Board</button>
+
+        <div id="newBoardContainer" class="hidden gap-2">
+            <input id="boardName" type="text" class="px-4 py-2 border rounded-full" placeholder="Enter board name">
+            <button class="bg-black text-white px-4 py-2 rounded-full hover:bg-white hover:text-black hover:border hover:border-gray-300 transition cursor-pointer" onclick="submitBoard()">Create</button>
+        </div>
+
+        <button id="createBoardBtn" class="bg-black text-white px-5 py-2 rounded-full hover:bg-white hover:text-black hover:border hover:border-gray-300 hover:scale-[103%] transition duration-300 ease-in-out" onclick="showBoardInput()">Create New Board</button>
     </section>
 
     <script>
-        function createBoard() {
-            const name = prompt("Enter board name:");
-            if (!name) return;
+        function showBoardInput() {
+            document.getElementById("newBoardContainer").classList.remove("hidden");
+            document.getElementById("createBoardBtn").classList.add("hidden");
+            document.getElementById("boardName").focus();
+        }
+
+        function submitBoard() {
+            const boardName = document.getElementById("boardName").value.trim();
+            if (!boardName) return;
 
             fetch("{{ url_for('tools.new_board') }}", {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
-                body: JSON.stringify({name: name})
+                body: JSON.stringify({name: boardName})
             }).then(response => response.json())
             .then(data => location.reload());
         }
 
         function deleteBoard(boardId) {
-            if (!confirm("Are you sure?")) return;
-
             fetch(`/kanban/${boardId}/delete`, {
                 method: "DELETE",
                 headers: {"Content-Type": "application/json"}

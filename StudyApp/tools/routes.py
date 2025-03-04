@@ -31,7 +31,6 @@ def kanban_home():
 @tools.route("/kanban/new", methods=["POST"])
 @login_required
 def new_board():
-    print("FOI!")
     data = request.get_json()
     board = KanbanBoard(title=data['name'], user_id=current_user.id)
     db.session.add(board)
@@ -53,10 +52,42 @@ def delete_board(board_id):
 @login_required
 def board_detail(board_id):
     board = KanbanBoard.query.filter_by(id=board_id, user_id=current_user.id).first()
+
+    todo_tasks = KanbanTask.query.filter_by(board_id=board_id, status="todo").all()
+    doing_tasks = KanbanTask.query.filter_by(board_id=board_id, status="doing").all()
+    done_tasks = KanbanTask.query.filter_by(board_id=board_id, status="done").all()
+
     if not board:
         return "Not found", 404
-    return render_template("tools/kanban_board.html", board=board)
+    return render_template("tools/kanban_board.html", board=board, board_id=board_id, todo_tasks=todo_tasks, doing_tasks=doing_tasks, done_tasks=done_tasks)
 
+@tools.route("/kanban/<string:board_id>/clear_tasks", methods=["POST"])
+@login_required
+def clear_tasks(board_id):
+    tasks = KanbanTask.query.filter_by(board_id=board_id).all()
+    if tasks:
+        for task in tasks:
+            db.session.delete(task)
+        db.session.commit()
+        return jsonify({"status": "success", "message": "Tasks cleared."})
+    else:
+        return jsonify({"status": "error", "message": "No tasks to clean."})
+
+@tools.route("/kanban/<string:board_id>/add_tasks", methods=["POST"])
+@login_required
+def add_tasks(board_id):
+    try:
+        data = request.get_json()
+
+        status = data.get('status')
+        title = data.get('title')
+
+        task = KanbanTask(board_id=board_id, title=title, status=status)
+        db.session.add(task)
+        db.session.commit()
+        return jsonify({"status": "success", "message": "Task added with success"})
+    except Exception as Error:
+        return jsonify({"status": "error", "message": f"{Error}"})
 
 @tools.route("/studyingcicle", methods=["GET", "POST"])
 def studyingcicle():
