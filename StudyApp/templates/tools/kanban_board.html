@@ -44,15 +44,20 @@
             }
             function drop(event) {
                 event.preventDefault();
-        
+
                 const target = event.target.closest(".column");
-        
+
                 if (target && target.classList.contains("column")) {
                     let data = event.dataTransfer.getData("text");
                     let draggedElement = document.getElementById(data);
-                    target.appendChild(draggedElement);
+
+                    if (draggedElement) {
+                        target.appendChild(draggedElement);
+                        updateBoardDb();
+                    } else {
+                        console.error("Failed to find dragged element:", data);
+                    }
                 }
-                updateBoardDb()
             }
             function deleteTask(button) {
                 button.parentElement.remove();
@@ -81,32 +86,41 @@
 
                 fetch(`/kanban/${board_id}/clear_tasks`, {
                     method: "POST",
-                    headers: {"Content-Type": "application/json"}
+                    headers: {
+                        "Content-Type": "application/json",
+                        'X-CSRFToken': "{{ csrf_token() }}"
+                    }
                 }).then(response => response.json())
 
                 tasks.forEach(element => {
                     title = element.value
                     task_status = element.parentElement.parentElement.id
-                    
+
                     fetch(`/kanban/${board_id}/add_tasks`, {
                         method: "POST",
                         headers: {
-                            "Content-Type": "application/json"
+                            "Content-Type": "application/json",
+                            'X-CSRFToken': "{{ csrf_token() }}"
                         },
                         body: JSON.stringify({
-                            status: task_status,
-                            title: title
-                        })
+                        status: task_status,
+                        title: title
+                    })
                     })
                     .then(response => response.json())
-                    .then(data => {
-                        console.log("Response:", data);
-                    })
-                    .catch(error => {
-                        console.error("Error:", error);
-                    });
                 });
             }
+            function initializeDragAndDrop() {
+                const tasks = document.querySelectorAll('.task');
+                
+                tasks.forEach(task => {
+                    task.ondragstart = drag;
+                });
+            }
+
+            document.addEventListener("DOMContentLoaded", function() {
+                initializeDragAndDrop();
+            });
         </script>
     </section>
 {% endblock content %}

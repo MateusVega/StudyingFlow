@@ -39,6 +39,4 @@ def save_picture(form_picture):
 
     i.save(picture_path)
 
-    print(f"Imagem salva em: {picture_path}")
-
     return picture_fn

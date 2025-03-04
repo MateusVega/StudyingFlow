@@ -49,11 +49,12 @@
                             {% if current_user.is_authenticated %}
                                 fetch("{{ url_for('tools.pomodoro') }}", {
                                     method: "POST",
-                                    headers: {'Content-Type': 'application/json'}, 
+                                    headers: {
+                                        "Content-Type": "application/json",
+                                        'X-CSRFToken': "{{ csrf_token() }}"
+                                    }, 
                                     body: JSON.stringify({time: timing, mode: breaking})
-                                }).then(res => {
-                                    console.log("Request complete! response:", res);
-                                });
+                                })
                             {% endif %}
                             if (timing == 25) {
                                 if (breaks == 2){
