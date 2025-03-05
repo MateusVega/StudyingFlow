@@ -113,6 +113,6 @@ def studyingcicle():
     return render_template("tools/studyingcicle.html", title="Studying Cicle")
 
 
-@tools.route("/routine", methods=["GET", "POST"])
-def routine():
-    return render_template("tools/routine.html", title="Routine")
+@tools.route("/schedule", methods=["GET", "POST"])
+def schedule():
+    return render_template("tools/schedule.html", title="Schedule")

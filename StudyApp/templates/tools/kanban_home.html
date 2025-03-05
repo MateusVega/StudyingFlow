@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 {% block content %}
     <section class="w-full h-full flex flex-col items-center">
-        <h2 class="font-bold md:text-4xl text-3xl my-2">Your Kanban Boards</h2>
+        <h1 class="font-bold md:text-4xl text-3xl my-2">Your Kanban Boards</h1>
         <ul class="my-4 lg:w-2/7 md:w-[60%] w-[80%] flex flex-col items-center">
             {% if boards %}
                 {% for board in boards %}
@@ -24,12 +24,27 @@
     </section>
 
     <script>
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== "") {
+                const cookies = document.cookie.split(";");
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.startsWith(name + "=")) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        const csrfToken = getCookie("csrf_token");
+
         function showBoardInput() {
             document.getElementById("newBoardContainer").classList.remove("hidden");
             document.getElementById("createBoardBtn").classList.add("hidden");
             document.getElementById("boardName").focus();
         }
-
         function submitBoard() {
             const boardName = document.getElementById("boardName").value.trim();
             if (!boardName) return;
@@ -38,19 +53,18 @@
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
-                    'X-CSRFToken': "{{ csrf_token() }}"
+                    'X-CSRFToken': csrfToken
                 },
                 body: JSON.stringify({name: boardName})
             }).then(response => response.json())
             .then(data => location.reload());
         }
-
         function deleteBoard(boardId) {
             fetch(`/kanban/${boardId}/delete`, {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",
-                    'X-CSRFToken': "{{ csrf_token() }}"
+                    'X-CSRFToken': csrfToken
                 }
             }).then(response => response.json())
             .then(data => location.reload());

@@ -1,0 +1,162 @@
+{% extends "layout.html" %}
+{% block content%}
+    <section class="w-full h-full flex flex-col items-center">
+        <h1 class="font-bold md:text-4xl text-3xl my-2">Schedule generator</h1>
+        <div class="time-selection flex flex-col items-center md:w-[30%] mx-auto" id="time-selection">
+            <h3 class="text-xl font-semibold text-center mb-4">Choose Your Time Range</h3>
+            
+            <div class="form-group mb-4 md:w-[80%] w-full">
+                <label for="start-hour" class="block text-lg">Start Hour:</label>
+                <select id="start-hour" class="w-full p-2 border border-gray-300 rounded-md">
+                    <option value="6">6:00 AM</option>
+                    <option value="7">7:00 AM</option>
+                    <option value="8">8:00 AM</option>
+                    <option value="9">9:00 AM</option>
+                    <option value="10">10:00 AM</option>
+                    <option value="11">11:00 AM</option>
+                    <option value="12">12:00 PM</option>
+                    <option value="13">1:00 PM</option>
+                    <option value="14">2:00 PM</option>
+                    <option value="15">3:00 PM</option>
+                    <option value="16">4:00 PM</option>
+                    <option value="17">5:00 PM</option>
+                    <option value="18">6:00 PM</option>
+                    <option value="19">7:00 PM</option>
+                    <option value="20">8:00 PM</option>
+                </select>
+            </div>
+
+            <div class="form-group mb-6 md:w-[80%] w-full">
+                <label for="end-hour" class="block text-lg">End Hour:</label>
+                <select id="end-hour" class="w-full p-2 border border-gray-300 rounded-md">
+                    <option value="6">6:00 AM</option>
+                    <option value="7">7:00 AM</option>
+                    <option value="8">8:00 AM</option>
+                    <option value="9">9:00 AM</option>
+                    <option value="10">10:00 AM</option>
+                    <option value="11">11:00 AM</option>
+                    <option value="12">12:00 PM</option>
+                    <option value="13">1:00 PM</option>
+                    <option value="14">2:00 PM</option>
+                    <option value="15">3:00 PM</option>
+                    <option value="16">4:00 PM</option>
+                    <option value="17">5:00 PM</option>
+                    <option value="18">6:00 PM</option>
+                    <option value="19">7:00 PM</option>
+                    <option value="20">8:00 PM</option>
+                </select>
+            </div>
+
+            <button class="bg-black text-white px-5 py-2 md:w-2/3 w-full mx-auto rounded-full hover:bg-white hover:text-black hover:border hover:border-gray-300 hover:scale-[103%] transition duration-300 ease-in-out" onclick="generateSchedule()">Generate Schedule</button>
+        </div>
+
+        <div class="schedule-table hidden mt-8 overflow-x-auto md:w-[80%] w-full mx-auto">
+            <table class="min-w-full table-fixed border-collapse">
+                <thead>
+                    <tr>
+                        <th class="border px-4 py-2 bg-black text-white w-1/15">Time</th>
+                        <th class="border px-4 py-2 bg-black text-white w-2/15">Monday</th>
+                        <th class="border px-4 py-2 bg-black text-white w-2/15">Tuesday</th>
+                        <th class="border px-4 py-2 bg-black text-white w-2/15">Wednesday</th>
+                        <th class="border px-4 py-2 bg-black text-white w-2/15">Thursday</th>
+                        <th class="border px-4 py-2 bg-black text-white w-2/15">Friday</th>
+                        <th class="border px-4 py-2 bg-black text-white w-2/15">Saturday</th>
+                        <th class="border px-4 py-2 bg-black text-white w-2/15">Sunday</th>
+                    </tr>
+                </thead>
+                <tbody id="schedule-body">
+                    <!-- Dynamic rows will be inserted here -->
+                </tbody>
+            </table>
+        </div>
+
+        <button class="download_pdf bg-black text-white px-5 py-2 my-4 rounded-full hover:bg-white hover:text-black hover:border hover:border-gray-300 hover:scale-[103%] transition duration-300 ease-in-out hidden" onclick="saveSchedule()">Save Schedule as PDF</button>
+    </section>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.21/jspdf.plugin.autotable.min.js"></script>
+    <script>
+        function generateSchedule() {
+            const startHour = parseInt(document.getElementById('start-hour').value);
+            const endHour = parseInt(document.getElementById('end-hour').value);
+
+            if (startHour >= endHour) {
+                alert("End hour must be greater than start hour.");
+                return;
+            }
+
+            // Hide time selection and show schedule table
+            document.getElementById('time-selection').classList.add("hidden")
+            document.querySelector('.schedule-table').classList.remove("hidden")
+            document.querySelector('.download_pdf').classList.remove("hidden")
+
+            const scheduleBody = document.getElementById('schedule-body');
+            scheduleBody.innerHTML = ''; // Clear previous schedule
+
+            const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+
+            // Create time slots and input fields for each day
+            for (let hour = startHour; hour < endHour; hour++) {
+                const row = document.createElement('tr');
+
+                const timeSlotCell = document.createElement('td');
+                timeSlotCell.classList.add('border', 'px-4', 'py-2', 'text-center');
+                timeSlotCell.innerText = formatTime(hour);
+                row.appendChild(timeSlotCell);
+
+                days.forEach(day => {
+                    const inputCell = document.createElement('td');
+                    inputCell.classList.add('border', 'px-4', 'py-2');
+
+                    inputCell.innerHTML = `
+                        <textarea class="w-full p-2 border-0 rounded-md mb-2 resize-y" rows="3" id="${day.toLowerCase()}-${hour}" placeholder="Task Name"></textarea>
+                    `;
+                    row.appendChild(inputCell);
+                });
+
+                scheduleBody.appendChild(row);
+            }
+        }
+
+        function formatTime(hour) {
+            const amPm = hour >= 12 ? 'PM' : 'AM';
+            const formattedHour = hour % 12 === 0 ? 12 : hour % 12;
+            return `${formattedHour}:00 ${amPm}`;
+        }
+
+        function saveSchedule() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            
+            const startHour = parseInt(document.getElementById('start-hour').value);
+            const endHour = parseInt(document.getElementById('end-hour').value);
+
+            const scheduleData = [];
+            const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+            const headers = ['Time', ...days];
+
+            // Loop through each hour and day to create rows for the table
+            for (let hour = startHour; hour < endHour; hour++) {
+                const row = [formatTime(hour)];
+                days.forEach(day => {
+                    const task = document.getElementById(`${day.toLowerCase()}-${hour}`).value || 'No task';
+                    row.push(task);
+                });
+                scheduleData.push(row);
+            }
+
+            // Use jsPDF AutoTable plugin to add a table to the PDF
+            doc.autoTable({
+                head: [headers],
+                body: scheduleData,
+                theme: 'grid',
+                styles: { fontSize: 10, cellPadding: 2 },
+                headStyles: { fillColor: [0, 0, 0] },
+                margin: { top: 20 }
+            });
+
+            // Save the PDF
+            doc.save('schedule.pdf');
+        }
+    </script>
+{% endblock content %}
