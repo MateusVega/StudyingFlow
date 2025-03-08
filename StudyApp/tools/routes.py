@@ -8,10 +8,6 @@ tools = Blueprint("tools", __name__)
 @tools.route("/pomodoro", methods=["GET", "POST"])
 def pomodoro():
     if request.method == "POST":
-        referer = request.headers.get("Referer")
-        if not referer or "studyingflow.com" not in referer:
-            abort(403, "Invalid request source")
-
         response = request.get_json()
         time = response.get("time")
         mode = response.get("mode")

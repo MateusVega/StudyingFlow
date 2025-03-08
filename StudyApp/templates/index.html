@@ -8,52 +8,16 @@
         </div>
         <img class="w-4/5 md:w-[45%] h-2/3 md:h-[95%] rounded-2xl mx-auto" src="{{ url_for('static', filename='ImageHomePage.jpg') }}" alt="Preview website functions">
     </section>
-    <footer class="bg-black py-5">
-        <div class="container mx-auto grid md:grid-cols-4 grid-cols-2 w-[95%]">
-            <div class="text-white">
-                <h2 class="text-2xl font-bold my-3">Study Tools</h2>
-                <ul class="space-y-3">
-                    <li><a href="#">Pomodoro Timer</a></li>
-                    <li><a href="#">Studying Cicle</a></li>
-                    <li><a href="#">Routine</a></li>
-                    <li><a href="#">Kanban</a></li>
-                </ul>
-            </div>
-            <div class="text-white">
-                <h2 class="text-2xl font-bold my-3">Utils</h2>
-                <ul class="space-y-3">
-                    <li><a href="#">Utils 1</a></li>
-                    <li><a href="#">Utils 2</a></li>
-                </ul>
-            </div>
-            <div class="text-white">
-                <h2 class="text-2xl font-bold my-3">Community</h2>
-                <ul class="space-y-3">
-                    <li><a href="#">Blog</a></li>
-                    <li><a href="#">Forum</a></li>
-                    <li><a href="#">FAQ</a></li>
-                </ul>
-            </div>
-            <div class="text-white">
-                <h2 class="text-2xl font-bold my-3">Account</h2>
-                <ul class="space-y-3">
-                    <li><a href="{{ url_for('users.account') }}">My Account</a></li>
-                    <li><a href="{{ url_for('users.login') }}">Sign In</a></li>
-                    <li><a href="{{ url_for('users.register') }}">Sign Up</a></li>
-                    <li><a href="{{ url_for('users.reset_request') }}">Forgot Password</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="grid md:grid-cols-4 grid-cols-2 text-white container mx-auto py-5 w-[95%]">
-            <div class="md:col-span-3">
-                <p>&copy; All Copyright 2025</p>
-            </div>
-            <div>
-                <ul class="flex space-x-4">
-                    <li><a href="">Term</a></li>
-                    <li><a href="">Privacy</a></li>
-                </ul>
-            </div>
-        </div>
+    <footer class="border-t border-t-gray-300 w-[80%] pt-10 pb-4 mx-auto">
+        <ul class="flex justify-center gap-8">
+            <li>&copy; All Copyright 2025</li>
+            <li><a class="text-black hover:underline" href="{{ url_for('community.blog') }}">Blog</a></li>
+            <li><a class="text-black hover:underline" href="{{ url_for('community.forum') }}">Forum</a></li>
+            <li><a class="text-black hover:underline" href="#organization-tools">Organization Tools</a></li>
+            <li><a class="text-black hover:underline" href="#study-tools">Study Tools</a></li>
+            <li><a class="text-black hover:underline" href="">FAQ</a></li>
+            <li><a class="text-black hover:underline" href="">Term</a></li>
+            <li><a class="text-black hover:underline" href="">Privacy</a></li>
+        </ul>
     </footer>
 {% endblock content %}

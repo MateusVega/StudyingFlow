@@ -14,33 +14,34 @@
     {% endif %}
 </head>
 <body class="font-poppins">
-    <header class="bg-white h-[10vh] z-50">
+    <header id="header" class="bg-white h-[10vh] z-50">
         <nav class="flex justify-between items-center w-[92%] mx-auto my-5">
             <a href="{{ url_for('main.index') }}">
                 <img class="2xl:h-16 h-12 transition duration-300 ease-in-out hover:scale-110" src="{{ url_for('static', filename='Logo.png') }}" alt="StudyingFlow Icon">
             </a>
             <div class="nav-links duration-500 md:static left-0 absolute bg-white md:min-h-fit min-h-[34vh] top-[-600%] md:w-auto w-full flex items-center md:px-5 z-10 px-10 py-2 ">
                 <ul class="flex md:flex-row flex-col md:items-center md:gap-[4vw] gap-5">
-                    <li class="flex items-center gap-1 transition duration-300 ease-in-out hover:scale-110">
+                    <li id="blog" class="flex items-center gap-1 transition duration-300 ease-in-out hover:scale-110">
                         <a class="2xl:text-xl" href="{{ url_for('community.blog') }}">Blog</a>
                     </li>
-                    <li class="flex items-center gap-1 transition duration-300 ease-in-out hover:scale-110">
+                    <li id="forum" class="flex items-center gap-1 transition duration-300 ease-in-out hover:scale-110">
                         <a class="2xl:text-xl" href="{{ url_for('community.forum') }}">Forum</a>
                     </li>
-                    <div class="relative inline-block">
+                    <div id="organization-tools" class="relative inline-block">
                         <li class="dropdown-btn flex items-center gap-1 cursor-pointer transition duration-300 ease-in-out hover:scale-110 2xl:text-xl">
-                            Utils
+                            Organization Tools
                             <span class="material-symbols-outlined">
                                 keyboard_arrow_down
                             </span>
                         </li>
 
                         <ul class="dropdown-menu absolute left-0 mt-2 w-48 bg-white border border-gray-300 rounded-lg shadow-lg hidden z-10">
-                            <li class="px-4 py-2 transition duration-150 ease-in-out cursor-pointer hover:scale-105"><a class="inline-block w-full" href="#">#</a></li>
-                            <li class="px-4 py-2 transition duration-150 ease-in-out cursor-pointer hover:scale-105"><a class="inline-block w-full" href="#">#</a></li>
+                            <li class="px-4 py-2 transition duration-150 ease-in-out cursor-pointer hover:scale-105"><a class="inline-block w-full" href="{{ url_for('tools.studyingcicle') }}">Studying Cicle</a></li>
+                            <li class="px-4 py-2 transition duration-150 ease-in-out cursor-pointer hover:scale-105"><a class="inline-block w-full" href="{{ url_for('tools.schedule') }}">Rotuine Schedule</a></li>
+                            <li class="px-4 py-2 transition duration-150 ease-in-out cursor-pointer hover:scale-105"><a class="inline-block w-full" href="{{ url_for('tools.kanban_home') }}">Kanban</a></li>
                         </ul>
                     </div>
-                    <div class="relative inline-block">
+                    <div id="study-tools" class="relative inline-block">
                         <li class="dropdown-btn flex items-center gap-1 cursor-pointer transition duration-300 ease-in-out hover:scale-110 2xl:text-xl">
                             Study Tools
                             <span class="material-symbols-outlined">
@@ -50,9 +51,7 @@
 
                         <ul class="dropdown-menu absolute left-0 mt-2 w-48 bg-white border border-gray-300 rounded-lg shadow-lg hidden z-10">
                             <li class="px-4 py-2 transition duration-150 ease-in-out cursor-pointer hover:scale-105"><a class="inline-block w-full" href="{{ url_for('tools.pomodoro') }}">Pomodoro</a></li>
-                            <li class="px-4 py-2 transition duration-150 ease-in-out cursor-pointer hover:scale-105"><a class="inline-block w-full" href="{{ url_for('tools.studyingcicle') }}">Studying Cicle</a></li>
-                            <li class="px-4 py-2 transition duration-150 ease-in-out cursor-pointer hover:scale-105"><a class="inline-block w-full" href="{{ url_for('tools.schedule') }}">Schedule</a></li>
-                            <li class="px-4 py-2 transition duration-150 ease-in-out cursor-pointer hover:scale-105"><a class="inline-block w-full" href="{{ url_for('tools.kanban_home') }}">Kanban</a></li>
+                            <li class="px-4 py-2 transition duration-150 ease-in-out cursor-pointer hover:scale-105"><a class="inline-block w-full" href="{{ url_for('tools.pomodoro') }}">FlashCards</a></li>
                         </ul>
                     </div>
                     {% if current_user.is_authenticated %}

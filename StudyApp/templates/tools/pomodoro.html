@@ -1,5 +1,10 @@
 {% extends "layout.html" %}
 {% block content%}
+    <audio id="alarm">
+        <source src="{{ url_for('static', filename='alarm.mp3') }}" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
     <section class="flex justify-center min-h-screen w-full">
         <div class="h-fit md:mt-10 mt-5 text-center bg-white p-7 rounded-[10px] shadow-2xl">
             <h1 class="text-4xl font-bold mb-2">Pomodoro Timer</h1>
@@ -29,21 +34,7 @@
 
         pause_btn.style.display = "none";
 
-        function getCookie(name) {
-            let cookieValue = null;
-            if (document.cookie && document.cookie !== "") {
-                const cookies = document.cookie.split(";");
-                for (let i = 0; i < cookies.length; i++) {
-                    const cookie = cookies[i].trim();
-                    if (cookie.startsWith(name + "=")) {
-                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                        break;
-                    }
-                }
-            }
-            return cookieValue;
-        }
-        const csrfToken = getCookie("csrf_token");
+        const alarm = document.getElementById("alarm");
 
         function updateDisplay() {
             document.getElementById('timer').textContent = 
@@ -51,6 +42,8 @@
         }
         function startTimer() {
             if (!isRunning) {
+                alarm.pause()
+                alarm.currentTime = 0;
                 isRunning = true;
                 start_btn.style.display = "none";
                 pause_btn.style.display = "inline";
@@ -61,15 +54,15 @@
                             isRunning = false;
                             start_btn.style.display = "inline";
                             pause_btn.style.display = "none";
+                            alarm.play()
                             {% if current_user.is_authenticated %}
                                 fetch("{{ url_for('tools.pomodoro') }}", {
                                     method: "POST",
-                                    headers: {
-                                        "Content-Type": "application/json",
-                                        'X-CSRFToken': csrfToken
-                                    }, 
+                                    headers: {'Content-Type': 'application/json'}, 
                                     body: JSON.stringify({time: timing, mode: breaking})
-                                })
+                                }).then(res => {
+                                    console.log("Request complete! response:", res);
+                                });
                             {% endif %}
                             if (timing == 25) {
                                 if (breaks == 2){
@@ -89,7 +82,8 @@
                         seconds--;
                     }
                     "Pomodoro Timer - " + minutes + ":" + seconds
-                    document.title = `StudyingFlow - ${minutes}:${seconds}`
+                    formatted_seconds = seconds >= 10 ? seconds : `0${seconds}`;
+                    document.title = `StudyingFlow - ${minutes}: ${formatted_seconds}`
                     updateDisplay();
                 }, 1000);
             }
@@ -122,7 +116,7 @@
                 breaking = false
                 resetTimer();
             } else if (btn.innerText == "Short Break"){
-                timing = 5;
+                timing = 1;
                 breaking = true
                 breaks += 1;
                 resetTimer();
