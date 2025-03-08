@@ -1,13 +1,13 @@
 {% extends "layout.html" %}
 {% block content %}
     <section class="w-full h-full flex flex-col items-center">
-        <h1 class="font-bold md:text-4xl text-3xl my-2">Your Kanban Boards</h1>
+        <h2 class="font-bold md:text-4xl text-3xl my-2">Your Kanban Boards</h2>
         <ul class="my-4 lg:w-2/7 md:w-[60%] w-[80%] flex flex-col items-center">
             {% if boards %}
                 {% for board in boards %}
                     <li class="bg-gray-100 px-4 py-2 w-full rounded-full flex items-center justify-between my-2">
                         <a class="md:text-xl font-semibold" href="{{ url_for('tools.board_detail', board_id=board.id) }}">{{ loop.index }}. {{ board.title }}</a>
-                        <button class="bg-red-600 text-white px-4 py-1 rounded-full text-lg hover:bg-red-700" onclick="deleteBoard('{{ board.id }}')">Delete</button>
+                        <button class="font-bold bg-red-600 text-white px-4 py-1 rounded-full text-lg hover:bg-red-700" onclick="deleteBoard('{{ board.id }}')">Delete</button>
                     </li>
                 {% endfor %}
             {% else %}
@@ -24,22 +24,6 @@
     </section>
 
     <script>
-        function getCookie(name) {
-            let cookieValue = null;
-            if (document.cookie && document.cookie !== "") {
-                const cookies = document.cookie.split(";");
-                for (let i = 0; i < cookies.length; i++) {
-                    const cookie = cookies[i].trim();
-                    if (cookie.startsWith(name + "=")) {
-                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                        break;
-                    }
-                }
-            }
-            return cookieValue;
-        }
-        const csrfToken = getCookie("csrf_token");
-
         function showBoardInput() {
             document.getElementById("newBoardContainer").classList.remove("hidden");
             document.getElementById("createBoardBtn").classList.add("hidden");
@@ -52,8 +36,7 @@
             fetch("{{ url_for('tools.new_board') }}", {
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/json",
-                    'X-CSRFToken': csrfToken
+                    "Content-Type": "application/json"
                 },
                 body: JSON.stringify({name: boardName})
             }).then(response => response.json())
@@ -63,8 +46,7 @@
             fetch(`/kanban/${boardId}/delete`, {
                 method: "DELETE",
                 headers: {
-                    "Content-Type": "application/json",
-                    'X-CSRFToken': csrfToken
+                    "Content-Type": "application/json"
                 }
             }).then(response => response.json())
             .then(data => location.reload());

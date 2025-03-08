@@ -31,9 +31,7 @@ def kanban_home():
 @tools.route("/kanban/new", methods=["POST"])
 @login_required
 def new_board():
-    referer = request.headers.get("Referer")
-    if not referer or "studyingflow.com" not in referer:
-        abort(403, "Invalid request source")
+
     data = request.get_json()
     board = KanbanBoard(title=data['name'], user_id=current_user.id)
     db.session.add(board)
@@ -43,9 +41,7 @@ def new_board():
 @tools.route("/kanban/<string:board_id>/delete", methods=["POST", "DELETE"])
 @login_required
 def delete_board(board_id):
-    referer = request.headers.get("Referer")
-    if not referer or "studyingflow.com" not in referer:
-        abort(403, "Invalid request source")
+
     
     board = KanbanBoard.query.filter_by(id=board_id, user_id=current_user.id).first()
     if not board:
@@ -71,9 +67,7 @@ def board_detail(board_id):
 @tools.route("/kanban/<string:board_id>/clear_tasks", methods=["POST"])
 @login_required
 def clear_tasks(board_id):
-    referer = request.headers.get("Referer")
-    if not referer or "studyingflow.com" not in referer:
-        abort(403, "Invalid request source")
+
 
     tasks = KanbanTask.query.filter_by(board_id=board_id).all()
     if tasks:
@@ -87,9 +81,7 @@ def clear_tasks(board_id):
 @tools.route("/kanban/<string:board_id>/add_tasks", methods=["POST"])
 @login_required
 def add_tasks(board_id):
-    referer = request.headers.get("Referer")
-    if not referer or "studyingflow.com" not in referer:
-        abort(403, "Invalid request source")
+
 
     try:
         data = request.get_json()
