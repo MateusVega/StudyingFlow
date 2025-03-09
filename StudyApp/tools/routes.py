@@ -1,4 +1,4 @@
-from flask import render_template, request, jsonify, Blueprint, abort
+from flask import render_template, request, jsonify, Blueprint, flash
 from StudyApp import db
 from StudyApp.models import *
 from flask_login import current_user, login_required
@@ -20,18 +20,22 @@ def pomodoro():
         db.session.commit()
         return jsonify({"status": "success", "time": time})
     else:
+        if not current_user.is_authenticated:
+            flash({"title": "Attention", "message": "Sign In to save your stats!"}, "info")
         return render_template("tools/pomodoro.html", title="Pomodoro")
 
 @tools.route("/kanban", methods=["GET"])
-@login_required
 def kanban_home():
-    boards = KanbanBoard.query.filter_by(user_id=current_user.id).all()
-    return render_template("tools/kanban_home.html", boards=boards)
+    if current_user.is_authenticated:
+        boards = KanbanBoard.query.filter_by(user_id=current_user.id).all()
+        return render_template("tools/kanban_home.html", boards=boards, title="Kanban")
+    else:
+        flash({"title": "Attention", "message": "Sign In to save your Kanban!"}, "info")
+        return render_template("tools/kanban_board.html", title="Kanban")
 
 @tools.route("/kanban/new", methods=["POST"])
 @login_required
 def new_board():
-
     data = request.get_json()
     board = KanbanBoard(title=data['name'], user_id=current_user.id)
     db.session.add(board)
@@ -41,8 +45,6 @@ def new_board():
 @tools.route("/kanban/<string:board_id>/delete", methods=["POST", "DELETE"])
 @login_required
 def delete_board(board_id):
-
-    
     board = KanbanBoard.query.filter_by(id=board_id, user_id=current_user.id).first()
     if not board:
         return jsonify({"error": "Board not found"}), 404
@@ -81,8 +83,6 @@ def clear_tasks(board_id):
 @tools.route("/kanban/<string:board_id>/add_tasks", methods=["POST"])
 @login_required
 def add_tasks(board_id):
-
-
     try:
         data = request.get_json()
 

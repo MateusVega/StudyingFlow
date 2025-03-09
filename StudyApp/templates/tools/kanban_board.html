@@ -6,36 +6,44 @@
             <div id="todo" class="column flex flex-col gap-2.5 p-4 w-full h-full rounded-2xl " ondrop="drop(event)" ondragover="allowDrop(event)">
                 <h3 class="text-center mb-2.5 text-xl pb-1.5 border-b-2 border-gray-300">To Do</h3>
                 <button class="add-task text-lg bg-gray-200 text-black border-0 p-2.5 rounded-xl cursor-pointer transition duration-300 hover:bg-gray-200" onclick="addTask(this)">+ Adicionar Tarefa</button>
-                {% for task in todo_tasks %}
-                    <div class="task bg-gray-200 p-3 rounded-xl cursor-grab flex justify-space-between items-center transition duration-300 hover:bg-gray-200" id="task1741045833000" draggable="true">
-                        <input class="bg-transparent border-0 text-black w-full outline-0" type="text" value="{{ task.title }}" onchange="updateBoardDb()" onblur="updateTaskName(this)">
-                        <button class="bg-transparent text-black border-0 cursor-pointer transition duration-300 ease-in-out hover:scale-125" onclick="deleteTask(this)">x</button>
-                    </div>
-                {% endfor %}
+                {% if current_user.is_authenticated %}
+                    {% for task in todo_tasks %}
+                        <div class="task bg-gray-200 p-3 rounded-xl cursor-grab flex justify-space-between items-center transition duration-300 hover:bg-gray-200" id="task1741045833000" draggable="true">
+                            <input class="bg-transparent border-0 text-black w-full outline-0" type="text" value="{{ task.title }}" onchange="updateBoardDb()" onblur="updateTaskName(this)">
+                            <button class="bg-transparent text-black border-0 cursor-pointer transition duration-300 ease-in-out hover:scale-125" onclick="deleteTask(this)">x</button>
+                        </div>
+                    {% endfor %}
+                {% endif %}
             </div>
             
             <div id="doing" class="column flex flex-col gap-2.5 p-4 w-full h-full rounded-2xl " ondrop="drop(event)" ondragover="allowDrop(event)">
                 <h3 class="text-center mb-2.5 text-xl pb-1.5 border-b-2 border-gray-300">In Progress</h3>
                 <button class="add-task text-lg bg-gray-200 text-black border-0 p-2.5 rounded-xl cursor-pointer transition duration-300 hover:bg-gray-200" onclick="addTask(this)">+ Adicionar Tarefa</button>
-                {% for task in doing_tasks %}
-                    <div class="task bg-gray-200 p-3 rounded-xl cursor-grab flex justify-space-between items-center transition duration-300 hover:bg-gray-200" id="task1741045833000" draggable="true">
-                        <input class="bg-transparent border-0 text-black w-full outline-0" type="text" value="{{ task.title }}" onchange="updateBoardDb()" onblur="updateTaskName(this)">
-                        <button class="bg-transparent text-black border-0 cursor-pointer transition duration-300 ease-in-out hover:scale-125" onclick="deleteTask(this)">x</button>
-                    </div>
-                {% endfor %}
+                {% if current_user.is_authenticated %}
+                    {% for task in doing_tasks %}
+                        <div class="task bg-gray-200 p-3 rounded-xl cursor-grab flex justify-space-between items-center transition duration-300 hover:bg-gray-200" id="task1741045833000" draggable="true">
+                            <input class="bg-transparent border-0 text-black w-full outline-0" type="text" value="{{ task.title }}" onchange="updateBoardDb()" onblur="updateTaskName(this)">
+                            <button class="bg-transparent text-black border-0 cursor-pointer transition duration-300 ease-in-out hover:scale-125" onclick="deleteTask(this)">x</button>
+                        </div>
+                    {% endfor %}
+                {% endif %}
             </div>
             <div id="done" class="column flex flex-col gap-2.5 p-4 w-full h-full rounded-2xl " ondrop="drop(event)" ondragover="allowDrop(event)">
                 <h3 class="text-center mb-2.5 text-xl pb-1.5 border-b-2 border-gray-300">Done</h3>
                 <button class="add-task text-lg bg-gray-200 text-black border-0 p-2.5 rounded-xl cursor-pointer transition duration-300 hover:bg-gray-200" onclick="addTask(this)">+ Adicionar Tarefa</button>
-                {% for task in done_tasks %}
-                    <div class="task bg-gray-200 p-3 rounded-xl cursor-grab flex justify-space-between items-center transition duration-300 hover:bg-gray-200" id="task1741045833000" draggable="true">
-                        <input class="bg-transparent border-0 text-black w-full outline-0" type="text" value="{{ task.title }}" onchange="updateBoardDb()" onblur="updateTaskName(this)">
-                        <button class="bg-transparent text-black border-0 cursor-pointer transition duration-300 ease-in-out hover:scale-125" onclick="deleteTask(this)">x</button>
-                    </div>
-                {% endfor %}
+                {% if current_user.is_authenticated %}
+                    {% for task in done_tasks %}
+                        <div class="task bg-gray-200 p-3 rounded-xl cursor-grab flex justify-space-between items-center transition duration-300 hover:bg-gray-200" id="task1741045833000" draggable="true">
+                            <input class="bg-transparent border-0 text-black w-full outline-0" type="text" value="{{ task.title }}" onchange="updateBoardDb()" onblur="updateTaskName(this)">
+                            <button class="bg-transparent text-black border-0 cursor-pointer transition duration-300 ease-in-out hover:scale-125" onclick="deleteTask(this)">x</button>
+                        </div>
+                    {% endfor %}
+                {% endif %}
             </div>
         </div>
         <script>
+            const logged_in = "{{ current_user.is_authenticated }}"
+
             function allowDrop(event) {
                 event.preventDefault();
             }
@@ -82,31 +90,33 @@
             }
             function updateBoardDb(){
                 tasks = document.querySelectorAll('.task > input')
-                board_id = "{{ board_id }}"
+                if (logged_in == "True"){
+                    board_id = "{{ board_id }}"
 
-                fetch(`/kanban/${board_id}/clear_tasks`, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    }
-                }).then(response => response.json())
-
-                tasks.forEach(element => {
-                    title = element.value
-                    task_status = element.parentElement.parentElement.id
-
-                    fetch(`/kanban/${board_id}/add_tasks`, {
+                    fetch(`/kanban/${board_id}/clear_tasks`, {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json"
-                        },
-                        body: JSON.stringify({
-                        status: task_status,
-                        title: title
-                    })
-                    })
-                    .then(response => response.json())
-                });
+                        }
+                    }).then(response => response.json())
+
+                    tasks.forEach(element => {
+                        title = element.value
+                        task_status = element.parentElement.parentElement.id
+
+                        fetch(`/kanban/${board_id}/add_tasks`, {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            body: JSON.stringify({
+                            status: task_status,
+                            title: title
+                        })
+                        })
+                        .then(response => response.json())
+                    });   
+                }
             }
             function initializeDragAndDrop() {
                 const tasks = document.querySelectorAll('.task');
