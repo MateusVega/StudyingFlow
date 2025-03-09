@@ -104,3 +104,7 @@ def studyingcicle():
 @tools.route("/schedule", methods=["GET", "POST"])
 def schedule():
     return render_template("tools/schedule.html", title="Schedule")
+
+@tools.route("/gpacalculator", methods=["GET", "POST"])
+def gpacalculator():
+    return render_template("tools/gpacalculator.html", title="GPA Calculator")

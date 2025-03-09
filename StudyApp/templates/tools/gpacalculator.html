@@ -1,0 +1,94 @@
+{% extends "layout.html" %}
+{% block content%}
+    <section class="flex flex-col items-center min-h-screen w-full p-6 text-gray-900">
+        <h1 class="text-3xl font-semibold mb-4">GPA Calculator</h1>
+        <p id="final_gpa" class="text-xl font-medium mb-4">GPA: 0</p>
+        
+        <button id="return" onclick="Return()" class="hidden p-2 rounded-full transition duration-300 ease-in-out hover:scale-150">
+            <span class="material-symbols-outlined">keyboard_return</span>
+        </button>
+        
+        <div id="buttons" class="flex gap-4 mb-6">
+            <button onclick="OpenAddGrade()" class="w-[8em] bg-black text-white px-4 py-2 rounded-full hover:bg-white hover:text-black hover:border hover:border-gray-300 transition cursor-pointer">Add Grade</button>
+            <button onclick="ShowGrades()" class="w-[8em] bg-black text-white px-4 py-2 rounded-full hover:bg-white hover:text-black hover:border hover:border-gray-300 transition cursor-pointer">Show Grades</button>
+        </div>
+        
+        <div id="input" class="hidden flex-col gap-3 md:w-[20%] w-[90%] max-w-sm">
+            <input type="number" id="InpGrade" placeholder="Grade" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black transition">
+            <input type="number" id="InpMax" placeholder="Max" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black transition">
+            <p id="error" class="text-red-500 text-sm"></p>
+            <button onclick="AddGrade()" class="bg-black text-white px-4 py-2 rounded-full hover:bg-white hover:text-black hover:border hover:border-gray-300 transition cursor-pointer">Add</button>
+        </div>
+        
+        <p id="output" class="text-lg mt-4"></p>
+    </section>
+    <script>
+        const returnBtn = document.getElementById("return")
+        const buttons = document.getElementById("buttons")
+        const inputs = document.getElementById("input")
+        const output = document.getElementById("output")
+        var gpas = JSON.parse(localStorage.getItem("grades")) || []
+        UpdateDb()
+
+        function Return(){
+            buttons.classList.remove("hidden")
+            returnBtn.classList.add("hidden")
+            inputs.classList.add("hidden")
+            inputs.classList.remove("flex")
+            output.innerHTML = ""
+        }
+
+        function OpenAddGrade(){
+            output.innerHTML = ""
+            buttons.classList.add("hidden")
+            returnBtn.classList.remove("hidden")
+            inputs.classList.remove("hidden")
+            inputs.classList.add("flex")
+        }
+        
+        function AddGrade(){
+            const grade = document.getElementById("InpGrade").value
+            const max = document.getElementById("InpMax").value
+            const error = document.getElementById("error")
+            const final_gpa = document.getElementById("final_gpa")
+            let gpa = 0
+
+            if (grade > max){
+                error.innerText = "Grade can't be greater than Max"
+                error.classList.add("text-red-600")
+            } else if (grade == "" || max == ""){
+                error.innerText = "Inputs cannot be empty"
+                error.classList.add("text-red-600")
+            } else{
+                error.innerText = ""
+                error.classList.remove("text-red-600")
+                gpa = (grade * 4) / max
+                document.getElementById("InpGrade").value = "";
+                document.getElementById("InpMax").value = "";
+                UpdateDb(gpa)
+            }
+        }
+
+        function ShowGrades(){
+            output.innerHTML = ""
+            if (gpas.length > 0) {
+                gpas.forEach(gpa => {
+                    output.innerHTML += `${gpa}<br>`
+                    output.classList.remove("text-red-600")
+                });
+            } else {
+                output.innerHTML = "Add a Grade first"
+                output.classList.add("text-red-600")
+            }
+        }
+    
+        function UpdateDb(grade){
+            if (grade){
+                gpas.push(grade)
+            }
+            localStorage.setItem("grades", JSON.stringify(gpas));
+            gpa = gpas.reduce((a, b) => a + b, 0) / gpas.length
+            final_gpa.innerHTML = `GPA: ${gpa.toFixed(1)}`
+        }
+    </script>
+{% endblock content %}
