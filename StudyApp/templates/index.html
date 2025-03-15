@@ -1,24 +1,53 @@
 {% extends "layout.html" %}
-{% block content%}
+{% block content %}
     <section class="w-[95vw] flex flex-col lg:flex-row h-full mx-auto md:items-center">
         <div class="w-4/5 md:w-1/2 h-auto my-10 md:h-full md:my-0 flex flex-col justify-center gap-2 2xl:gap-3 mx-auto">
-            <h1 class="font-bold sm:text-7xl 2xl:text-8xl text-4xl">Master Your<br>Study Routine</h1>
-            <p class="text-base sm:text-lg text-gray-700/70 2xl:text-xl">Tools to help you stay organized, study smarter,<br> and achieve better results.</p>
-            <a class="font-bold text-sm w-fit bg-black text-white px-6 py-3 2xl:text-xl rounded-full hover:bg-white hover:text-black hover:border hover:border-gray-300 hover:scale-[103%] transition duration-300 ease-in-out" href="{{ url_for('users.register') }}">Get Started</a>
+            <h1 class="font-bold sm:text-7xl 2xl:text-8xl text-4xl">
+                Master Your
+                <br>
+                Study Routine
+            </h1>
+            <p class="text-base sm:text-lg text-gray-700/70 2xl:text-xl">
+                Tools to help you stay organized, study smarter,
+                <br>
+                and achieve better results.
+            </p>
+            <a class="font-bold text-sm w-fit bg-black text-white px-6 py-3 2xl:text-xl rounded-full hover:bg-white hover:text-black hover:border hover:border-gray-300 hover:scale-[103%] transition duration-300 ease-in-out"
+               href="{{ url_for('users.register') }}">Get Started</a>
         </div>
-        <img class="w-4/5 md:w-[45%] h-2/3 md:h-[95%] rounded-2xl mx-auto" src="{{ url_for('static', filename='ImageHomePage.jpg') }}" alt="Preview website functions">
+        <img class="w-4/5 md:w-[45%] h-2/3 md:h-[95%] rounded-2xl mx-auto"
+             src="{{ url_for('static', filename='ImageHomePage.jpg') }}"
+             alt="Preview website functions">
     </section>
     <footer class="flex justify-center md:flex-row flex-col border-t border-t-gray-300 md:w-[80%] w-full pt-10 pb-4 mx-auto">
         <ul class="flex justify-center gap-8">
-            <li><a class="text-black hover:underline md:text-base text-sm" href="{{ url_for('community.blog') }}">Blog</a></li>
-            <li><a class="text-black hover:underline md:text-base text-sm" href="{{ url_for('community.forum') }}">Forum</a></li>
-            <li><a class="text-black hover:underline md:text-base text-sm" href="#organization-tools">Organization Tools</a></li>
-            <li><a class="text-black hover:underline md:text-base text-sm" href="#study-tools">Study Tools</a></li>
+            <li>
+                <a class="text-black hover:underline md:text-base text-sm"
+                   href="{{ url_for('community.blog') }}">Blog</a>
+            </li>
+            <li>
+                <a class="text-black hover:underline md:text-base text-sm"
+                   href="{{ url_for('community.forum') }}">Forum</a>
+            </li>
+            <li>
+                <a class="text-black hover:underline md:text-base text-sm"
+                   href="#organization-tools">Organization Tools</a>
+            </li>
+            <li>
+                <a class="text-black hover:underline md:text-base text-sm"
+                   href="#study-tools">Study Tools</a>
+            </li>
         </ul>
         <ul class="flex justify-center gap-8">
-            <li><a class="text-black hover:underline md:text-base text-sm" href="">FAQ</a></li>
-            <li><a class="text-black hover:underline md:text-base text-sm" href="">Term</a></li>
-            <li><a class="text-black hover:underline md:text-base text-sm" href="">Privacy</a></li>
+            <li>
+                <a class="text-black hover:underline md:text-base text-sm" href="">FAQ</a>
+            </li>
+            <li>
+                <a class="text-black hover:underline md:text-base text-sm" href="">Term</a>
+            </li>
+            <li>
+                <a class="text-black hover:underline md:text-base text-sm" href="">Privacy</a>
+            </li>
             <li class="md:text-base text-sm flex justify-center items-center">&copy; All Copyright 2025</li>
         </ul>
     </footer>

@@ -1,8 +1,10 @@
 {% extends "layout.html" %}
-{% block content%}
+{% block content %}
     <section class="flex items-center justify-center w-full h-full">
         <div class="relative flex flex-col m-6 space-y-8 bg-white shadow-2xl rounded-2xl md:flex-row md:space-y-0 max-h-[85vh] overflow-auto">
-            <form action="" method="POST" class="flex flex-col justify-center p-6 md:p-8 mb-0">
+            <form action=""
+                  method="POST"
+                  class="flex flex-col justify-center p-6 md:p-8 mb-0">
                 {{ form.hidden_tag() }}
                 <span class="mb-3 text-4xl font-bold">Welcome back</span>
                 <span class="font-light text-gray-400 mb-8">Welcome back! Please enter your details</span>
@@ -11,9 +13,7 @@
                     {% if form.email.errors %}
                         {{ form.email(class="transition duration-300 ease-in-out hover:scale-105 w-full p-2 border border-gray-300 rounded-md placeholder:font-light placeholder:text-gray-500") }}
                         <div>
-                            {% for error in form.email.errors %}
-                                <span class="text-red-500 text-sm">{{ error }}</span>
-                            {% endfor %}
+                            {% for error in form.email.errors %}<span class="text-red-500 text-sm">{{ error }}</span>{% endfor %}
                         </div>
                     {% else %}
                         {{ form.email(class="transition duration-300 ease-in-out hover:scale-105 w-full p-2 border border-gray-300 rounded-md placeholder:font-light placeholder:text-gray-500") }}
@@ -24,9 +24,7 @@
                     {% if form.password.errors %}
                         {{ form.password(class="transition duration-300 ease-in-out hover:scale-105 w-full p-2 border border-gray-300 rounded-md placeholder:font-light placeholder:text-gray-500") }}
                         <div>
-                            {% for error in form.password.errors %}
-                            <span class="text-red-500 text-sm">{{ error }}</span>
-                            {% endfor %}
+                            {% for error in form.password.errors %}<span class="text-red-500 text-sm">{{ error }}</span>{% endfor %}
                         </div>
                     {% else %}
                         {{ form.password(class="transition duration-300 ease-in-out hover:scale-105 w-full p-2 border border-gray-300 rounded-md placeholder:font-light placeholder:text-gray-500") }}
@@ -42,16 +40,19 @@
                     </span>
                 </div>
                 <div class="py-2">
-                    {{ form.submit(class="w-full bg-black text-white p-2 rounded-lg hover:bg-white hover:text-black hover:border hover:border-gray-300 hover:scale-[103%] transition duration-300 ease-in-out")}}
+                    {{ form.submit(class="w-full bg-black text-white p-2 rounded-lg hover:bg-white hover:text-black hover:border hover:border-gray-300 hover:scale-[103%] transition duration-300 ease-in-out") }}
                 </div>
                 <div>
                     <small>
-                        Need An Account? <a class="inline-block text-gray-700 hover:scale-110 transition duration-300 ease-in-out" href="{{ url_for('users.register') }}">Sign Up Now</a>
+                        Need An Account? <a class="inline-block text-gray-700 hover:scale-110 transition duration-300 ease-in-out"
+    href="{{ url_for('users.register') }}">Sign Up Now</a>
                     </small>
                 </div>
             </form>
             <div class="relative">
-                <img src="{{ url_for('static', filename='vertical_image.webp') }}" alt="vertical_image" class="w-[400px] h-full hidden rounded-r-2xl md:block object-cover">
+                <img src="{{ url_for('static', filename='vertical_image.webp') }}"
+                     alt="vertical_image"
+                     class="w-[400px] h-full hidden rounded-r-2xl md:block object-cover">
             </div>
         </div>
     </section>

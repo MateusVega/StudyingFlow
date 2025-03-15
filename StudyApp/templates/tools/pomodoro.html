@@ -1,22 +1,39 @@
 {% extends "layout.html" %}
-{% block content%}
+{% block content %}
     <audio id="alarm">
         <source src="{{ url_for('static', filename='alarm.mp3') }}" type="audio/mpeg">
         Your browser does not support the audio element.
     </audio>
-
     <section class="flex justify-center min-h-screen w-full">
         <div class="h-fit md:mt-10 mt-5 text-center bg-white p-7 rounded-full">
             <h1 class="text-4xl font-bold mb-2">Pomodoro Timer</h1>
             <nav class="mb-2">
-                <button id="pomodoro" onclick="change_mode(this)" class="btn_mode py-2 px-4 m-1 border-0 rounded-full cursor-pointer bg-gray-200 text-black">Pomodoro</button>
-                <button id="short_break" onclick="change_mode(this)" class="btn_mode py-2 px-4 m-1 border-0 rounded-full cursor-pointer bg-gray-100 text-black">Short Break</button>
-                <button id="long_break" onclick="change_mode(this)" class="btn_mode py-2 px-4 m-1 border-0 rounded-full cursor-pointer bg-gray-100 text-black">Long Break</button>
+                <button id="pomodoro"
+                        onclick="change_mode(this)"
+                        class="btn_mode py-2 px-4 m-1 border-0 rounded-full cursor-pointer bg-gray-200 text-black">
+                    Pomodoro
+                </button>
+                <button id="short_break"
+                        onclick="change_mode(this)"
+                        class="btn_mode py-2 px-4 m-1 border-0 rounded-full cursor-pointer bg-gray-100 text-black">
+                    Short Break
+                </button>
+                <button id="long_break"
+                        onclick="change_mode(this)"
+                        class="btn_mode py-2 px-4 m-1 border-0 rounded-full cursor-pointer bg-gray-100 text-black">
+                    Long Break
+                </button>
             </nav>
             <div class="mb-5 text-5xl" id="timer">25:00</div>
-            <button class="py-2 px-6 m-2 border-0 rounded-full cursor-pointer bg-green-600 text-white font-bold" id="start" onclick="startTimer()">Start</button>
-            <button class="py-2 px-6 m-2 border-0 rounded-full cursor-pointer bg-yellow-500 text-white font-bold" id="pause" onclick="pauseTimer()">Pause</button>
-            <button class="py-2 px-6 m-2 border-0 rounded-full cursor-pointer bg-red-600 text-white font-bold" id="reset" onclick="resetTimer(25)">Reset</button>
+            <button class="py-2 px-6 m-2 border-0 rounded-full cursor-pointer bg-green-600 text-white font-bold"
+                    id="start"
+                    onclick="startTimer()">Start</button>
+            <button class="py-2 px-6 m-2 border-0 rounded-full cursor-pointer bg-yellow-500 text-white font-bold"
+                    id="pause"
+                    onclick="pauseTimer()">Pause</button>
+            <button class="py-2 px-6 m-2 border-0 rounded-full cursor-pointer bg-red-600 text-white font-bold"
+                    id="reset"
+                    onclick="resetTimer(25)">Reset</button>
         </div>
     </section>
     <script>

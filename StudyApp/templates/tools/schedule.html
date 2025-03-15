@@ -1,10 +1,10 @@
 {% extends "layout.html" %}
-{% block content%}
+{% block content %}
     <section class="w-full h-full flex flex-col items-center">
         <h2 class="font-bold md:text-4xl text-3xl my-2">Schedule generator</h2>
-        <div class="time-selection flex flex-col items-center md:w-[30%] mx-auto" id="time-selection">
+        <div class="time-selection flex flex-col items-center md:w-[30%] mx-auto"
+             id="time-selection">
             <h3 class="text-xl font-semibold text-center mb-4">Choose Your Time Range</h3>
-            
             <div class="form-group mb-4 md:w-[80%] w-full">
                 <label for="start-hour" class="block text-lg">Start Hour:</label>
                 <select id="start-hour" class="w-full p-2 border border-gray-300 rounded-md">
@@ -25,7 +25,6 @@
                     <option value="20">8:00 PM</option>
                 </select>
             </div>
-
             <div class="form-group mb-6 md:w-[80%] w-full">
                 <label for="end-hour" class="block text-lg">End Hour:</label>
                 <select id="end-hour" class="w-full p-2 border border-gray-300 rounded-md">
@@ -46,10 +45,9 @@
                     <option value="20">8:00 PM</option>
                 </select>
             </div>
-
-            <button class="bg-black text-white px-5 py-2 md:w-2/3 w-full mx-auto rounded-full hover:bg-white hover:text-black hover:border hover:border-gray-300 hover:scale-[103%] transition duration-300 ease-in-out" onclick="generateSchedule()">Generate Schedule</button>
+            <button class="bg-black text-white px-5 py-2 md:w-2/3 w-full mx-auto rounded-full hover:bg-white hover:text-black hover:border hover:border-gray-300 hover:scale-[103%] transition duration-300 ease-in-out"
+                    onclick="generateSchedule()">Generate Schedule</button>
         </div>
-
         <div class="schedule-table hidden mt-8 overflow-x-auto md:w-[80%] w-full mx-auto">
             <table class="min-w-full table-fixed border-collapse">
                 <thead>
@@ -69,10 +67,9 @@
                 </tbody>
             </table>
         </div>
-
-        <button class="download_pdf bg-black text-white px-5 py-2 my-4 rounded-full hover:bg-white hover:text-black hover:border hover:border-gray-300 hover:scale-[103%] transition duration-300 ease-in-out hidden" onclick="saveSchedule()">Save Schedule as PDF</button>
+        <button class="download_pdf bg-black text-white px-5 py-2 my-4 rounded-full hover:bg-white hover:text-black hover:border hover:border-gray-300 hover:scale-[103%] transition duration-300 ease-in-out hidden"
+                onclick="saveSchedule()">Save Schedule as PDF</button>
     </section>
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.21/jspdf.plugin.autotable.min.js"></script>
     <script>

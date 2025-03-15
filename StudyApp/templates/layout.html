@@ -1,123 +1,157 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/output.css') }}">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0">
-    <link rel="icon" href="{{ url_for('static', filename='favicon-light.ico') }}" type="image/png">
-    {% if title %}
-        <title>StudyingFlow - {{ title }}</title>
-    {% else %}
-        <title>StudyingFlow</title>
-    {% endif %}
-</head>
-<body class="font-poppins">
-    <header id="header" class="bg-white h-[10vh] z-50">
-        <nav class="flex justify-between items-center w-[92%] mx-auto my-5">
-            <a href="{{ url_for('main.index') }}">
-                <img class="2xl:h-16 h-12 transition duration-300 ease-in-out hover:scale-110" src="{{ url_for('static', filename='Logo.png') }}" alt="StudyingFlow Icon">
-            </a>
-            <div class="nav-links duration-500 md:static left-0 absolute bg-white md:min-h-fit min-h-[34vh] top-[-600%] md:w-auto w-full flex items-center md:px-5 z-10 px-10 py-2 ">
-                <ul class="flex md:flex-row flex-col md:items-center md:gap-[4vw] gap-5">
-                    <li id="blog" class="flex items-center gap-1 transition duration-300 ease-in-out hover:scale-110">
-                        <a class="2xl:text-xl" href="{{ url_for('community.blog') }}">Blog</a>
-                    </li>
-                    <li id="forum" class="flex items-center gap-1 transition duration-300 ease-in-out hover:scale-110">
-                        <a class="2xl:text-xl" href="{{ url_for('community.forum') }}">Forum</a>
-                    </li>
-                    <div id="organization-tools" class="relative inline-block">
-                        <li class="dropdown-btn flex items-center gap-1 cursor-pointer transition duration-300 ease-in-out hover:scale-110 2xl:text-xl">
-                            Organization Tools
-                            <span class="material-symbols-outlined">
-                                keyboard_arrow_down
-                            </span>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport"
+              content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet"
+              href="{{ url_for('static', filename='css/output.css') }}">
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+              rel="stylesheet">
+        <link rel="stylesheet"
+              href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0">
+        <link rel="icon"
+              href="{{ url_for('static', filename='favicon-light.ico') }}"
+              type="image/png">
+        {% if title %}
+            <title>StudyingFlow - {{ title }}</title>
+        {% else %}
+            <title>StudyingFlow</title>
+        {% endif %}
+    </head>
+    <body class="font-poppins">
+        <header id="header" class="bg-white h-[10vh] z-50">
+            <nav class="flex justify-between items-center w-[92%] mx-auto my-5">
+                <a href="{{ url_for('main.index') }}">
+                    <img class="2xl:h-16 h-12 transition duration-300 ease-in-out hover:scale-110"
+                         src="{{ url_for('static', filename='Logo.png') }}"
+                         alt="StudyingFlow Icon">
+                </a>
+                <div class="nav-links duration-500 md:static left-0 absolute bg-white md:min-h-fit min-h-[34vh] top-[-600%] md:w-auto w-full flex items-center md:px-5 z-10 px-10 py-2 ">
+                    <ul class="flex md:flex-row flex-col md:items-center md:gap-[4vw] gap-5">
+                        <li id="blog"
+                            class="flex items-center gap-1 transition duration-300 ease-in-out hover:scale-110">
+                            <a class="2xl:text-xl" href="{{ url_for('community.blog') }}">Blog</a>
                         </li>
-
-                        <ul class="dropdown-menu absolute left-0 mt-2 w-48 bg-white border border-gray-300 rounded-lg shadow-lg hidden z-10">
-                            <li class="px-4 py-2 transition duration-150 ease-in-out cursor-pointer hover:scale-105"><a class="inline-block w-full" href="{{ url_for('tools.schedule') }}">Rotuine Schedule</a></li>
-                            <li class="px-4 py-2 transition duration-150 ease-in-out cursor-pointer hover:scale-105"><a class="inline-block w-full" href="{{ url_for('tools.kanban_home') }}">Kanban</a></li>
-                            <li class="px-4 py-2 transition duration-150 ease-in-out cursor-pointer hover:scale-105"><a class="inline-block w-full" href="{{ url_for('tools.studyingcicle') }}">Studying Cicle</a></li>
-                        </ul>
-                    </div>
-                    <div id="study-tools" class="relative inline-block">
-                        <li class="dropdown-btn flex items-center gap-1 cursor-pointer transition duration-300 ease-in-out hover:scale-110 2xl:text-xl">
-                            Study Tools
-                            <span class="material-symbols-outlined">
-                                keyboard_arrow_down
-                            </span>
+                        <li id="forum"
+                            class="flex items-center gap-1 transition duration-300 ease-in-out hover:scale-110">
+                            <a class="2xl:text-xl" href="{{ url_for('community.forum') }}">Forum</a>
                         </li>
-
-                        <ul class="dropdown-menu absolute left-0 mt-2 w-48 bg-white border border-gray-300 rounded-lg shadow-lg hidden z-10">
-                            <li class="px-4 py-2 transition duration-150 ease-in-out cursor-pointer hover:scale-105"><a class="inline-block w-full" href="{{ url_for('tools.pomodoro') }}">Pomodoro</a></li>
-                            <li class="px-4 py-2 transition duration-150 ease-in-out cursor-pointer hover:scale-105"><a class="inline-block w-full" href="{{ url_for('tools.gpacalculator') }}">GPA Calculator</a></li>
-                            <li class="px-4 py-2 transition duration-150 ease-in-out cursor-pointer hover:scale-105"><a class="inline-block w-full" href="{{ url_for('tools.pomodoro') }}">FlashCards</a></li>
-                        </ul>
-                    </div>
-                    {% if current_user.is_authenticated %}
-                    <li class="md:hidden flex items-center gap-1 transition duration-300 ease-in-out hover:scale-110">
-                        <a class="2xl:text-xl" href="{{ url_for('users.account') }}">Account</a>
-                    </li>
-                        <li class="md:hidden flex items-center gap-1 transition duration-300 ease-in-out hover:scale-110">
-                            <a class="2xl:text-xl" href="{{ url_for('users.logout') }}">Logout</a>
-                        </li>
-                    {% else %}
-                        <li class="md:hidden flex items-center gap-1 transition duration-300 ease-in-out hover:scale-110">
-                            <a class="2xl:text-xl" href="{{ url_for('users.login') }}">Sign In</a>
-                        </li>
-                        <li class="md:hidden flex items-center gap-1 transition duration-300 ease-in-out hover:scale-110">
-                            <a class="2xl:text-xl" href="{{ url_for('users.register') }}">Sign Up</a>
-                        </li>
-                    {% endif %}
-                </ul>
-            </div>
-            <div class="flex items-center gap-6 ">
-                <div class="md:block hidden">
-                    {% if current_user.is_authenticated %}
-                    <div class="relative">
-                        <a id="profile-btn" class="flex justify-center items-center gap-2 rounded-full px-3 py-1 cursor-pointer transition duration-300 ease-in-out hover:scale-110">
-                            <span class="capitalize hidden md:inline 2xl:text-xl">{{ current_user.username }}</span>
-                            <img class="rounded-full h-[7vh] w-[7vh]" src="{{ url_for('static', filename='profile_pics/' + current_user.image_file) }}" alt="Profile Image">
-                        </a>
-                    
-                        <div id="profile-dropdown" class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg hidden">
-                            <ul class="flex flex-col">
-                                <li><a href="{{ url_for('users.account') }}" class="block px-4 py-2 transition duration-300 ease-in-out hover:scale-110">Account</a></li>
-                                <li><a href="{{ url_for('users.logout') }}" class="block px-4 py-2 transition duration-300 ease-in-out hover:scale-110">Logout</a></li>
+                        <div id="organization-tools" class="relative inline-block">
+                            <li class="dropdown-btn flex items-center gap-1 cursor-pointer transition duration-300 ease-in-out hover:scale-110 2xl:text-xl">
+                                Organization Tools
+                                <span class="material-symbols-outlined">keyboard_arrow_down</span>
+                            </li>
+                            <ul class="dropdown-menu absolute left-0 mt-2 w-48 bg-white border border-gray-300 rounded-lg shadow-lg hidden z-10">
+                                <li class="px-4 py-2 transition duration-150 ease-in-out cursor-pointer hover:scale-105">
+                                    <a class="inline-block w-full" href="{{ url_for('tools.schedule') }}">Rotuine Schedule</a>
+                                </li>
+                                <li class="px-4 py-2 transition duration-150 ease-in-out cursor-pointer hover:scale-105">
+                                    <a class="inline-block w-full" href="{{ url_for('tools.kanban_home') }}">Kanban</a>
+                                </li>
+                                <li class="px-4 py-2 transition duration-150 ease-in-out cursor-pointer hover:scale-105">
+                                    <a class="inline-block w-full"
+                                       href="{{ url_for('tools.studyingcicle') }}">Studying Cicle</a>
+                                </li>
                             </ul>
                         </div>
-                    </div>
-                    {% else %}
-                        <a href="{{ url_for('users.login') }}" class="bg-black text-white px-5 py-2 rounded-full hover:bg-gray-500 transition duration-300 ease-in-out hover:scale-110">Sign In</a>
-                    {% endif %}
+                        <div id="study-tools" class="relative inline-block">
+                            <li class="dropdown-btn flex items-center gap-1 cursor-pointer transition duration-300 ease-in-out hover:scale-110 2xl:text-xl">
+                                Study Tools
+                                <span class="material-symbols-outlined">keyboard_arrow_down</span>
+                            </li>
+                            <ul class="dropdown-menu absolute left-0 mt-2 w-48 bg-white border border-gray-300 rounded-lg shadow-lg hidden z-10">
+                                <li class="px-4 py-2 transition duration-150 ease-in-out cursor-pointer hover:scale-105">
+                                    <a class="inline-block w-full" href="{{ url_for('tools.pomodoro') }}">Pomodoro</a>
+                                </li>
+                                <li class="px-4 py-2 transition duration-150 ease-in-out cursor-pointer hover:scale-105">
+                                    <a class="inline-block w-full"
+                                       href="{{ url_for('tools.gpacalculator') }}">GPA Calculator</a>
+                                </li>
+                                <li class="px-4 py-2 transition duration-150 ease-in-out cursor-pointer hover:scale-105">
+                                    <a class="inline-block w-full" href="{{ url_for('tools.pomodoro') }}">FlashCards</a>
+                                </li>
+                            </ul>
+                        </div>
+                        {% if current_user.is_authenticated %}
+                            <li class="md:hidden flex items-center gap-1 transition duration-300 ease-in-out hover:scale-110">
+                                <a class="2xl:text-xl" href="{{ url_for('users.account') }}">Account</a>
+                            </li>
+                            <li class="md:hidden flex items-center gap-1 transition duration-300 ease-in-out hover:scale-110">
+                                <a class="2xl:text-xl" href="{{ url_for('users.logout') }}">Logout</a>
+                            </li>
+                        {% else %}
+                            <li class="md:hidden flex items-center gap-1 transition duration-300 ease-in-out hover:scale-110">
+                                <a class="2xl:text-xl" href="{{ url_for('users.login') }}">Sign In</a>
+                            </li>
+                            <li class="md:hidden flex items-center gap-1 transition duration-300 ease-in-out hover:scale-110">
+                                <a class="2xl:text-xl" href="{{ url_for('users.register') }}">Sign Up</a>
+                            </li>
+                        {% endif %}
+                    </ul>
                 </div>
-                <span class="material-symbols-outlined text-3xl cursor-pointer !block md:!hidden transition duration-300 ease-in-out hover:scale-110" onclick="onToggleMenu(this)">
-                    menu
-                </span>
-            </div>
-        </nav>
-    </header>
-    <main class="h-[88vh]">
-        {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                {% for category, msg in messages %}
-                    <div id="flash_element" class="alert-{{ category }} px-4 py-3 rounded relative md:w-[50vw] w-[90vw] mx-auto my-2" role="alert">
-                        <strong class="font-bold">{{ msg.title }}</strong>
-                        <span class="block sm:inline">{{ msg.message }}</span>
-                        <span class="flex items-center absolute top-0 bottom-0 right-0 px-4 py-3 cursor-pointer hover:scale-125 transition" onclick="close_flash()">
-                          <svg class="fill-current h-6 w-6 text-{{ category }}-500" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><title>Close</title><path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z"/></svg>
-                        </span>
+                <div class="flex items-center gap-6 ">
+                    <div class="md:block hidden">
+                        {% if current_user.is_authenticated %}
+                            <div class="relative">
+                                <a id="profile-btn"
+                                   class="flex justify-center items-center gap-2 rounded-full px-3 py-1 cursor-pointer transition duration-300 ease-in-out hover:scale-110">
+                                    <span class="capitalize hidden md:inline 2xl:text-xl">{{ current_user.username }}</span>
+                                    <img class="rounded-full h-[7vh] w-[7vh]"
+                                         src="{{ url_for('static', filename='profile_pics/' + current_user.image_file) }}"
+                                         alt="Profile Image">
+                                </a>
+                                <div id="profile-dropdown"
+                                     class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg hidden">
+                                    <ul class="flex flex-col">
+                                        <li>
+                                            <a href="{{ url_for('users.account') }}"
+                                               class="block px-4 py-2 transition duration-300 ease-in-out hover:scale-110">Account</a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ url_for('users.logout') }}"
+                                               class="block px-4 py-2 transition duration-300 ease-in-out hover:scale-110">Logout</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        {% else %}
+                            <a href="{{ url_for('users.login') }}"
+                               class="bg-black text-white px-5 py-2 rounded-full hover:bg-gray-500 transition duration-300 ease-in-out hover:scale-110">Sign In</a>
+                        {% endif %}
                     </div>
-                {% endfor %}
-            {% endif %}
-        {% endwith %}
-        {% block content %}
-        
-        {% endblock %}
-    </main>
-    <!-- Toggle Menu -->
-    <script>
+                    <span class="material-symbols-outlined text-3xl cursor-pointer !block md:!hidden transition duration-300 ease-in-out hover:scale-110"
+                          onclick="onToggleMenu(this)">menu</span>
+                </div>
+            </nav>
+        </header>
+        <main class="h-[88vh]">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, msg in messages %}
+                        <div id="flash_element"
+                             class="alert-{{ category }} px-4 py-3 rounded relative md:w-[50vw] w-[90vw] mx-auto my-2"
+                             role="alert">
+                            <strong class="font-bold">{{ msg.title }}</strong>
+                            <span class="block sm:inline">{{ msg.message }}</span>
+                            <span class="flex items-center absolute top-0 bottom-0 right-0 px-4 py-3 cursor-pointer hover:scale-125 transition"
+                                  onclick="close_flash()">
+                                <svg class="fill-current h-6 w-6 text-{{ category }}-500"
+                                     role="button"
+                                     xmlns="http://www.w3.org/2000/svg"
+                                     viewBox="0 0 20 20">
+                                    <title>Close</title>
+                                    <path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z" />
+                                </svg>
+                            </span>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            {% block content %}{% endblock %}
+        </main>
+        <!-- Toggle Menu -->
+        <script>
         function onToggleMenu(e){
             const navLinks = document.querySelector(".nav-links")
             const navHeight = document.querySelector('nav').offsetHeight
@@ -129,9 +163,9 @@
                 navLinks.style.top = `${navHeight + 24}px`;
             }
         }
-    </script>
-    <!-- Dropdown Tools -->
-    <script>
+        </script>
+        <!-- Dropdown Tools -->
+        <script>
         const dropdownButtons = document.querySelectorAll(".dropdown-btn");
         const dropdownMenus = document.querySelectorAll(".dropdown-menu");
     
@@ -163,10 +197,10 @@
         document.addEventListener("click", function () {
             closeAllDropdowns();
         });
-    </script>
-    <!-- Dropdown profile -->
-    {% if current_user.is_authenticated %}
-    <script>
+        </script>
+        <!-- Dropdown profile -->
+        {% if current_user.is_authenticated %}
+            <script>
         const profileBtn = document.getElementById("profile-btn");
         const profileDropdown = document.getElementById("profile-dropdown");
     
@@ -178,14 +212,14 @@
         document.addEventListener("click", function () {
             profileDropdown.classList.add("hidden"); // Close when clicking outside
         });
-    </script>
-    {% endif %}
-    <!-- Close Flash -->
-     <script>
+            </script>
+        {% endif %}
+        <!-- Close Flash -->
+        <script>
         function close_flash(){
             const element = document.getElementById("flash_element")
             element.remove()
         }
-     </script>
-</body>
+        </script>
+    </body>
 </html>

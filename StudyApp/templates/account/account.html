@@ -1,25 +1,29 @@
 {% extends "layout.html" %}
-{% block content%}
+{% block content %}
     <section class="flex justify-center w-full md:w-[80vw] min-h-full m-auto">
         <div class="w-full h-full">
             <header class="h-[45vh] flex flex-col md:flex-row md:py-0 py-2">
                 <div class="flex items-center justify-center gap-5 h-full] md:w-1/2 w-full">
-                    <img class="md:h-[30vh] h-[20vh] md:w-[30vh] w-[20vh] rounded-full" src="{{ url_for('static', filename='profile_pics/' + current_user.image_file) }}">
+                    <img class="md:h-[30vh] h-[20vh] md:w-[30vh] w-[20vh] rounded-full"
+                         src="{{ url_for('static', filename='profile_pics/' + current_user.image_file) }}">
                     <div class="md:h-[30vh] h-[20vh] flex flex-col justify-center md:gap-2">
                         <p class="capitalize 2xl:text-3xl md:text-xl text-md font-bold">{{ current_user.username }}</p>
-                        <p class="2xl:text-3xl md:text-xl text-md"><span class="lg:inline hidden">Here since</span> {{ current_user.date_created.strftime("%B %Y") }}</p>
-                        <a class="w-fit flex items-center gap-2 bg-black text-white md:px-5 px-3 md:py-2 py-1 rounded-full hover:bg-gray-500" href="{{ url_for('users.update_account')}}">
+                        <p class="2xl:text-3xl md:text-xl text-md">
+                            <span class="lg:inline hidden">Here since</span> {{ current_user.date_created.strftime("%B %Y") }}
+                        </p>
+                        <a class="w-fit flex items-center gap-2 bg-black text-white md:px-5 px-3 md:py-2 py-1 rounded-full hover:bg-gray-500"
+                           href="{{ url_for('users.update_account') }}">
                             Settings
-                            <span class="material-symbols-outlined">
-                                settings
-                            </span>
+                            <span class="material-symbols-outlined">settings</span>
                         </a>
                     </div>
                 </div>
             </header>
-            <footer class="h-[40vh] grid lg:grid-cols-6 md:grid-cols-4 sm:grid-cols-3 grid-cols-2 mx-auto">            
+            <footer class="h-[40vh] grid lg:grid-cols-6 md:grid-cols-4 sm:grid-cols-3 grid-cols-2 mx-auto">
                 <div class="relative w-40 h-55 inline-block text-center mx-auto">
-                    <img src="{{ url_for('static', filename='stats_pics/pom_focus.png') }}" alt="Pomodoro Focus" class="block w-full">
+                    <img src="{{ url_for('static', filename='stats_pics/pom_focus.png') }}"
+                         alt="Pomodoro Focus"
+                         class="block w-full">
                     <p class="absolute bottom-6 left-1/2 transform -translate-x-1/2 text-white font-bold text-sm">
                         {% if stats.pomodoro_focus > 1 %}
                             {{ stats.pomodoro_focus }} Minutes
@@ -27,9 +31,11 @@
                             {{ stats.pomodoro_focus }} Minute
                         {% endif %}
                     </p>
-                </div>                                  
+                </div>
                 <div class="relative w-40 h-55 inline-block text-center mx-auto">
-                    <img src="{{ url_for('static', filename='stats_pics/pom_breaks.png') }}" alt="Pomodoro Focus" class="block w-full">
+                    <img src="{{ url_for('static', filename='stats_pics/pom_breaks.png') }}"
+                         alt="Pomodoro Focus"
+                         class="block w-full">
                     <p class="absolute bottom-6 left-1/2 transform -translate-x-1/2 text-white font-bold text-sm">
                         {% if stats.pomodoro_breaks > 1 %}
                             {{ stats.pomodoro_breaks }} Minutes
