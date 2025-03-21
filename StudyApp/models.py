@@ -46,3 +46,22 @@ class KanbanTask(db.Model):
 
     def __repr__(self):
         return f"KanbanTask('{self.title}', Status: '{self.status}', Board: '{self.board_id}')"
+
+class Category(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(60), unique=True, nullable=False)
+    posts = db.relationship("BlogPost", backref="category", lazy=True)
+
+    def __repr__(self):
+        return f"Category('{self.name}')"
+
+class BlogPost(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(200), nullable=False)
+    content = db.Column(db.Text, nullable=False)
+    category_id = db.Column(db.Integer, db.ForeignKey("category.id"), nullable=False)
+    image_file = db.Column(db.String(30), nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+    def __repr__(self):
+        return f"BlogPost('{self.title}', ID: {self.id})"

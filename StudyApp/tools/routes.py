@@ -69,8 +69,6 @@ def board_detail(board_id):
 @tools.route("/kanban/<string:board_id>/clear_tasks", methods=["POST"])
 @login_required
 def clear_tasks(board_id):
-
-
     tasks = KanbanTask.query.filter_by(board_id=board_id).all()
     if tasks:
         for task in tasks:

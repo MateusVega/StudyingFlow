@@ -13,3 +13,4 @@ class Config:
     MAIL_PASSWORD = os.environ.get("MAIL_PASSWORD")
     MAIL_DEFAULT_SENDER = os.environ.get("MAIL_DEFAULT_SENDER")
     MAIL_ASCII_ATTACHMENTS = False
+    FLASK_ADMIN_SWATCH = 'cerulean'

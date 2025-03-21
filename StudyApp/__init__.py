@@ -1,4 +1,6 @@
 from flask import Flask
+from flask_admin import Admin
+from flask_admin.contrib.sqla import ModelView
 from flask_mail import Mail
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
@@ -6,6 +8,7 @@ from flask_login import LoginManager
 from flask_migrate import Migrate
 from StudyApp.config import Config
 
+admin = Admin()
 db = SQLAlchemy()
 bcrypt = Bcrypt()
 mail = Mail()
@@ -18,6 +21,7 @@ def create_app(config_class=Config):
     app = Flask(__name__)
     app.config.from_object(Config)
 
+    admin.init_app(app)
     db.init_app(app)
     bcrypt.init_app(app)
     login_manager.init_app(app)
@@ -35,5 +39,9 @@ def create_app(config_class=Config):
     app.register_blueprint(errors)
     app.register_blueprint(tools)
     app.register_blueprint(community)
+
+    from StudyApp.models import User
+    
+    admin.add_view(ModelView(User, db.session))
 
     return app
