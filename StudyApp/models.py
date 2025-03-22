@@ -17,6 +17,7 @@ class User(db.Model, UserMixin):
     image_file = db.Column(db.String(20), nullable=False, default="default.jpg")
     password = db.Column(db.String(60), nullable=False)
     date_created = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    is_admin = db.Column(db.Boolean, default=False)
     stats = db.relationship('Stats', backref='owner', lazy=True)
 
     def __repr__(self):
@@ -58,11 +59,23 @@ class Category(db.Model):
 
 class BlogPost(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(200), nullable=False)
-    content = db.Column(db.Text, nullable=False)
+    title = db.Column(db.String(200), unique=True, nullable=False)
+    subtitle = db.Column(db.String(300), nullable=True)
+    author = db.Column(db.String(40), nullable=True)
     category_id = db.Column(db.Integer, db.ForeignKey("category.id"), nullable=False)
     image_file = db.Column(db.String(30), nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
+    paragraphs = db.relationship("BlogPostParagraph", backref="blog_post", lazy=True, cascade="all, delete-orphan")
+
     def __repr__(self):
         return f"BlogPost('{self.title}', ID: {self.id})"
+    
+class BlogPostParagraph(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(100), nullable=True)
+    content = db.Column(db.Text, nullable=False)
+    blog_post_id = db.Column(db.Integer, db.ForeignKey("blog_post.id"), nullable=False)
+
+    def __repr__(self):
+        return f"Paragraph('{self.content[:30]}...', ID: {self.id})"

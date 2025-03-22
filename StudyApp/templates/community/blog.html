@@ -3,19 +3,23 @@
     <section class="w-[80vw] mx-auto">
         <header class="flex flex-wrap gap-4 items-center justify-center my-5">
             {% for category in categories %}
-                <a href="{{ url_for('community.blog_category', category=category.name) }}" class="px-3 py-1.5 rounded-3xl md:text-lg text-base font-bold border-3 transition duration-300 ease-in-out hover:scale-105">{{ category.name }}</a>
+                <a href="{{ url_for('community.blog_category', category=category.name) }}"
+                   class="px-3 py-1.5 rounded-3xl md:text-lg text-base font-bold transition duration-300 ease-in-out hover:scale-105">{{ category.name }}</a>
             {% endfor %}
         </header>
         <main class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 my-10">
             {% for blog in blogs %}
-                <div class="bg-white border rounded-lg overflow-hidden w-[95%] mx-auto">
-                    <img class="w-full h-52 object-cover" src="{{ url_for('static', filename=blog.image_file) }}" alt="{{ blog.title }}">
+                <a href="{{ url_for('community.blog_post', blog_title=blog.title) }}"
+                   class="bg-white shadow-md rounded-lg overflow-hidden lg:w-[95%] w-[70%] mx-auto transition duration-300 ease-in-out hover:scale-105">
+                    <img class="w-full h-52 object-cover"
+                         src="{{ url_for('static', filename=blog.image_file) }}"
+                         alt="{{ blog.title }}">
                     <div class="p-4">
-                        <p class="text-xs text-gray-500">{{ blog.category.name }} • {{ blog.created_at.strftime('%B %d, %Y') }}</p>
+                        <p class="text-xs text-gray-500">{{ blog.category.name }} • {{ blog.created_at.strftime("%B %d, %Y") }}</p>
                         <p class="text-lg font-medium mt-2">{{ blog.title }}</p>
                     </div>
-                </div>
+                </a>
             {% endfor %}
-        </main>        
+        </main>
     </section>
 {% endblock content %}
