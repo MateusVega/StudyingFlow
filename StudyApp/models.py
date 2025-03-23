@@ -18,7 +18,7 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(60), nullable=False)
     date_created = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     is_admin = db.Column(db.Boolean, default=False)
-    stats = db.relationship('Stats', backref='owner', lazy=True)
+    stats = db.relationship('Stats', backref='owner', lazy=True, cascade='all, delete-orphan')
 
     def __repr__(self):
         return f"User('{self.username}', '{self.email}', '{self.image_file}')"

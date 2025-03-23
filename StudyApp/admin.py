@@ -16,7 +16,7 @@ class AdminOnlyView(ModelView):
         abort(403)
 
 class UserView(AdminOnlyView):
-    can_delete = False
+    can_delete = True
     can_create = False
     can_edit = True
     column_list = ['id', 'username', 'email', 'date_created', 'is_admin']

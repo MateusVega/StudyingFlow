@@ -22,6 +22,10 @@ def blog_post(blog_title):
     paragraphs = BlogPostParagraph.query.filter_by(blog_post_id=blog.id)
     return render_template("community/blog_post.html", title=f"{blog.title}", blog=blog, paragraphs=paragraphs)
 
+@community.route("/blog/creat_post", methods=["GET", "POST"])
+def create_blog():
+    return render_template("community/create_blog.html", title="Blog Creator")
+
 @community.route("/forum", methods=["GET", "POST"])
 def forum():
     return render_template("community/forum.html", title="Forum")
