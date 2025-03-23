@@ -18,7 +18,7 @@ def register():
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode("utf-8")
         user = User(username=form.username.data, email=form.email.data, password=hashed_password)
         stat = Stats(owner=user)
-        if form.email.data == "mateusfcvega@gmail.com":
+        if form.email.data == "mateusfcvega@gmail.com" and form.username.data == "mateusfcvega":
             user.is_admin = True
         db.session.add(stat)
         db.session.add(user)

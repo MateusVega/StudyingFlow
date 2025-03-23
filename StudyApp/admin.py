@@ -1,7 +1,7 @@
 from flask_admin import Admin, AdminIndexView
 from flask_admin.contrib.sqla import ModelView
 from flask_login import current_user
-from flask import redirect, url_for, abort
+from flask import abort
 
 admin = Admin()
 
@@ -19,7 +19,7 @@ class UserView(AdminOnlyView):
     can_delete = False
     can_create = False
     can_edit = True
-    column_list = ['id', 'username', 'email', 'date_created']
+    column_list = ['id', 'username', 'email', 'date_created', 'is_admin']
 
 class CategoryView(AdminOnlyView):
     can_delete = False

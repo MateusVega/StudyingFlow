@@ -1,5 +1,4 @@
 from flask import Flask
-from flask_admin.contrib.sqla import ModelView
 from flask_mail import Mail
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
@@ -40,4 +39,26 @@ def create_app(config_class=Config):
 
     init_admin(app)
 
+    register_commands(app)
+
     return app
+
+def register_commands(app):
+    import click
+    from flask.cli import with_appcontext
+    from StudyApp.models import User
+
+    @click.command("add-admin")
+    @click.argument("email")
+    @click.argument("id")
+    @with_appcontext
+    def add_admin(email, id):
+        user = User.query.filter_by(email=email, id=id).first()
+        if user:
+            user.is_admin = True
+            db.session.commit()
+            print(f"{email} is now an admin.")
+        else:
+            print("User not found.")
+
+    app.cli.add_command(add_admin)
