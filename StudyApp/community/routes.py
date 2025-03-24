@@ -1,4 +1,6 @@
-from flask import render_template, Blueprint
+from flask import render_template, Blueprint, abort, redirect, url_for, flash
+from flask_login import login_required, current_user
+from StudyApp.forms import *
 from StudyApp.models import *
 
 community = Blueprint("community", __name__)
@@ -22,9 +24,17 @@ def blog_post(blog_title):
     paragraphs = BlogPostParagraph.query.filter_by(blog_post_id=blog.id)
     return render_template("community/blog_post.html", title=f"{blog.title}", blog=blog, paragraphs=paragraphs)
 
-@community.route("/blog/creat_post", methods=["GET", "POST"])
+@login_required
+@community.route("/blog/create_post", methods=["GET", "POST"])
 def create_blog():
-    return render_template("community/create_blog.html", title="Blog Creator")
+    if not current_user.is_authenticated or not User.query.filter_by(id=current_user.id).first().is_admin:
+        abort(403)
+    form = NewBlogPostForm()
+    categories = Category.query.all()
+    if form.validate_on_submit():
+        flash({"title": "Congratulations!", "message": f"Blog Post Created!"}, "success")
+        return redirect(url_for('main.index'))
+    return render_template("community/create_blog.html", title="Blog Creator", form=form, categories=categories)
 
 @community.route("/forum", methods=["GET", "POST"])
 def forum():

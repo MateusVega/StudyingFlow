@@ -1,10 +1,10 @@
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed
-from wtforms import StringField, PasswordField, SubmitField, BooleanField
+from wtforms.widgets import TextArea
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, SelectField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
-from StudyApp.models import User
+from StudyApp.models import User, BlogPost, Category
 from flask_login import current_user
-
 
 class RegistrationForm(FlaskForm):
     username = StringField('Username',
@@ -69,3 +69,32 @@ class ResetPasswordForm(FlaskForm):
     confirm_password = PasswordField('Confirm Password',
                            validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField('Update Password')
+
+class NewBlogPostForm(FlaskForm):
+    title = StringField('Title',
+                           validators=[DataRequired(), Length(min=2, max=200)])
+    subtitle = StringField('Subtitle',
+                           validators=[DataRequired(), Length(min=2, max=300)])
+    category = SelectField("Choose a category", choices=[
+        ("tech", "Technology"),
+        ("science", "Science"),
+        ("math", "Mathematics"),
+        ("history", "History"),
+    ], default="categorie")
+    picture = FileField('Update Profile Picture',
+                            validators=[FileAllowed(['jpg', 'png', 'jpeg'])])
+    title_paragraph = StringField('Title of Paragraph',
+                           validators=[Length(min=2, max=100)])
+    paragraph = StringField('Paragraph', widget=TextArea())
+    
+    submit = SubmitField('Create')
+
+    def validate_title(self, title):
+        post = BlogPost.query.filter_by(title=title.data).first()
+        if post:
+            raise ValidationError("That title is taken. Please choose a different one")
+    
+    def __init__(self, *args, **kwargs):
+        super(NewBlogPostForm, self).__init__(*args, **kwargs)
+        self.category.choices = [(c.name, c.name) for c in Category.query.all()]
+        

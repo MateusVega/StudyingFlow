@@ -1,4 +1,101 @@
 {% extends "layout.html" %}
 {% block content %}
-    <h1>CreateBlog</h1>
+    <section class="flex items-center justify-center w-full min-h-full">
+        <form action=""
+              method="POST"
+              class="flex flex-col justify-center p-6 md:p-8 mb-0 md:max-w-[30vw] md:w-[30vw]">
+            {{ form.hidden_tag() }}
+            <span class="mb-3 text-4xl font-bold">Creating a Blog Post</span>
+            <div id="picture_input"
+                 class="py-2 flex flex-col justify-center items-center gap-2">
+                {{ form.picture.label(class="text-base bg-black rounded-full text-white px-3 py-1 hover:bg-white hover:text-black hover:border hover:border-gray-300 hover:scale-105 transition duration-300 ease-in-out") }}
+                {{ form.picture(class="invisible h-0") }}
+                <p id="file_name"></p>
+                {% if form.picture.errors %}
+                    <div>
+                        {% for error in form.picture.errors %}<span class="text-red-500 text-sm">{{ error }}</span>{% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+            <div class="py-2">
+                {{ form.title.label(class="mb-2 text-base") }}
+                {% if form.title.errors %}
+                    {{ form.title(class="transition duration-300 ease-in-out hover:scale-105 w-full p-2 border border-gray-300 rounded-md placeholder:font-light placeholder:text-gray-500") }}
+                    <div>
+                        {% for error in form.title.errors %}<span class="text-red-500 text-sm">{{ error }}</span>{% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.title(class="transition duration-300 ease-in-out hover:scale-105 w-full p-2 border border-gray-300 rounded-md placeholder:font-light placeholder:text-gray-500") }}
+                {% endif %}
+            </div>
+            <div class="py-2">
+                {{ form.subtitle.label(class="mb-2 text-base") }}
+                {% if form.subtitle.errors %}
+                    {{ form.subtitle(class="transition duration-300 ease-in-out hover:scale-105 w-full p-2 border border-gray-300 rounded-md placeholder:font-light placeholder:text-gray-500") }}
+                    <div>
+                        {% for error in form.subtitle.errors %}<span class="text-red-500 text-sm">{{ error }}</span>{% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.subtitle(class="transition duration-300 ease-in-out hover:scale-105 w-full p-2 border border-gray-300 rounded-md placeholder:font-light placeholder:text-gray-500") }}
+                {% endif %}
+            </div>
+            <div class="py-2">
+                {{ form.category.label(class="mb-2 text-base") }}
+                {{ form.category(class="form-control border-2 rounded-2xl px-2") }}
+            </div>
+            <div id="paragraph-container">
+                <div>
+                    <div class="py-2">
+                        {{ form.title_paragraph.label(class="mb-2 text-base") }}
+                        {% if form.title_paragraph.errors %}
+                            {{ form.title_paragraph(class="transition duration-300 ease-in-out hover:scale-105 w-full p-2 border border-gray-300 rounded-md placeholder:font-light placeholder:text-gray-500") }}
+                            <div>
+                                {% for error in form.title_paragraph.errors %}<span class="text-red-500 text-sm">{{ error }}</span>{% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.title_paragraph(class="transition duration-300 ease-in-out hover:scale-105 w-full p-2 border border-gray-300 rounded-md placeholder:font-light placeholder:text-gray-500") }}
+                        {% endif %}
+                    </div>
+                    <div class="py-2">
+                        {{ form.paragraph.label(class="mb-2 text-base") }}
+                        {% if form.paragraph.errors %}
+                            {{ form.paragraph(class="w-full p-2 border border-gray-300 rounded-md placeholder:font-light placeholder:text-gray-500") }}
+                            <div>
+                                {% for error in form.paragraph.errors %}<span class="text-red-500 text-sm">{{ error }}</span>{% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.paragraph(class="w-full p-2 border border-gray-300 rounded-md placeholder:font-light placeholder:text-gray-500") }}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <button type="button"
+                    onclick="addFields()"
+                    class="w-full bg-black text-white p-2 rounded-lg hover:bg-white hover:text-black hover:border hover:border-gray-300 hover:scale-[103%] transition duration-300 ease-in-out">
+                Add More
+            </button>
+            <div class="py-2">
+                {{ form.submit(class="w-full bg-black text-white p-2 rounded-lg hover:bg-white hover:text-black hover:border hover:border-gray-300 hover:scale-[103%] transition duration-300 ease-in-out") }}
+            </div>
+        </form>
+    </section>
+    <script>
+        document.querySelector("input[type=file]").addEventListener("change", function(e){
+            document.getElementById("file_name").innerText =  e.target.files[0].name
+        })
+    </script>
+    <script>
+        function addFields() {
+            let container = document.getElementById("paragraph-container");
+            let div = document.createElement("div");
+            div.innerHTML = `
+                <label class="mb-2 text-base">{{ form.title_paragraph.label }}</label>
+                <input type="text" name="title[]" class="transition duration-300 ease-in-out hover:scale-105 w-full p-2 border border-gray-300 rounded-md placeholder:font-light placeholder:text-gray-500">
+
+                <label class="mb-2 text-base">{{ form.paragraph.label }}</label>
+                <textarea name="paragraph[]" class="w-full p-2 border border-gray-300 rounded-md placeholder:font-light placeholder:text-gray-500"></textarea>
+            `;
+            container.appendChild(div);
+        }
+    </script>
 {% endblock content %}
