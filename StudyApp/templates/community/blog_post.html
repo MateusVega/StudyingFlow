@@ -9,7 +9,7 @@
             </p>
             <i class="text-gray-700">{{ blog.created_at.strftime("%B %d, %Y") }}</i>
             <img class="w-full mx-auto rounded-xl my-5"
-                 src="{{ url_for('static', filename=blog.image_file) }}"
+                 src="{{ url_for('static', filename='blog_pics/' +blog.image_file) }}"
                  alt="{{ blog.title }}">
         </header>
         <article>

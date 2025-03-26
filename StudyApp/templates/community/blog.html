@@ -12,7 +12,7 @@
                 <a href="{{ url_for('community.blog_post', blog_title=blog.title) }}"
                    class="bg-white shadow-md rounded-lg overflow-hidden lg:w-[95%] w-[70%] mx-auto transition duration-300 ease-in-out hover:scale-105">
                     <img class="w-full h-52 object-cover"
-                         src="{{ url_for('static', filename=blog.image_file) }}"
+                         src="{{ url_for('static', filename='blog_pics/' +blog.image_file) }}"
                          alt="{{ blog.title }}">
                     <div class="p-4">
                         <p class="text-xs text-gray-500">{{ blog.category.name }} • {{ blog.created_at.strftime("%B %d, %Y") }}</p>

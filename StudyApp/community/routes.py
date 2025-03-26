@@ -1,7 +1,8 @@
-from flask import render_template, Blueprint, abort, redirect, url_for, flash
+from flask import render_template, Blueprint, abort, redirect, url_for, flash, request
 from flask_login import login_required, current_user
 from StudyApp.forms import *
 from StudyApp.models import *
+from StudyApp.utils import save_blog_picture
 
 community = Blueprint("community", __name__)
 
@@ -32,6 +33,14 @@ def create_blog():
     form = NewBlogPostForm()
     categories = Category.query.all()
     if form.validate_on_submit():
+        if form.picture.data:
+            picture_file = save_blog_picture(form.picture.data)
+        category = Category.query.filter_by(name=form.category.data).first().id
+        print(category)
+        author = User.query.filter_by(id=current_user.id).first().username
+        blog_post = BlogPost(title=form.title.data, subtitle=form.subtitle.data, author=author, image_file=picture_file, category_id=category)
+        db.session.add(blog_post)
+        db.session.commit()
         flash({"title": "Congratulations!", "message": f"Blog Post Created!"}, "success")
         return redirect(url_for('main.index'))
     return render_template("community/create_blog.html", title="Blog Creator", form=form, categories=categories)

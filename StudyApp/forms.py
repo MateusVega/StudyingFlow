@@ -1,7 +1,6 @@
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed
-from wtforms.widgets import TextArea
-from wtforms import StringField, PasswordField, SubmitField, BooleanField, SelectField
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, SelectField, TextAreaField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
 from StudyApp.models import User, BlogPost, Category
 from flask_login import current_user
@@ -75,17 +74,11 @@ class NewBlogPostForm(FlaskForm):
                            validators=[DataRequired(), Length(min=2, max=200)])
     subtitle = StringField('Subtitle',
                            validators=[DataRequired(), Length(min=2, max=300)])
-    category = SelectField("Choose a category", choices=[
-        ("tech", "Technology"),
-        ("science", "Science"),
-        ("math", "Mathematics"),
-        ("history", "History"),
-    ], default="categorie")
-    picture = FileField('Update Profile Picture',
-                            validators=[FileAllowed(['jpg', 'png', 'jpeg'])])
+    category = SelectField("Choose a category", choices=[])
+    picture = FileField('Update Profile Picture', validators=[DataRequired(), FileAllowed(['jpg', 'png'])])
     title_paragraph = StringField('Title of Paragraph',
                            validators=[Length(min=2, max=100)])
-    paragraph = StringField('Paragraph', widget=TextArea())
+    paragraph = TextAreaField('Paragraph')
     
     submit = SubmitField('Create')
 
