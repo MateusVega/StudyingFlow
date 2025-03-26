@@ -28,7 +28,7 @@ def blog_post(blog_title):
 @login_required
 @community.route("/blog/create_post", methods=["GET", "POST"])
 def create_blog():
-    if not current_user.is_authenticated or not User.query.filter_by(id=current_user.id).first().is_admin:
+    if not current_user.is_authenticated or not current_user.is_admin:
         abort(403)
     form = NewBlogPostForm()
     categories = Category.query.all()
@@ -37,10 +37,22 @@ def create_blog():
             picture_file = save_blog_picture(form.picture.data)
         category = Category.query.filter_by(name=form.category.data).first().id
         print(category)
-        author = User.query.filter_by(id=current_user.id).first().username
+        author = current_user.username
         blog_post = BlogPost(title=form.title.data, subtitle=form.subtitle.data, author=author, image_file=picture_file, category_id=category)
         db.session.add(blog_post)
         db.session.commit()
+        
+        first_paragraph = BlogPostParagraph(title=form.title_paragraph.data, content=form.paragraph.data, blog_post_id=blog_post.id)
+        
+        titles = request.form.getlist('title[]')
+        paragraphs = request.form.getlist('paragraph[]')
+        
+        for t, p in zip(titles, paragraphs):
+            db.session.add(BlogPostParagraph(title=t, content=p, blog_post_id=blog_post.id))
+        
+        db.session.add(first_paragraph)
+        db.session.commit()
+        
         flash({"title": "Congratulations!", "message": f"Blog Post Created!"}, "success")
         return redirect(url_for('main.index'))
     return render_template("community/create_blog.html", title="Blog Creator", form=form, categories=categories)
