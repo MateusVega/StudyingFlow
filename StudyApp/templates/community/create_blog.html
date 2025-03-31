@@ -70,11 +70,8 @@
                     </div>
                 </div>
             </div>
-            <button type="button"
-                    onclick="addFields()"
-                    class="w-full bg-black text-white p-2 rounded-lg hover:bg-white hover:text-black hover:border hover:border-gray-300 hover:scale-[103%] transition duration-300 ease-in-out">
-                Add More
-            </button>
+            <a onclick="addFields()"
+               class="flex items-center gap-1 mb-5 cursor-pointer hover:text-black hover:scale-[103%] transition duration-300 ease-in-out"><span class="material-symbols-outlined">add</span> Add Paragraph</a>
             <div class="py-2">
                 {{ form.submit(class="w-full bg-black text-white p-2 rounded-lg hover:bg-white hover:text-black hover:border hover:border-gray-300 hover:scale-[103%] transition duration-300 ease-in-out") }}
             </div>

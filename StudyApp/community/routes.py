@@ -43,16 +43,16 @@ def create_blog():
         db.session.commit()
         
         first_paragraph = BlogPostParagraph(title=form.title_paragraph.data, content=form.paragraph.data, blog_post_id=blog_post.id)
-        
+        db.session.add(first_paragraph)
+
         titles = request.form.getlist('title[]')
         paragraphs = request.form.getlist('paragraph[]')
         
         for t, p in zip(titles, paragraphs):
             db.session.add(BlogPostParagraph(title=t, content=p, blog_post_id=blog_post.id))
         
-        db.session.add(first_paragraph)
         db.session.commit()
-        
+
         flash({"title": "Congratulations!", "message": f"Blog Post Created!"}, "success")
         return redirect(url_for('main.index'))
     return render_template("community/create_blog.html", title="Blog Creator", form=form, categories=categories)

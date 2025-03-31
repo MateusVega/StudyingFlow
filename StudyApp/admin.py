@@ -38,8 +38,15 @@ class BlogPostParagraphView(AdminOnlyView):
     can_delete = True
     can_create = True
     can_edit = True
-    column_list = ['id', 'title', 'content', 'blog_post_id']
+    column_list = ['id', 'title', 'content', 'blog_post_title']
     form_columns = ['title', 'content', 'blog_post_id']
+
+    def _blog_post_title_formatter(view, context, model, name):
+        return model.blog_post.title if model.blog_post else 'No Blog Post'
+
+    column_formatters = {
+        'blog_post_title': _blog_post_title_formatter
+    }
 
 class MyAdminIndexView(AdminIndexView):
     def is_accessible(self):

@@ -2,6 +2,8 @@
 {% block content %}
     <section class="w-[80vw] mx-auto">
         <header class="flex flex-wrap gap-4 items-center justify-center my-5">
+            <a href="{{ url_for('community.blog') }}"
+               class="px-3 py-1.5 rounded-3xl md:text-lg text-base font-bold transition duration-300 ease-in-out hover:scale-105">All</a>
             {% for category in categories %}
                 <a href="{{ url_for('community.blog_category', category=category.name) }}"
                    class="px-3 py-1.5 rounded-3xl md:text-lg text-base font-bold transition duration-300 ease-in-out hover:scale-105">{{ category.name }}</a>
