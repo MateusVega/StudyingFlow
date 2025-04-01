@@ -15,7 +15,7 @@
     <section class="mx-5 my-4">
         <table>
             <tr>
-                <td>
+                <td class="flex items-center">
                     <a href="{{ url_for('admin.users_add') }}"
                        class="material-symbols-outlined transition duration-300 ease-in-out hover:scale-110">add</a>
                 </td>
@@ -24,8 +24,10 @@
                 <th>Email</th>
                 <th>Data Created</th>
                 <th>Is Admin</th>
+                <th>Pomo Focus</th>
+                <th>Pomo Breaks</th>
             </tr>
-            {% for user in users %}
+            {% for user, stat in users_stats %}
                 <tr>
                     <td class="flex items-center">
                         <a href="{{ url_for('admin.users_edit', user_id=user.id) }}"
@@ -38,6 +40,8 @@
                     <td>{{ user.email }}</td>
                     <td>{{ user.date_created }}</td>
                     <td class="{% if user.is_admin %} bg-green-500 {% else %} bg-red-500 {% endif %}">{{ user.is_admin }}</td>
+                    <td>{{ stat.pomodoro_focus }}</td>
+                    <td>{{ stat.pomodoro_breaks }}</td>
                 </tr>
             {% endfor %}
         </table>

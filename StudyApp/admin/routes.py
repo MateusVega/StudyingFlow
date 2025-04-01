@@ -10,19 +10,22 @@ def admin_panel():
     Stats.query.filter_by(user_id=2).delete()
     if not current_user.is_authenticated or not current_user.is_admin:
         abort(403)
-    return render_template("admin/index.html", title="Admin")
+    return render_template("admin/index.html")
 
 @admin.route("/admin/users/")
 def users():
     if not current_user.is_authenticated or not current_user.is_admin:
         abort(403)
     users = User.query.all()
-    return render_template("admin/users.html", title="Admin", users=users)
+    stats = Stats.query.all()
+    users_stats = zip(users, stats)
+    return render_template("admin/users.html", users_stats=users_stats)
 
 @admin.route("/admin/users/delete/<int:user_id>", methods=["GET", "POST"])
 def users_delete(user_id):
     username = User.query.filter_by(id=user_id).first().username
     User.query.filter_by(id=user_id).delete()
+    Stats.query.filter_by(user_id=user_id).delete()
     db.session.commit()
     flash({"title": "Congratulations!", "message": f"{username} deleted!"}, "success")
     return redirect(url_for("admin.users"))
@@ -43,7 +46,7 @@ def users_edit(user_id):
         form.email.data = user.email
         form.username.data = user.username
         form.is_admin.data = user.is_admin
-    return render_template("admin/users_edit.html", title="Admin", form=form)
+    return render_template("admin/users_edit.html", form=form)
 
 @admin.route("/admin/users/add/", methods=["GET", "POST"])
 def users_add():
@@ -57,4 +60,4 @@ def users_add():
         print(user.id)
         flash({"title": "Congratulations!", "message": f"Account created for {form.username.data}!"}, "success")
         return redirect(url_for("admin.users"))
-    return render_template("admin/users_add.html", title="Admin", form=form)
+    return render_template("admin/users_add.html", form=form)
