@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, BooleanField, PasswordField, IntegerField
+from wtforms import StringField, SubmitField, BooleanField, PasswordField, IntegerField, HiddenField
 from wtforms.validators import DataRequired, Length, Email, ValidationError
 from StudyApp.models import User, BlogPost, Category
 from flask_login import current_user
@@ -48,3 +48,29 @@ class NewUserForm(FlaskForm):
         user = User.query.filter_by(email=email.data).first()
         if user:
             raise ValidationError("That email is taken. Please choose a different one")
+
+class UpdateCategoryForm(FlaskForm):
+    id = HiddenField()
+    name = StringField('Name', validators=[DataRequired(), Length(min=2, max=60)])
+    submit = SubmitField('Update Category')
+
+    def __init__(self, category=None, *args, **kwargs):
+        super(UpdateCategoryForm, self).__init__(*args, **kwargs)
+        self.category = category
+
+    def validate_name(self, name):
+        if self.category and name.data != self.category.name:
+            existing_category = Category.query.filter_by(name=name.data).first()
+            if existing_category:
+                raise ValidationError("That name is taken. Please choose a different one.")
+
+class NewCategoryForm(FlaskForm):
+    name = StringField('Name',
+                           validators=[DataRequired(), Length(min=2, max=60)])
+    submit = SubmitField('New Category')
+
+    def validate_name(self, name):
+        category = Category.query.filter_by(name=name.data).first()
+        if category:
+            raise ValidationError("That Name is taken. Please choose a different one")
+    

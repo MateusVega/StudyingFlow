@@ -51,7 +51,6 @@ class KanbanTask(db.Model):
 class Category(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(60), unique=True, nullable=False)
-    color = db.Column(db.String(20), nullable=False, default="blue")
     posts = db.relationship("BlogPost", backref="category", lazy=True)
 
     def __repr__(self):

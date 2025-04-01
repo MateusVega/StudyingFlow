@@ -15,33 +15,23 @@
     <section class="mx-5 my-4">
         <table>
             <tr>
-                <td>
-                    <a href="{{ url_for('admin.users_add') }}"
+                <td class="flex items-center">
+                    <a href="{{ url_for('admin.categories_add') }}"
                        class="material-symbols-outlined transition duration-300 ease-in-out hover:scale-110">add</a>
                 </td>
                 <th>Id</th>
-                <th>Username</th>
-                <th>Email</th>
-                <th>Data Created</th>
-                <th>Is Admin</th>
-                <th>Pomo Focus</th>
-                <th>Pomo Breaks</th>
+                <th>Name</th>
             </tr>
-            {% for user, stat in users_stats %}
+            {% for category in categories %}
                 <tr>
                     <td class="flex items-center">
-                        <a href="{{ url_for('admin.users_edit', user_id=user.id) }}"
+                        <a href="{{ url_for('admin.categories_edit', category_id=category.id) }}"
                            class="material-symbols-outlined transition duration-300 ease-in-out hover:scale-110">edit</a>
-                        <a href="{{ url_for('admin.users_delete', user_id=user.id) }}"
+                        <a href="{{ url_for('admin.categories_delete', category_id=category.id) }}"
                            class="material-symbols-outlined transition duration-300 ease-in-out hover:scale-110">delete</a>
                     </td>
-                    <td>{{ user.id }}</td>
-                    <td>{{ user.username }}</td>
-                    <td>{{ user.email }}</td>
-                    <td>{{ user.date_created }}</td>
-                    <td class="{% if user.is_admin %} bg-green-500 {% else %} bg-red-500 {% endif %}">{{ user.is_admin }}</td>
-                    <td>{{ stat.pomodoro_focus }}</td>
-                    <td>{{ stat.pomodoro_breaks }}</td>
+                    <td>{{ category.id }}</td>
+                    <td>{{ category.name }}</td>
                 </tr>
             {% endfor %}
         </table>
