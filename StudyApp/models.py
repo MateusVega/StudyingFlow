@@ -51,7 +51,7 @@ class KanbanTask(db.Model):
 class Category(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(60), unique=True, nullable=False)
-    posts = db.relationship("BlogPost", backref="category", lazy=True)
+    posts = db.relationship("BlogPost", backref="category", lazy=True, cascade="all, delete-orphan")
 
     def __repr__(self):
         return f"Category('{self.name}')"

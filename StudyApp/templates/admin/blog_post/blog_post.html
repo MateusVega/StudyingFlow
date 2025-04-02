@@ -1,0 +1,45 @@
+{% extends "layout_admin.html" %}
+{% block content %}
+    <style>
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+        }
+        
+        td, th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+    </style>
+    <section class="mx-5 my-4">
+        <table>
+            <tr>
+                <td class="flex items-center">
+                    <a href="{{ url_for('community.create_blog') }}"
+                       class="material-symbols-outlined transition duration-300 ease-in-out hover:scale-110">add</a>
+                </td>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Subtitle</th>
+                <th>Author</th>
+                <th>Category</th>
+            </tr>
+            {% for post in blog_post %}
+                <tr>
+                    <td class="flex items-center">
+                        <a href=""
+                           class="material-symbols-outlined transition duration-300 ease-in-out hover:scale-110">edit</a>
+                        <a href="{{ url_for('admin.blog_post_delete', blog_post_id=post.id) }}"
+                           class="material-symbols-outlined transition duration-300 ease-in-out hover:scale-110">delete</a>
+                    </td>
+                    <td>{{ post.id }}</td>
+                    <td>{{ post.title }}</td>
+                    <td>{{ post.subtitle }}</td>
+                    <td>{{ post.author }}</td>
+                    <td>{{ Category.query.filter_by(id=post.category_id).first().name }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </section>
+{% endblock content %}
