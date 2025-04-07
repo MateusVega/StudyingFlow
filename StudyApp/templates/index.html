@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 {% block content %}
-    <section class="w-[95vw] flex flex-col lg:flex-row h-full mx-auto md:items-center">
+    <section class="w-[95vw] h-[88vh] flex flex-col lg:flex-row mx-auto md:items-center">
         <div class="w-4/5 md:w-1/2 h-auto my-10 md:h-full md:my-0 flex flex-col justify-center gap-2 2xl:gap-3 mx-auto">
             <h1 class="font-bold sm:text-7xl 2xl:text-8xl text-4xl">
                 Master Your
@@ -19,37 +19,4 @@
              src="{{ url_for('static', filename='ImageHomePage.jpg') }}"
              alt="Preview website functions">
     </section>
-    <footer class="flex justify-center md:flex-row flex-col border-t border-t-gray-300 md:w-[80%] w-full pt-10 pb-4 mx-auto gap-2">
-        <ul class="flex justify-center gap-8">
-            <li>
-                <a class="text-black hover:underline md:text-base text-sm"
-                   href="{{ url_for('community.blog') }}">Blog</a>
-            </li>
-            <!--
-            <li>
-                <a class="text-black hover:underline md:text-base text-sm" href="{{ url_for('community.forum') }}">Forum</a>
-            </li>
-            -->
-            <li>
-                <a class="text-black hover:underline md:text-base text-sm"
-                   href="#organization-tools">Organization Tools</a>
-            </li>
-            <li>
-                <a class="text-black hover:underline md:text-base text-sm"
-                   href="#study-tools">Study Tools</a>
-            </li>
-        </ul>
-        <ul class="flex justify-center gap-8">
-            <li>
-                <a class="text-black hover:underline md:text-base text-sm" href="">FAQ</a>
-            </li>
-            <li>
-                <a class="text-black hover:underline md:text-base text-sm" href="">Term</a>
-            </li>
-            <li>
-                <a class="text-black hover:underline md:text-base text-sm" href="">Privacy</a>
-            </li>
-            <li class="md:text-base text-sm flex justify-center items-center">&copy; All Copyright 2025</li>
-        </ul>
-    </footer>
 {% endblock content %}

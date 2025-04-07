@@ -126,7 +126,7 @@
                 </div>
             </nav>
         </header>
-        <main class="h-[88vh]">
+        <main class="min-h-[88vh]">
             {% with messages = get_flashed_messages(with_categories=true) %}
                 {% if messages %}
                     {% for category, msg in messages %}
@@ -151,6 +151,39 @@
             {% endwith %}
             {% block content %}{% endblock %}
         </main>
+        <footer class="flex justify-center md:flex-row flex-col border-t border-t-gray-300 md:w-[80%] w-full pt-10 pb-4 mx-auto gap-2">
+            <ul class="flex justify-center gap-8">
+                <li>
+                    <a class="text-black hover:underline md:text-base text-sm"
+                       href="{{ url_for('community.blog') }}">Blog</a>
+                </li>
+                <!--
+                <li>
+                    <a class="text-black hover:underline md:text-base text-sm" href="{{ url_for('community.forum') }}">Forum</a>
+                </li>
+                -->
+                <li>
+                    <a class="text-black hover:underline md:text-base text-sm"
+                       href="#organization-tools">Organization Tools</a>
+                </li>
+                <li>
+                    <a class="text-black hover:underline md:text-base text-sm"
+                       href="#study-tools">Study Tools</a>
+                </li>
+            </ul>
+            <ul class="flex justify-center gap-8">
+                <li>
+                    <a class="text-black hover:underline md:text-base text-sm" href="">FAQ</a>
+                </li>
+                <li>
+                    <a class="text-black hover:underline md:text-base text-sm" href="">Term</a>
+                </li>
+                <li>
+                    <a class="text-black hover:underline md:text-base text-sm" href="">Privacy</a>
+                </li>
+                <li class="md:text-base text-sm flex justify-center items-center">&copy; All Copyright 2025</li>
+            </ul>
+        </footer>
         <!-- Toggle Menu -->
         <script>
         function onToggleMenu(e){
@@ -167,52 +200,52 @@
         </script>
         <!-- Dropdown Tools -->
         <script>
-        const dropdownButtons = document.querySelectorAll(".dropdown-btn");
-        const dropdownMenus = document.querySelectorAll(".dropdown-menu");
-    
-        function closeAllDropdowns(exceptIndex = null) {
-            dropdownMenus.forEach((menu, index) => {
-                if (index !== exceptIndex) {
-                    menu.classList.add("hidden");
-                }
-            });
-        }
-    
-        dropdownButtons.forEach((btn, index) => {
-            btn.addEventListener("click", function (event) {
-                event.stopPropagation();
-                const dropdownMenu = dropdownMenus[index];
+            const dropdownButtons = document.querySelectorAll(".dropdown-btn");
+            const dropdownMenus = document.querySelectorAll(".dropdown-menu");
+        
+            function closeAllDropdowns(exceptIndex = null) {
+                dropdownMenus.forEach((menu, index) => {
+                    if (index !== exceptIndex) {
+                        menu.classList.add("hidden");
+                    }
+                });
+            }
+        
+            dropdownButtons.forEach((btn, index) => {
+                btn.addEventListener("click", function (event) {
+                    event.stopPropagation();
+                    const dropdownMenu = dropdownMenus[index];
 
-                const isOpen = !dropdownMenu.classList.contains("hidden");
-    
-                closeAllDropdowns(index);
-    
-                if (isOpen) {
-                    dropdownMenu.classList.add("hidden");
-                } else {
-                    dropdownMenu.classList.remove("hidden");
-                }
+                    const isOpen = !dropdownMenu.classList.contains("hidden");
+        
+                    closeAllDropdowns(index);
+        
+                    if (isOpen) {
+                        dropdownMenu.classList.add("hidden");
+                    } else {
+                        dropdownMenu.classList.remove("hidden");
+                    }
+                });
             });
-        });
-    
-        document.addEventListener("click", function () {
-            closeAllDropdowns();
-        });
+        
+            document.addEventListener("click", function () {
+                closeAllDropdowns();
+            });
         </script>
         <!-- Dropdown profile -->
         {% if current_user.is_authenticated %}
             <script>
-        const profileBtn = document.getElementById("profile-btn");
-        const profileDropdown = document.getElementById("profile-dropdown");
-    
-        profileBtn.addEventListener("click", function (event) {
-            event.stopPropagation(); // Prevents closing immediately
-            profileDropdown.classList.toggle("hidden"); // Show/Hide
-        });
-    
-        document.addEventListener("click", function () {
-            profileDropdown.classList.add("hidden"); // Close when clicking outside
-        });
+                const profileBtn = document.getElementById("profile-btn");
+                const profileDropdown = document.getElementById("profile-dropdown");
+            
+                profileBtn.addEventListener("click", function (event) {
+                    event.stopPropagation(); // Prevents closing immediately
+                    profileDropdown.classList.toggle("hidden"); // Show/Hide
+                });
+            
+                document.addEventListener("click", function () {
+                    profileDropdown.classList.add("hidden"); // Close when clicking outside
+                });
             </script>
         {% endif %}
         <!-- Close Flash -->
