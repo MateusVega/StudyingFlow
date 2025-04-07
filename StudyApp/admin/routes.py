@@ -2,6 +2,7 @@ from flask import render_template, Blueprint, abort, redirect, url_for, flash
 from StudyApp import bcrypt
 from StudyApp.models import *
 from StudyApp.admin.forms import *
+from StudyApp.utils import save_blog_picture
 
 admin = Blueprint("admin", __name__)
 
@@ -123,31 +124,41 @@ def categories_add():
 def blog_post():
     verify_admin()
     blog_post = BlogPost.query.all()
-    return render_template("admin/blog_post/blog_post.html", blog_post=blog_post, Category=Category)
+    paragraphs = BlogPostParagraph.query.all()
+    return render_template("admin/blog_post/blog_post.html", blog_post=blog_post, Category=Category, paragraphs=paragraphs)
 
 @admin.route("/admin/blog_post/delete/<int:blog_post_id>", methods=["GET", "POST"])
 def blog_post_delete(blog_post_id):
     verify_admin()
-    name = BlogPost.query.filter_by(id=blog_post_id).first().title
+    blog =  BlogPost.query.filter_by(id=blog_post_id).first()
+    title = blog.title
+    id = blog.id
+    for p in BlogPostParagraph.query.filter_by(blog_post_id=id).all():
+        db.session.delete(p)
+
     BlogPost.query.filter_by(id=blog_post_id).delete()
     db.session.commit()
-    flash({"title": "Congratulations!", "message": f"{name} deleted!"}, "success")
+    flash({"title": "Congratulations!", "message": f"{title} deleted!"}, "success")
     return redirect(url_for("admin.blog_post"))
 
-"""@admin.route("/admin/blog_post/edit/<int:category_id>", methods=["GET", "POST"])
-def blog_post_edit(category_id):
+@admin.route("/admin/blog_post/edit/<int:blog_post_id>", methods=["GET", "POST"])
+def blog_post_edit(blog_post_id):
     verify_admin()
-
-    category = Category.query.get_or_404(category_id)
-    form = UpdateCategoryForm(category=category)
+    post = BlogPost.query.filter_by(id=blog_post_id).first()
+    form = UpdateBlogPostForm(blog_post=post)
 
     if form.validate_on_submit():
-        category.name = form.name.data
+        post.title = form.title.data
+        post.subtitle = form.subtitle.data
+        post.category_id = form.category.data
+        if form.picture.data:
+            post.image_file = save_blog_picture(form.picture.data)
         db.session.commit()
-        flash({"title": "Congratulations!", "message": f"{form.name.data} edited!"}, "success")
-        return redirect(url_for("admin.categories"))
+        flash({"title": "Congratulations!", "message": f"{form.title.data} edited!"}, "success")
+        return redirect(url_for("admin.blog_post"))
     else:
-        form.name.data = category.name
+        form.title.data = post.title
+        form.subtitle.data = post.subtitle
+        form.category.data = post.category_id
 
-    return render_template("admin/categories/categories_edit.html", form=form)
-"""
+    return render_template("admin/blog_post/blog_post_edit.html", form=form)
