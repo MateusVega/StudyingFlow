@@ -51,8 +51,7 @@ class KanbanTask(db.Model):
 class Category(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(60), unique=True, nullable=False)
-    color = db.Column(db.String(20), nullable=False, default="blue")
-    posts = db.relationship("BlogPost", backref="category", lazy=True)
+    posts = db.relationship("BlogPost", backref="category", lazy=True, cascade="all, delete-orphan")
 
     def __repr__(self):
         return f"Category('{self.name}')"
@@ -66,7 +65,7 @@ class BlogPost(db.Model):
     image_file = db.Column(db.String(30), nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
-    paragraphs = db.relationship("BlogPostParagraph", backref="blog_post", lazy=True, cascade="all, delete-orphan")
+    paragraphs = db.relationship("BlogPostParagraph", backref="blog_post", lazy=True, cascade="all, delete-orphan", passive_deletes=True)
 
     def __repr__(self):
         return f"BlogPost('{self.title}', ID: {self.id})"
@@ -75,7 +74,7 @@ class BlogPostParagraph(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100), nullable=True)
     content = db.Column(db.Text, nullable=False)
-    blog_post_id = db.Column(db.Integer, db.ForeignKey("blog_post.id"), nullable=False)
+    blog_post_id = db.Column(db.Integer, db.ForeignKey("blog_post.id", ondelete="CASCADE"), nullable=False)
 
     def __repr__(self):
         return f"Paragraph('{self.content[:30]}...', ID: {self.id})"

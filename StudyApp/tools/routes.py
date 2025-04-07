@@ -5,7 +5,7 @@ from flask_login import current_user, login_required
 
 tools = Blueprint("tools", __name__)
 
-@tools.route("/pomodoro", methods=["GET", "POST"])
+@tools.route("/pomodoro/", methods=["GET", "POST"])
 def pomodoro():
     if request.method == "POST":
         response = request.get_json()
@@ -24,7 +24,7 @@ def pomodoro():
             flash({"title": "Attention", "message": "Sign In to save your stats!"}, "info")
         return render_template("tools/pomodoro.html", title="Pomodoro")
 
-@tools.route("/kanban", methods=["GET"])
+@tools.route("/kanban/", methods=["GET"])
 def kanban_home():
     if current_user.is_authenticated:
         boards = KanbanBoard.query.filter_by(user_id=current_user.id).all()
@@ -33,7 +33,7 @@ def kanban_home():
         flash({"title": "Attention", "message": "Sign In to save your Kanban!"}, "info")
         return render_template("tools/kanban_board.html", title="Kanban")
 
-@tools.route("/kanban/new", methods=["POST"])
+@tools.route("/kanban/new/", methods=["POST"])
 @login_required
 def new_board():
     data = request.get_json()
@@ -42,7 +42,7 @@ def new_board():
     db.session.commit()
     return jsonify({"id": board.id, "name": board.title}), 201
 
-@tools.route("/kanban/<string:board_id>/delete", methods=["POST", "DELETE"])
+@tools.route("/kanban/<string:board_id>/delete/", methods=["POST", "DELETE"])
 @login_required
 def delete_board(board_id):
     board = KanbanBoard.query.filter_by(id=board_id, user_id=current_user.id).first()
@@ -53,7 +53,7 @@ def delete_board(board_id):
     db.session.commit()
     return jsonify({"message": "Board deleted"}), 200
 
-@tools.route("/kanban/<string:board_id>", methods=["GET"])
+@tools.route("/kanban/<string:board_id>/", methods=["GET"])
 @login_required
 def board_detail(board_id):
     board = KanbanBoard.query.filter_by(id=board_id, user_id=current_user.id).first()
@@ -66,7 +66,7 @@ def board_detail(board_id):
         return "Not found", 404
     return render_template("tools/kanban_board.html", board=board, board_id=board_id, todo_tasks=todo_tasks, doing_tasks=doing_tasks, done_tasks=done_tasks)
 
-@tools.route("/kanban/<string:board_id>/clear_tasks", methods=["POST"])
+@tools.route("/kanban/<string:board_id>/clear_tasks/", methods=["POST"])
 @login_required
 def clear_tasks(board_id):
     tasks = KanbanTask.query.filter_by(board_id=board_id).all()
@@ -78,7 +78,7 @@ def clear_tasks(board_id):
     else:
         return jsonify({"status": "error", "message": "No tasks to clean."})
 
-@tools.route("/kanban/<string:board_id>/add_tasks", methods=["POST"])
+@tools.route("/kanban/<string:board_id>/add_tasks/", methods=["POST"])
 @login_required
 def add_tasks(board_id):
     try:
@@ -94,15 +94,15 @@ def add_tasks(board_id):
     except Exception as Error:
         return jsonify({"status": "error", "message": f"{Error}"})
 
-@tools.route("/studyingcicle", methods=["GET", "POST"])
+@tools.route("/studyingcicle/", methods=["GET", "POST"])
 def studyingcicle():
     return render_template("tools/studyingcicle.html", title="Studying Cicle")
 
 
-@tools.route("/schedule", methods=["GET", "POST"])
+@tools.route("/schedule/", methods=["GET", "POST"])
 def schedule():
     return render_template("tools/schedule.html", title="Schedule")
 
-@tools.route("/gpacalculator", methods=["GET", "POST"])
+@tools.route("/gpacalculator/", methods=["GET", "POST"])
 def gpacalculator():
     return render_template("tools/gpacalculator.html", title="GPA Calculator")

@@ -8,7 +8,7 @@ from flask_mail import Message
 
 users = Blueprint("users", __name__)
 
-@users.route("/register", methods=["GET", "POST"])
+@users.route("/register/", methods=["GET", "POST"])
 def register():
     if current_user.is_authenticated:
         flash({"title": "Authenticated!", "message": "You are already logged in!"}, "info")
@@ -25,7 +25,7 @@ def register():
         return redirect(url_for("users.login"))
     return render_template("account/register.html", title="Register", form=form)
 
-@users.route("/login", methods=["GET", "POST"])
+@users.route("/login/", methods=["GET", "POST"])
 def login():
     if current_user.is_authenticated:
         flash({"title": "Authenticated!", "message": "You are already logged in!"}, "info")
@@ -42,7 +42,7 @@ def login():
             flash({"title": "Login Unsuccssful...", "message": "Please check email and password"}, "error")
     return render_template("account/login.html", title="Login", form=form)
 
-@users.route("/reset_password", methods=["GET", "POST"])
+@users.route("/reset_password/", methods=["GET", "POST"])
 def reset_request():
     if current_user.is_authenticated:
         flash({"title": "Authenticated!", "message": "You are already logged in!"}, "info")
@@ -76,7 +76,7 @@ def reset_request():
 
     return render_template("account/reset_request.html", title="Reset Password", form=form)
 
-@users.route("/reset_password/<token>", methods=["GET", "POST"])
+@users.route("/reset_password/<token>/", methods=["GET", "POST"])
 def reset_token(token):
     if current_user.is_authenticated:
         flash({"title": "Authenticated!", "message": "You are already logged in!"}, "info")
@@ -98,20 +98,20 @@ def reset_token(token):
 
     return render_template("account/reset_password.html", title="Reset Password", form=form)
 
-@users.route("/logout")
+@users.route("/logout/")
 @login_required
 def logout():
     logout_user()
     flash({"title": "Success", "message": "You have logout successfully!"}, "success")
     return redirect(url_for("main.index"))
 
-@users.route("/account")
+@users.route("/account/")
 @login_required
 def account():
     stats = Stats.query.get(current_user.id)
     return render_template("account/account.html", title="Account", stats=stats)
 
-@users.route("/account/update", methods=["GET", "POST"])
+@users.route("/account/update/", methods=["GET", "POST"])
 @login_required
 def update_account():
     form = UpdateAccountForm()

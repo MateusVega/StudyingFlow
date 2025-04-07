@@ -1,0 +1,23 @@
+{% extends "layout_admin.html" %}
+{% block content %}
+    <section class="flex justify-center w-full min-h-full">
+        <form action="" method="POST" class="flex flex-col p-6 md:p-8 mb-0">
+            {{ form.hidden_tag() }}
+            <span class="mb-3 text-4xl font-bold">CategoryForm</span>
+            <div class="py-2">
+                {{ form.name.label(class="mb-2 text-base") }}
+                {% if form.name.errors %}
+                    {{ form.name(class="transition duration-300 ease-in-out hover:scale-105 w-full p-2 border border-gray-300 rounded-md placeholder:font-light placeholder:text-gray-500") }}
+                    <div>
+                        {% for error in form.name.errors %}<span class="text-red-500 text-sm">{{ error }}</span>{% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.name(class="transition duration-300 ease-in-out hover:scale-105 w-full p-2 border border-gray-300 rounded-md placeholder:font-light placeholder:text-gray-500") }}
+                {% endif %}
+            </div>
+            <div class="py-2">
+                {{ form.submit(class="w-full bg-black text-white p-2 rounded-lg hover:bg-white hover:text-black hover:border hover:border-gray-300 hover:scale-[103%] transition duration-300 ease-in-out") }}
+            </div>
+        </form>
+    </section>
+{% endblock content %}

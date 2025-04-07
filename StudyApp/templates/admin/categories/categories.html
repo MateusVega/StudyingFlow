@@ -1,0 +1,39 @@
+{% extends "layout_admin.html" %}
+{% block content %}
+    <style>
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+        }
+        
+        td, th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+    </style>
+    <section class="mx-5 my-4">
+        <table>
+            <tr>
+                <td class="flex items-center">
+                    <a href="{{ url_for('admin.categories_add') }}"
+                       class="material-symbols-outlined transition duration-300 ease-in-out hover:scale-110">add</a>
+                </td>
+                <th>Id</th>
+                <th>Name</th>
+            </tr>
+            {% for category in categories %}
+                <tr>
+                    <td class="flex items-center">
+                        <a href="{{ url_for('admin.categories_edit', category_id=category.id) }}"
+                           class="material-symbols-outlined transition duration-300 ease-in-out hover:scale-110">edit</a>
+                        <a href="{{ url_for('admin.categories_delete', category_id=category.id) }}"
+                           class="material-symbols-outlined transition duration-300 ease-in-out hover:scale-110">delete</a>
+                    </td>
+                    <td>{{ category.id }}</td>
+                    <td>{{ category.name }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </section>
+{% endblock content %}

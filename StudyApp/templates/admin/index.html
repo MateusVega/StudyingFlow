@@ -1,2 +1,20 @@
-{% extends 'admin/master.html' %}
-{% block body %}<h1>Admin Dashboard</h1>{% endblock %}
+{% extends "layout_admin.html" %}
+{% block content %}
+    <section class="mx-10 my-2">
+        <h1 class="md:text-4xl text-2xl">Welcome to the Admin Panel!</h1>
+        <ol class="mx-3 my-3">
+            <li>
+                <a class="text-blue-600 md:text-2xl text-xl inline-block transition duration-300 ease-in-out hover:scale-110"
+                   href="{{ url_for('admin.users') }}">• Users</a>
+            </li>
+            <li>
+                <a class="text-blue-600 md:text-2xl text-xl inline-block transition duration-300 ease-in-out hover:scale-110"
+                   href="{{ url_for('admin.categories') }}">• Categories</a>
+            </li>
+            <li>
+                <a class="text-blue-600 md:text-2xl text-xl inline-block transition duration-300 ease-in-out hover:scale-110"
+                   href="{{ url_for('admin.blog_post') }}">• Blog Post</a>
+            </li>
+        </ol>
+    </section>
+{% endblock content %}

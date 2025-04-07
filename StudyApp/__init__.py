@@ -5,7 +5,6 @@ from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 from flask_migrate import Migrate
 from StudyApp.config import Config
-from StudyApp.admin import init_admin
 
 db = SQLAlchemy()
 bcrypt = Bcrypt()
@@ -31,13 +30,14 @@ def create_app(config_class=Config):
     from StudyApp.errors.routes import errors
     from StudyApp.tools.routes import tools
     from StudyApp.community.routes import community
+    from StudyApp.admin.routes import admin
     app.register_blueprint(users)
     app.register_blueprint(main)
     app.register_blueprint(errors)
     app.register_blueprint(tools)
     app.register_blueprint(community)
+    app.register_blueprint(admin)
 
-    init_admin(app)
 
     register_commands(app)
 

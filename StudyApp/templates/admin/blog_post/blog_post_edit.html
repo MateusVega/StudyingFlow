@@ -1,0 +1,50 @@
+{% extends "layout_admin.html" %}
+{% block content %}
+    <section class="flex justify-center w-full min-h-full">
+        <form action="" method="POST" class="flex flex-col p-6 md:p-8 mb-0">
+            {{ form.hidden_tag() }}
+            <span class="mb-3 mx-auto text-4xl font-bold">BlogPostForm</span>
+            <div class="invisible">{{ form.id() }}</div>
+            <div id="picture_input"
+                 class="py-2 flex flex-col justify-center items-center gap-2">
+                {{ form.picture.label(class="text-base bg-black rounded-full text-white px-3 py-1 hover:bg-white hover:text-black hover:border hover:border-gray-300 hover:scale-105 transition duration-300 ease-in-out") }}
+                {{ form.picture(class="invisible h-0") }}
+                <p id="file_name"></p>
+                {% if form.picture.errors %}
+                    <div>
+                        {% for error in form.picture.errors %}<span class="text-red-500 text-sm">{{ error }}</span>{% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+            <div class="py-2">
+                {{ form.title.label(class="mb-2 text-base") }}
+                {% if form.title.errors %}
+                    {{ form.title(class="transition duration-300 ease-in-out hover:scale-105 w-full p-2 border border-gray-300 rounded-md placeholder:font-light placeholder:text-gray-500") }}
+                    <div>
+                        {% for error in form.title.errors %}<span class="text-red-500 text-sm">{{ error }}</span>{% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.title(class="transition duration-300 ease-in-out hover:scale-105 w-full p-2 border border-gray-300 rounded-md placeholder:font-light placeholder:text-gray-500") }}
+                {% endif %}
+            </div>
+            <div class="py-2">
+                {{ form.subtitle.label(class="mb-2 text-base") }}
+                {% if form.subtitle.errors %}
+                    {{ form.subtitle(class="transition duration-300 ease-in-out hover:scale-105 w-full p-2 border border-gray-300 rounded-md placeholder:font-light placeholder:text-gray-500") }}
+                    <div>
+                        {% for error in form.subtitle.errors %}<span class="text-red-500 text-sm">{{ error }}</span>{% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.subtitle(class="transition duration-300 ease-in-out hover:scale-105 w-full p-2 border border-gray-300 rounded-md placeholder:font-light placeholder:text-gray-500") }}
+                {% endif %}
+            </div>
+            <div class="py-2">
+                {{ form.category.label(class="mb-2 text-base") }}
+                {{ form.category(class="form-control border-2 rounded-2xl px-2") }}
+            </div>
+            <div class="py-2">
+                {{ form.submit(class="w-full bg-black text-white p-2 rounded-lg hover:bg-white hover:text-black hover:border hover:border-gray-300 hover:scale-[103%] transition duration-300 ease-in-out") }}
+            </div>
+        </form>
+    </section>
+{% endblock content %}

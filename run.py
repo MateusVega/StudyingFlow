@@ -9,6 +9,8 @@ if __name__ == '__main__':
 flask --app StudyApp db migrate -m "Descrição da mudança"
 flask --app StudyApp db upgrade
 
+flask --app StudyApp add-admin mateusfcvega@gmail.com 1
+
 djlint . --reformat                                       
 
 npx @tailwindcss/cli -i ./StudyApp/static/css/input.css -o ./StudyApp/static/css/output.css --minify
