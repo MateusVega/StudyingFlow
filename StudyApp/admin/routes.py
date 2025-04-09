@@ -162,3 +162,42 @@ def blog_post_edit(blog_post_id):
         form.category.data = post.category_id
 
     return render_template("admin/blog_post/blog_post_edit.html", form=form)
+
+# PARAGRAPHS
+
+@admin.route("/admin/paragraphs/delete/<int:paragraph_id>", methods=["GET", "POST"])
+def paragraphs_delete(paragraph_id):
+    verify_admin()
+    BlogPostParagraph.query.filter_by(id=paragraph_id).delete()
+    db.session.commit()
+    return redirect(url_for('admin.blog_post'))
+
+@admin.route("/admin/paragraph/edit/<int:paragraph_id>", methods=["GET", "POST"])
+def paragraphs_edit(paragraph_id):
+    verify_admin()
+    paragraph = BlogPostParagraph.query.filter_by(id=paragraph_id).first_or_404()
+    form = UpdateParagraphForm()
+    if form.validate_on_submit():
+        paragraph.title = form.title.data
+        paragraph.content = form.content.data
+        db.session.commit()
+        return redirect(url_for("admin.blog_post"))
+    else:
+        form.id.data = paragraph_id
+        form.title.data = paragraph.title
+        form.content.data = paragraph.content
+    return render_template("admin/paragraph/paragraph_edit.html", form=form)
+
+@admin.route("/admin/paragraph/add/<int:blog_post_id>", methods=["GET", "POST"])
+def paragraphs_add(blog_post_id):
+    verify_admin()
+    form = NewParagraphForm()
+
+    if form.validate_on_submit():
+        paragraph = BlogPostParagraph(title=form.title.data, content=form.content.data, blog_post_id=blog_post_id)
+        db.session.add(paragraph)
+        db.session.commit()
+        flash({"title": "Congratulations!", "message": f"{form.title.data} added!"}, "success")
+        return redirect(url_for("admin.blog_post"))
+
+    return render_template("admin/paragraph/paragraph_add.html", form=form)

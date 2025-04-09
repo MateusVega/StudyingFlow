@@ -1,8 +1,8 @@
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed
-from wtforms import StringField, SubmitField, BooleanField, PasswordField, IntegerField, HiddenField, SelectField
+from wtforms import StringField, SubmitField, BooleanField, PasswordField, IntegerField, HiddenField, SelectField, TextAreaField
 from wtforms.validators import DataRequired, Length, Email, ValidationError
-from StudyApp.models import User, BlogPost, Category
+from StudyApp.models import User, BlogPost, Category, BlogPostParagraph
 from flask_login import current_user
 
 class UpdateUserForm(FlaskForm):
@@ -91,3 +91,28 @@ class UpdateBlogPostForm(FlaskForm):
         existing_post = BlogPost.query.filter(BlogPost.title == field.data, BlogPost.id != self.id.data).first()
         if existing_post:
             raise ValidationError("A blog post with this title already exists.")
+
+class NewParagraphForm(FlaskForm):
+    title = StringField('Title',
+                           validators=[DataRequired(), Length(min=2, max=100)])
+    content = TextAreaField('Content',
+                           validators=[DataRequired()])
+    submit = SubmitField('New Paragraph')
+
+    def validate_title(self, title):
+        paragraph = BlogPostParagraph.query.filter_by(title=title.data).first()
+        if paragraph:
+            raise ValidationError("That Title is taken. Please choose a different one")
+
+class UpdateParagraphForm(FlaskForm):
+    id = HiddenField()
+    title = StringField('Title',
+                           validators=[DataRequired(), Length(min=2, max=100)])
+    content = TextAreaField('Content',
+                           validators=[DataRequired()])
+    submit = SubmitField('Update Paragraph')
+
+    def validate_title(self, field):
+        existing_paragraph = BlogPostParagraph.query.filter(BlogPostParagraph.title == field.data, BlogPostParagraph.id != self.id.data).first()
+        if existing_paragraph:
+            raise ValidationError("A paragraph post with this title already exists.")

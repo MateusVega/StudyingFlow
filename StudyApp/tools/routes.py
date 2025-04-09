@@ -56,7 +56,7 @@ def delete_board(board_id):
 @tools.route("/kanban/<string:board_id>/", methods=["GET"])
 @login_required
 def board_detail(board_id):
-    board = KanbanBoard.query.filter_by(id=board_id, user_id=current_user.id).first()
+    board = KanbanBoard.query.filter_by(id=board_id, user_id=current_user.id).first_or_404()
 
     todo_tasks = KanbanTask.query.filter_by(board_id=board_id, status="todo").all()
     doing_tasks = KanbanTask.query.filter_by(board_id=board_id, status="doing").all()

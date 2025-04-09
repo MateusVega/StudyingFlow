@@ -1,8 +1,14 @@
 {% extends "layout.html" %}
 {% block content %}
     <section class="w-full h-full  flex flex-col items-center">
-        <h2 class="font-bold md:text-4xl text-2xl my-2">Kanban Name</h2>
-        <div class="flex justify-center items-center md:flex-row flex-col w-2/3 gap-5">
+        <h2 class="font-bold md:text-4xl text-2xl my-2 capitalize">
+            {% if current_user.is_authenticated %}
+                {{ board.title }} Board
+            {% else %}
+                My Kanban Board
+            {% endif %}
+        </h2>
+        <div class="flex justify-center md:flex-row flex-col w-2/3 gap-5">
             <div id="todo"
                  class="column flex flex-col gap-2.5 p-4 w-full h-full rounded-2xl "
                  ondrop="drop(event)"

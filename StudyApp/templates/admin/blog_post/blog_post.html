@@ -15,9 +15,11 @@
     <section class="mx-5 my-4">
         <table>
             <tr>
-                <td class="flex items-center">
-                    <a href="{{ url_for('community.create_blog') }}"
-                       class="material-symbols-outlined transition duration-300 ease-in-out hover:scale-110">add</a>
+                <td>
+                    <div class="flex items-center">
+                        <a href="{{ url_for('community.create_blog') }}"
+                           class="material-symbols-outlined transition duration-300 ease-in-out hover:scale-110">add</a>
+                    </div>
                 </td>
                 <th>Id</th>
                 <th>Title</th>
@@ -27,12 +29,14 @@
                 <th>Paragraphs</th>
             </tr>
             {% for post in blog_post %}
-                <tr id="post-{{post.id}}">
-                    <td class="flex items-center">
-                        <a href="{{ url_for('admin.blog_post_edit', blog_post_id=post.id) }}"
-                           class="material-symbols-outlined transition duration-300 ease-in-out hover:scale-110">edit</a>
-                        <a href="{{ url_for('admin.blog_post_delete', blog_post_id=post.id) }}"
-                           class="material-symbols-outlined transition duration-300 ease-in-out hover:scale-110">delete</a>
+                <tr id="post-{{ post.id }}">
+                    <td>
+                        <div class="flex items-center">
+                            <a href="{{ url_for('admin.blog_post_edit', blog_post_id=post.id) }}"
+                               class="material-symbols-outlined transition duration-300 ease-in-out hover:scale-110">edit</a>
+                            <a href="{{ url_for('admin.blog_post_delete', blog_post_id=post.id) }}"
+                               class="material-symbols-outlined transition duration-300 ease-in-out hover:scale-110">delete</a>
+                        </div>
                     </td>
                     <td>{{ post.id }}</td>
                     <td>{{ post.title }}</td>
@@ -40,15 +44,46 @@
                     <td>{{ post.author }}</td>
                     <td>{{ Category.query.filter_by(id=post.category_id).first().name }}</td>
                     <td>
-                        <a class="cursor-pointer text-blue-600 hover:text-blue-800" onclick="show_paragraphs('{{post.id}}')">Show Paragraphs</a>
+                        <div class="flex items-center">
+                            {% set ns = namespace(found_paragraph=False) %}
+                            {% for paragraph in paragraphs %}
+                                {% if not ns.found_paragraph and paragraph.blog_post_id == post.id %}
+                                    {% set ns.found_paragraph = True %}
+                                {% endif %}
+                            {% endfor %}
+                            
+                            {% if ns.found_paragraph %}
+                                <a class="cursor-pointer text-blue-600 hover:text-blue-800"
+                                    onclick="show_paragraphs(this, '{{ post.id }}')">Show Paragraphs
+                                </a>
+                            {% endif %}
+                            <a href="{{ url_for('admin.paragraphs_add', blog_post_id=post.id) }}"
+                                class="material-symbols-outlined transition duration-300 ease-in-out hover:scale-110">
+                                add
+                            </a>
+                        </div>
                     </td>
                 </tr>
                 {% for paragraph in paragraphs %}
                     {% if paragraph.blog_post_id == post.id %}
-                        <tr class="paragraphs-{{post.id}} hidden">
-                            <td colspan="2"><strong class="text-sm">Id: </strong>{{ paragraph.id }}</td>
-                            <td colspan="2"><strong class="text-sm">Title: </strong>{{ paragraph.title }}</td>
-                            <td colspan="3"><strong class="text-sm">Content: </strong>{{ paragraph.content }}</td>
+                        <tr class="paragraphs-{{ post.id }} hidden border-l-2">
+                            <td>
+                                <div class="flex items-center">
+                                    <a href="{{ url_for('admin.paragraphs_edit', paragraph_id=paragraph.id) }}"
+                                       class="material-symbols-outlined transition duration-300 ease-in-out hover:scale-110">edit</a>
+                                    <a href="{{ url_for('admin.paragraphs_delete', paragraph_id=paragraph.id) }}"
+                                       class="material-symbols-outlined transition duration-300 ease-in-out hover:scale-110">delete</a>
+                                </div>
+                            </td>
+                            <td>
+                                {{ paragraph.id }}
+                            </td>
+                            <td colspan="2">
+                                <strong class="text-sm">Title:</strong>{{ paragraph.title }}
+                            </td>
+                            <td colspan="3">
+                                <strong class="text-sm">Content:</strong>{{ paragraph.content }}
+                            </td>
                         </tr>
                     {% endif %}
                 {% endfor %}
@@ -56,15 +91,17 @@
         </table>
     </section>
     <script>
-        function show_paragraphs(paragraph_id){
+        function show_paragraphs(btn, paragraph_id){
             let paragraph_class = `paragraphs-${paragraph_id}`
             console.log(paragraph_class)
             const paragraphs = document.querySelectorAll(`.${paragraph_class}`)
             paragraphs.forEach(element => {
                 if (element.classList.contains('hidden')){
+                    btn.innerText = "Hide Paragraphs"
                     element.classList.remove('hidden')
                 } else{
                     element.classList.add('hidden')
+                    btn.innerText = "Show Paragraphs"
                 }
             });
             console.log('a')
