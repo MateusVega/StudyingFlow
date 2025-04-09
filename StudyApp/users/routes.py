@@ -32,7 +32,7 @@ def login():
         return redirect(url_for("main.index"))
     form = LoginForm()
     if form.validate_on_submit():
-        user = User.query.filter_by(email=form.email.data).first()
+        user = User.query.filter_by(email=form.email.data).first_or_404()
         if user and bcrypt.check_password_hash(user.password, form.password.data):
             login_user(user, remember=form.remember.data)
             next_page = request.args.get("next")
@@ -50,7 +50,7 @@ def reset_request():
     form = ResetRequestForm()
     if form.validate_on_submit():
         email = form.email.data
-        user = User.query.filter_by(email=email).first()
+        user = User.query.filter_by(email=email).first_or_404()
         if user:
             token = generate_reset_token(user.email)
             reset_link = url_for("users.reset_token", token=token, _external=True)
@@ -87,7 +87,7 @@ def reset_token(token):
         flash("Invalid or expired token.", "danger")
         return redirect(url_for("users.reset_request"))
 
-    user = User.query.filter_by(email=email).first()
+    user = User.query.filter_by(email=email).first_or_404()
     
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')

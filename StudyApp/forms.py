@@ -18,12 +18,12 @@ class RegistrationForm(FlaskForm):
     submit = SubmitField('Sign Up')
 
     def validate_username(self, username):
-        user = User.query.filter_by(username=username.data).first()
+        user = User.query.filter_by(username=username.data).first_or_404()
         if user:
             raise ValidationError("That username is taken. Please choose a different one")
         
     def validate_email(self, email):
-        user = User.query.filter_by(email=email.data).first()
+        user = User.query.filter_by(email=email.data).first_or_404()
         if user:
             raise ValidationError("That email is taken. Please choose a different one")
 
@@ -48,12 +48,12 @@ class UpdateAccountForm(FlaskForm):
     submit = SubmitField('Update')
 
     def validate_username(self, username):
-        user = User.query.filter_by(username=username.data).first()
+        user = User.query.filter_by(username=username.data).first_or_404()
         if user and user != current_user:
             raise ValidationError("That username is taken. Please choose a different one")
         
     def validate_email(self, email):
-        user = User.query.filter_by(email=email.data).first()
+        user = User.query.filter_by(email=email.data).first_or_404()
         if user and user != current_user:
             raise ValidationError("That email is taken. Please choose a different one")
 
@@ -82,7 +82,7 @@ class NewBlogPostForm(FlaskForm):
     submit = SubmitField('Create')
 
     def validate_title(self, title):
-        post = BlogPost.query.filter_by(title=title.data).first()
+        post = BlogPost.query.filter_by(title=title.data).first_or_404()
         if post:
             raise ValidationError("That title is taken. Please choose a different one")
     

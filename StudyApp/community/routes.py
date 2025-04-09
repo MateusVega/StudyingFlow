@@ -15,13 +15,13 @@ def blog():
 @community.route("/blog/<string:category>/", methods=["GET", "POST"])
 def blog_category(category):
     categories = Category.query.all()
-    category_id = Category.query.filter_by(name=category).first().id
+    category_id = Category.query.filter_by(name=category).first_or_404().id
     blogs = BlogPost.query.filter_by(category_id=category_id).all()
     return render_template("community/blog.html", title="Blog", categories=categories, blogs=blogs)
 
 @community.route("/blog/post/<string:blog_title>/", methods=["GET", "POST"])
 def blog_post(blog_title):
-    blog = BlogPost.query.filter_by(title=blog_title).first()
+    blog = BlogPost.query.filter_by(title=blog_title).first_or_404()
     paragraphs = BlogPostParagraph.query.filter_by(blog_post_id=blog.id)
     return render_template("community/blog_post.html", title=f"{blog.title}", blog=blog, paragraphs=paragraphs)
 
@@ -35,7 +35,7 @@ def create_blog():
     if form.validate_on_submit():
         if form.picture.data:
             picture_file = save_blog_picture(form.picture.data)
-        category = Category.query.filter_by(name=form.category.data).first().id
+        category = Category.query.filter_by(name=form.category.data).first_or_404().id
         print(category)
         author = current_user.username
         blog_post = BlogPost(title=form.title.data, subtitle=form.subtitle.data, author=author, image_file=picture_file, category_id=category)

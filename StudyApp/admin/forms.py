@@ -20,13 +20,13 @@ class UpdateUserForm(FlaskForm):
 
     def validate_username(self, username):
         if username.data != self.user.username:
-            user = User.query.filter_by(username=username.data).first()
+            user = User.query.filter_by(username=username.data).first_or_404()
             if user:
                 raise ValidationError("That username is taken. Please choose a different one")
 
     def validate_email(self, email):
         if email.data != self.user.email:
-            user = User.query.filter_by(email=email.data).first()
+            user = User.query.filter_by(email=email.data).first_or_404()
             if user:
                 raise ValidationError("That email is taken. Please choose a different one")
 
@@ -41,12 +41,12 @@ class NewUserForm(FlaskForm):
     submit = SubmitField('New User')
 
     def validate_username(self, username):
-        user = User.query.filter_by(username=username.data).first()
+        user = User.query.filter_by(username=username.data).first_or_404()
         if user:
             raise ValidationError("That username is taken. Please choose a different one")
         
     def validate_email(self, email):
-        user = User.query.filter_by(email=email.data).first()
+        user = User.query.filter_by(email=email.data).first_or_404()
         if user:
             raise ValidationError("That email is taken. Please choose a different one")
 
@@ -61,7 +61,7 @@ class UpdateCategoryForm(FlaskForm):
 
     def validate_name(self, name):
         if self.category and name.data != self.category.name:
-            existing_category = Category.query.filter_by(name=name.data).first()
+            existing_category = Category.query.filter_by(name=name.data).first_or_404()
             if existing_category:
                 raise ValidationError("That name is taken. Please choose a different one.")
 
@@ -71,7 +71,7 @@ class NewCategoryForm(FlaskForm):
     submit = SubmitField('New Category')
 
     def validate_name(self, name):
-        category = Category.query.filter_by(name=name.data).first()
+        category = Category.query.filter_by(name=name.data).first_or_404()
         if category:
             raise ValidationError("That Name is taken. Please choose a different one")
 
@@ -88,7 +88,7 @@ class UpdateBlogPostForm(FlaskForm):
         self.category.choices = [(c.id, c.name) for c in Category.query.all()]
 
     def validate_title(self, field):
-        existing_post = BlogPost.query.filter(BlogPost.title == field.data, BlogPost.id != self.id.data).first()
+        existing_post = BlogPost.query.filter(BlogPost.title == field.data, BlogPost.id != self.id.data).first_or_404()
         if existing_post:
             raise ValidationError("A blog post with this title already exists.")
 
@@ -100,7 +100,7 @@ class NewParagraphForm(FlaskForm):
     submit = SubmitField('New Paragraph')
 
     def validate_title(self, title):
-        paragraph = BlogPostParagraph.query.filter_by(title=title.data).first()
+        paragraph = BlogPostParagraph.query.filter_by(title=title.data).first_or_404()
         if paragraph:
             raise ValidationError("That Title is taken. Please choose a different one")
 
@@ -113,6 +113,6 @@ class UpdateParagraphForm(FlaskForm):
     submit = SubmitField('Update Paragraph')
 
     def validate_title(self, field):
-        existing_paragraph = BlogPostParagraph.query.filter(BlogPostParagraph.title == field.data, BlogPostParagraph.id != self.id.data).first()
+        existing_paragraph = BlogPostParagraph.query.filter(BlogPostParagraph.title == field.data, BlogPostParagraph.id != self.id.data).first_or_404()
         if existing_paragraph:
             raise ValidationError("A paragraph post with this title already exists.")

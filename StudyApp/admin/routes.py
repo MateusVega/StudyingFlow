@@ -29,7 +29,7 @@ def users():
 @admin.route("/admin/users/delete/<int:user_id>", methods=["GET", "POST"])
 def users_delete(user_id):
     verify_admin()
-    username = User.query.filter_by(id=user_id).first().username
+    username = User.query.filter_by(id=user_id).first_or_404().username
     User.query.filter_by(id=user_id).delete()
     Stats.query.filter_by(user_id=user_id).delete()
     db.session.commit()
@@ -83,7 +83,7 @@ def categories():
 @admin.route("/admin/categories/delete/<int:category_id>", methods=["GET", "POST"])
 def categories_delete(category_id):
     verify_admin()
-    name = Category.query.filter_by(id=category_id).first().name
+    name = Category.query.filter_by(id=category_id).first_or_404().name
     Category.query.filter_by(id=category_id).delete()
     db.session.commit()
     flash({"title": "Congratulations!", "message": f"{name} deleted!"}, "success")
@@ -130,7 +130,7 @@ def blog_post():
 @admin.route("/admin/blog_post/delete/<int:blog_post_id>", methods=["GET", "POST"])
 def blog_post_delete(blog_post_id):
     verify_admin()
-    blog =  BlogPost.query.filter_by(id=blog_post_id).first()
+    blog =  BlogPost.query.filter_by(id=blog_post_id).first_or_404()
     title = blog.title
     id = blog.id
     for p in BlogPostParagraph.query.filter_by(blog_post_id=id).all():
@@ -144,7 +144,7 @@ def blog_post_delete(blog_post_id):
 @admin.route("/admin/blog_post/edit/<int:blog_post_id>", methods=["GET", "POST"])
 def blog_post_edit(blog_post_id):
     verify_admin()
-    post = BlogPost.query.filter_by(id=blog_post_id).first()
+    post = BlogPost.query.filter_by(id=blog_post_id).first_or_404()
     form = UpdateBlogPostForm(blog_post=post)
 
     if form.validate_on_submit():

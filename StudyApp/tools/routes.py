@@ -45,7 +45,7 @@ def new_board():
 @tools.route("/kanban/<string:board_id>/delete/", methods=["POST", "DELETE"])
 @login_required
 def delete_board(board_id):
-    board = KanbanBoard.query.filter_by(id=board_id, user_id=current_user.id).first()
+    board = KanbanBoard.query.filter_by(id=board_id, user_id=current_user.id).first_or_404()
     if not board:
         return jsonify({"error": "Board not found"}), 404
     
