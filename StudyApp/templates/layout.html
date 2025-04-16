@@ -109,6 +109,12 @@
                                 <div id="profile-dropdown"
                                      class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg hidden">
                                     <ul class="flex flex-col">
+                                        {% if current_user.is_admin %}
+                                        <li>
+                                            <a href="{{ url_for('admin.admin_panel') }}"
+                                               class="block px-4 py-2 transition duration-300 ease-in-out hover:scale-110">Admin</a>
+                                        </li>
+                                        {% endif %}
                                         <li>
                                             <a href="{{ url_for('users.account') }}"
                                                class="block px-4 py-2 transition duration-300 ease-in-out hover:scale-110">Account</a>

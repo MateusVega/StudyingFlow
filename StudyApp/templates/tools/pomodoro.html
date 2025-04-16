@@ -44,6 +44,8 @@
         let minutes = timing;
         let seconds = 0;
         let isRunning = false;
+        let finished = true;
+        let mode = "focus";
 
         const start_btn = document.getElementById("start");
         const pause_btn = document.getElementById("pause");
@@ -59,6 +61,20 @@
         }
         function startTimer() {
             if (!isRunning) {
+                if (finished) {
+                    {% if current_user.is_authenticated %}
+                        fetch("{{ url_for('tools.pomodoro') }}", {
+                            method: "POST",
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRFToken': '{{ csrf_token() }}'
+                            },
+                        }).then(res => {
+                            console.log("Request complete! response:", res);
+                        });
+                    {% endif %}
+                }
+                finished = false
                 alarm.pause()
                 alarm.currentTime = 0;
                 isRunning = true;
@@ -72,11 +88,17 @@
                             start_btn.style.display = "inline";
                             pause_btn.style.display = "none";
                             alarm.play()
+                            finished = true
                             {% if current_user.is_authenticated %}
-                                fetch("{{ url_for('tools.pomodoro') }}", {
+                                fetch("{{ url_for('tools.pomodoro_finished') }}", {
                                     method: "POST",
-                                    headers: {'Content-Type': 'application/json'}, 
-                                    body: JSON.stringify({time: timing, mode: breaking})
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                        'X-CSRFToken': '{{ csrf_token() }}'
+                                    },
+                                    body: JSON.stringify({
+                                        mode: mode
+                                    })
                                 }).then(res => {
                                     console.log("Request complete! response:", res);
                                 });
@@ -118,6 +140,7 @@
             minutes = timing;
             seconds = 0;
             isRunning = false;
+            finished = true;
             updateDisplay();
         }
         function change_mode(btn) {
@@ -131,16 +154,19 @@
             if (btn.innerText == "Pomodoro"){
                 timing = 25;
                 breaking = false
+                mode = "focus"
                 resetTimer();
             } else if (btn.innerText == "Short Break"){
-                timing = 1;
+                timing = 5;
                 breaking = true
                 breaks += 1;
+                mode = "breakS"
                 resetTimer();
             } else{
                 timing = 15;
                 breaking = true
                 breaks = 0;
+                mode = "breakL"
                 resetTimer();
             }
         }

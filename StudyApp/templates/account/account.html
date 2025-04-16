@@ -25,10 +25,12 @@
                          alt="Pomodoro Focus"
                          class="block w-full">
                     <p class="absolute bottom-6 left-1/2 transform -translate-x-1/2 text-white font-bold text-sm">
-                        {% if stats.pomodoro_focus > 1 %}
-                            {{ stats.pomodoro_focus }} Minutes
+                        {% if stats.pomodoro_focus >= 100 %}
+                            {{ (stats.pomodoro_focus / 60) | round(1) }} Hours
+                        {% elif stats.pomodoro_focus == 1 %}
+                            1 Minute
                         {% else %}
-                            {{ stats.pomodoro_focus }} Minute
+                            {{ stats.pomodoro_focus }} Minutes
                         {% endif %}
                     </p>
                 </div>

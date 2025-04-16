@@ -14,3 +14,4 @@ class Config:
     MAIL_DEFAULT_SENDER = os.environ.get("MAIL_DEFAULT_SENDER")
     MAIL_ASCII_ATTACHMENTS = False
     FLASK_ADMIN_SWATCH = 'cerulean'
+    WTF_CSRF_HEADERS = ["X-CSRFToken"]

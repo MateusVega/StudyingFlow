@@ -26,7 +26,7 @@ def users():
     users_stats = zip(users, stats)
     return render_template("admin/users/users.html", users_stats=users_stats)
 
-@admin.route("/admin/users/delete/<int:user_id>", methods=["GET", "POST"])
+@admin.route("/admin/users/delete/<int:user_id>", methods=["GET"])
 def users_delete(user_id):
     verify_admin()
     username = User.query.filter_by(id=user_id).first_or_404().username
@@ -80,7 +80,7 @@ def categories():
     categories = Category.query.all()
     return render_template("admin/categories/categories.html", categories=categories)
 
-@admin.route("/admin/categories/delete/<int:category_id>", methods=["GET", "POST"])
+@admin.route("/admin/categories/delete/<int:category_id>", methods=["GET"])
 def categories_delete(category_id):
     verify_admin()
     name = Category.query.filter_by(id=category_id).first_or_404().name
@@ -127,7 +127,7 @@ def blog_post():
     paragraphs = BlogPostParagraph.query.all()
     return render_template("admin/blog_post/blog_post.html", blog_post=blog_post, Category=Category, paragraphs=paragraphs)
 
-@admin.route("/admin/blog_post/delete/<int:blog_post_id>", methods=["GET", "POST"])
+@admin.route("/admin/blog_post/delete/<int:blog_post_id>", methods=["GET"])
 def blog_post_delete(blog_post_id):
     verify_admin()
     blog =  BlogPost.query.filter_by(id=blog_post_id).first_or_404()
@@ -165,7 +165,7 @@ def blog_post_edit(blog_post_id):
 
 # PARAGRAPHS
 
-@admin.route("/admin/paragraphs/delete/<int:paragraph_id>", methods=["GET", "POST"])
+@admin.route("/admin/paragraphs/delete/<int:paragraph_id>", methods=["GET"])
 def paragraphs_delete(paragraph_id):
     verify_admin()
     BlogPostParagraph.query.filter_by(id=paragraph_id).delete()

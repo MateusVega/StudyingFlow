@@ -6,20 +6,20 @@ from StudyApp.utils import save_blog_picture
 
 community = Blueprint("community", __name__)
 
-@community.route("/blog/", methods=["GET", "POST"])
+@community.route("/blog/", methods=["GET"])
 def blog():
     categories = Category.query.all()
     blogs = BlogPost.query.all()
     return render_template("community/blog.html", title="Blog", categories=categories, blogs=blogs)
 
-@community.route("/blog/<string:category>/", methods=["GET", "POST"])
+@community.route("/blog/<string:category>/", methods=["GET"])
 def blog_category(category):
     categories = Category.query.all()
     category_id = Category.query.filter_by(name=category).first_or_404().id
     blogs = BlogPost.query.filter_by(category_id=category_id).all()
     return render_template("community/blog.html", title="Blog", categories=categories, blogs=blogs)
 
-@community.route("/blog/post/<string:blog_title>/", methods=["GET", "POST"])
+@community.route("/blog/post/<string:blog_title>/", methods=["GET"])
 def blog_post(blog_title):
     blog = BlogPost.query.filter_by(title=blog_title).first_or_404()
     paragraphs = BlogPostParagraph.query.filter_by(blog_post_id=blog.id)

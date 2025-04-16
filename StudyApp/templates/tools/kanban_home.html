@@ -41,7 +41,8 @@
             fetch("{{ url_for('tools.new_board') }}", {
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/json"
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token() }}'
                 },
                 body: JSON.stringify({name: boardName})
             }).then(response => response.json())
@@ -51,8 +52,9 @@
             fetch(`/kanban/${boardId}/delete`, {
                 method: "DELETE",
                 headers: {
-                    "Content-Type": "application/json"
-                }
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token() }}'
+                },
             }).then(response => response.json())
             .then(data => location.reload());
         }

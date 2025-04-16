@@ -4,12 +4,14 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 from flask_migrate import Migrate
+from flask_wtf import CSRFProtect
 from StudyApp.config import Config
 
 db = SQLAlchemy()
 bcrypt = Bcrypt()
 mail = Mail()
 login_manager = LoginManager()
+csrf = CSRFProtect()
 login_manager.login_view = "users.login"
 login_manager.login_message = {"title": "You need a account!", "message": "Please log in to your account"}
 login_manager.login_message_category = "info"
@@ -22,6 +24,7 @@ def create_app(config_class=Config):
     bcrypt.init_app(app)
     login_manager.init_app(app)
     mail.init_app(app)
+    csrf.init_app(app)
 
     migrate = Migrate(app, db)
 

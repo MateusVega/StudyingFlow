@@ -134,8 +134,9 @@
                     fetch(`/kanban/${board_id}/clear_tasks`, {
                         method: "POST",
                         headers: {
-                            "Content-Type": "application/json"
-                        }
+                            'Content-Type': 'application/json',
+                            'X-CSRFToken': '{{ csrf_token() }}'
+                        },
                     }).then(response => response.json())
 
                     tasks.forEach(element => {
@@ -145,7 +146,8 @@
                         fetch(`/kanban/${board_id}/add_tasks`, {
                             method: "POST",
                             headers: {
-                                "Content-Type": "application/json"
+                                'Content-Type': 'application/json',
+                                'X-CSRFToken': '{{ csrf_token() }}'
                             },
                             body: JSON.stringify({
                             status: task_status,
