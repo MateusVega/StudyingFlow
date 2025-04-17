@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 {% block content %}
-    <section class="flex items-center justify-center w-full min-h-full">
+    <section class="flex justify-center w-full min-h-full">
         <form action=""
               method="POST"
               enctype="multipart/form-data"
@@ -71,7 +71,54 @@
                 </div>
             </div>
             <a onclick="addFields()"
-               class="flex items-center gap-1 mb-5 cursor-pointer hover:text-black hover:scale-[103%] transition duration-300 ease-in-out"><span class="material-symbols-outlined">add</span> Add Paragraph</a>
+               class="flex items-center gap-1 mb-5 cursor-pointer w-fit hover:text-black hover:scale-[103%] transition duration-300 ease-in-out"><span class="material-symbols-outlined">add</span> Add Paragraph</a>
+            <hr class="text-gray-300 my-2">
+            <a onclick="showExercises(this)"
+               class="flex items-center gap-1 mb-5 cursor-pointer w-fit hover:text-black hover:scale-[103%] transition duration-300 ease-in-out"><span class="material-symbols-outlined">visibility_off</span> Show Exercises</a>
+            <section id="exercises" class="hidden">
+                <div class="flex flex-col gap-4">
+                    <input type="text" name="alternativeA[]" placeholder="Alternative A" class="transition duration-300 ease-in-out hover:scale-105 w-full p-2 border border-gray-300 rounded-md placeholder:font-light placeholder:text-gray-500">
+                    <input type="text" name="alternativeB[]" placeholder="Alternative B" class="transition duration-300 ease-in-out hover:scale-105 w-full p-2 border border-gray-300 rounded-md placeholder:font-light placeholder:text-gray-500">
+                    <input type="text" name="alternativeC[]" placeholder="Alternative C" class="transition duration-300 ease-in-out hover:scale-105 w-full p-2 border border-gray-300 rounded-md placeholder:font-light placeholder:text-gray-500">
+                    <input type="text" name="alternativeD[]" placeholder="Alternative D" class="transition duration-300 ease-in-out hover:scale-105 w-full p-2 border border-gray-300 rounded-md placeholder:font-light placeholder:text-gray-500">
+                    <input type="text" name="answer[]" placeholder="Answer" class="transition duration-300 ease-in-out hover:scale-105 w-full p-2 border border-gray-300 rounded-md placeholder:font-light placeholder:text-gray-500">
+                </div>
+                <!--
+                <hr class="text-gray-300 my-4">
+                <div class="flex flex-col gap-2">
+                    <input type="text" name="alternativeA[]" placeholder="Alternative A" class="transition duration-300 ease-in-out hover:scale-105 w-full p-2 border border-gray-300 rounded-md placeholder:font-light placeholder:text-gray-500">
+                    <input type="text" name="alternativeB[]" placeholder="Alternative B" class="transition duration-300 ease-in-out hover:scale-105 w-full p-2 border border-gray-300 rounded-md placeholder:font-light placeholder:text-gray-500">
+                    <input type="text" name="alternativeC[]" placeholder="Alternative C" class="transition duration-300 ease-in-out hover:scale-105 w-full p-2 border border-gray-300 rounded-md placeholder:font-light placeholder:text-gray-500">
+                    <input type="text" name="alternativeD[]" placeholder="Alternative D" class="transition duration-300 ease-in-out hover:scale-105 w-full p-2 border border-gray-300 rounded-md placeholder:font-light placeholder:text-gray-500">
+                    <input type="text" name="answer[]" placeholder="Answer" class="transition duration-300 ease-in-out hover:scale-105 w-full p-2 border border-gray-300 rounded-md placeholder:font-light placeholder:text-gray-500">
+                </div>
+                <hr class="text-gray-300 my-4">
+                <div class="flex flex-col gap-2">
+                    <input type="text" name="alternativeA[]" placeholder="Alternative A" class="transition duration-300 ease-in-out hover:scale-105 w-full p-2 border border-gray-300 rounded-md placeholder:font-light placeholder:text-gray-500">
+                    <input type="text" name="alternativeB[]" placeholder="Alternative B" class="transition duration-300 ease-in-out hover:scale-105 w-full p-2 border border-gray-300 rounded-md placeholder:font-light placeholder:text-gray-500">
+                    <input type="text" name="alternativeC[]" placeholder="Alternative C" class="transition duration-300 ease-in-out hover:scale-105 w-full p-2 border border-gray-300 rounded-md placeholder:font-light placeholder:text-gray-500">
+                    <input type="text" name="alternativeD[]" placeholder="Alternative D" class="transition duration-300 ease-in-out hover:scale-105 w-full p-2 border border-gray-300 rounded-md placeholder:font-light placeholder:text-gray-500">
+                    <input type="text" name="answer[]" placeholder="Answer" class="transition duration-300 ease-in-out hover:scale-105 w-full p-2 border border-gray-300 rounded-md placeholder:font-light placeholder:text-gray-500">
+                </div>
+                <hr class="text-gray-300 my-4">
+                <div class="flex flex-col gap-2">
+                    <input type="text" name="alternativeA[]" placeholder="Alternative A" class="transition duration-300 ease-in-out hover:scale-105 w-full p-2 border border-gray-300 rounded-md placeholder:font-light placeholder:text-gray-500">
+                    <input type="text" name="alternativeB[]" placeholder="Alternative B" class="transition duration-300 ease-in-out hover:scale-105 w-full p-2 border border-gray-300 rounded-md placeholder:font-light placeholder:text-gray-500">
+                    <input type="text" name="alternativeC[]" placeholder="Alternative C" class="transition duration-300 ease-in-out hover:scale-105 w-full p-2 border border-gray-300 rounded-md placeholder:font-light placeholder:text-gray-500">
+                    <input type="text" name="alternativeD[]" placeholder="Alternative D" class="transition duration-300 ease-in-out hover:scale-105 w-full p-2 border border-gray-300 rounded-md placeholder:font-light placeholder:text-gray-500">
+                    <input type="text" name="answer[]" placeholder="Answer" class="transition duration-300 ease-in-out hover:scale-105 w-full p-2 border border-gray-300 rounded-md placeholder:font-light placeholder:text-gray-500">
+                </div>
+                <hr class="text-gray-300 my-4">
+                <div class="flex flex-col gap-2">
+                    <input type="text" name="alternativeA[]" placeholder="Alternative A" class="transition duration-300 ease-in-out hover:scale-105 w-full p-2 border border-gray-300 rounded-md placeholder:font-light placeholder:text-gray-500">
+                    <input type="text" name="alternativeB[]" placeholder="Alternative B" class="transition duration-300 ease-in-out hover:scale-105 w-full p-2 border border-gray-300 rounded-md placeholder:font-light placeholder:text-gray-500">
+                    <input type="text" name="alternativeC[]" placeholder="Alternative C" class="transition duration-300 ease-in-out hover:scale-105 w-full p-2 border border-gray-300 rounded-md placeholder:font-light placeholder:text-gray-500">
+                    <input type="text" name="alternativeD[]" placeholder="Alternative D" class="transition duration-300 ease-in-out hover:scale-105 w-full p-2 border border-gray-300 rounded-md placeholder:font-light placeholder:text-gray-500">
+                    <input type="text" name="answer[]" placeholder="Answer" class="transition duration-300 ease-in-out hover:scale-105 w-full p-2 border border-gray-300 rounded-md placeholder:font-light placeholder:text-gray-500">
+                </div>
+                -->
+                <hr class="text-gray-300 my-2">
+            </section>
             <div class="py-2">
                 {{ form.submit(class="w-full bg-black text-white p-2 rounded-lg hover:bg-white hover:text-black hover:border hover:border-gray-300 hover:scale-[103%] transition duration-300 ease-in-out") }}
             </div>
@@ -94,6 +141,19 @@
                 <textarea name="paragraph[]" class="w-full p-2 border border-gray-300 rounded-md placeholder:font-light placeholder:text-gray-500"></textarea>
             `;
             container.appendChild(div);
+        }
+        let shown = true
+        const exercises = document.getElementById("exercises")
+        function showExercises(element) {
+            if (shown == false) {
+                element.innerHTML = '<span class="material-symbols-outlined">visibility_off</span> Show Exercises'
+                exercises.classList.add("hidden")
+                shown = true
+            } else {
+                element.innerHTML = '<span class="material-symbols-outlined">visibility</span> Hide Exercises'
+                exercises.classList.remove("hidden")
+                shown = false
+            }
         }
     </script>
 {% endblock content %}

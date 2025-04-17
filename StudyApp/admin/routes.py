@@ -14,7 +14,6 @@ def verify_admin():
 
 @admin.route("/admin/")
 def admin_panel():
-    Stats.query.filter_by(user_id=2).delete()
     verify_admin()
     return render_template("admin/index.html")
 

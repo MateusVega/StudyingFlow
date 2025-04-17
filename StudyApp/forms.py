@@ -82,7 +82,7 @@ class NewBlogPostForm(FlaskForm):
     submit = SubmitField('Create')
 
     def validate_title(self, title):
-        post = BlogPost.query.filter_by(title=title.data).first_or_404()
+        post = BlogPost.query.filter_by(title=title.data).first()
         if post:
             raise ValidationError("That title is taken. Please choose a different one")
     

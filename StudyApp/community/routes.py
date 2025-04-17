@@ -3,6 +3,8 @@ from flask_login import login_required, current_user
 from StudyApp.forms import *
 from StudyApp.models import *
 from StudyApp.utils import save_blog_picture
+import os
+import json
 
 community = Blueprint("community", __name__)
 
@@ -28,6 +30,8 @@ def blog_post(blog_title):
 @login_required
 @community.route("/blog/create_post/", methods=["GET", "POST"])
 def create_blog():
+    BlogPost.query.filter_by(id=3).delete()
+    db.session.commit()
     if not current_user.is_authenticated or not current_user.is_admin:
         abort(403)
     form = NewBlogPostForm()
@@ -35,8 +39,8 @@ def create_blog():
     if form.validate_on_submit():
         if form.picture.data:
             picture_file = save_blog_picture(form.picture.data)
-        category = Category.query.filter_by(name=form.category.data).first_or_404().id
-        print(category)
+        category_obj = Category.query.filter_by(name=form.category.data).first()
+        category = category_obj.id
         author = current_user.username
         blog_post = BlogPost(title=form.title.data, subtitle=form.subtitle.data, author=author, image_file=picture_file, category_id=category)
         db.session.add(blog_post)
@@ -50,7 +54,38 @@ def create_blog():
         
         for t, p in zip(titles, paragraphs):
             db.session.add(BlogPostParagraph(title=t, content=p, blog_post_id=blog_post.id))
+
+        alternativeA = request.form.getlist('alternativeA[]')
+        alternativeB = request.form.getlist('alternativeB[]')
+        alternativeC = request.form.getlist('alternativeC[]')
+        alternativeD = request.form.getlist('alternativeD[]')
+        answer = request.form.getlist('answer[]')
         
+        file_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'static', 'exercises.json')
+        with open(file_path, 'r') as json_file:
+            exercise = json.load(json_file)
+
+        for a, b, c, d, nswr in zip(alternativeA, alternativeB, alternativeC, alternativeD, answer):
+            if not nswr.upper().strip() in ["A", "B", "C", "D"]:
+                BlogPost.query.filter_by(id=blog_post.id).delete()
+                db.session.commit()
+                flash({"title": "Error!", "message": f"The Answer must be A, B, C or D!"}, "error")
+                return redirect(url_for('main.index'))
+            excercise_dict = {
+                "blog_post_id" : blog_post.id,
+                "alternatives" : {
+                    "A" : a,
+                    "B" : b,
+                    "C" : c,
+                    "D" : d
+                },
+                "answer" : nswr.upper().strip()
+            }
+            exercise.append(excercise_dict)
+
+        with open(file_path, 'w') as json_file:
+            json.dump(exercise, json_file, indent=4)
+
         db.session.commit()
 
         flash({"title": "Congratulations!", "message": f"Blog Post Created!"}, "success")
