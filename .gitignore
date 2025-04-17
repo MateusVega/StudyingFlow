@@ -110,5 +110,8 @@ poetry.toml
 pyrightconfig.json
 
 StudyApp/static/blog_pics/*
+!StudyApp/static/blog_pics/.gitkeep
+
 StudyApp/static/profile_pics/*
 !StudyApp/static/profile_pics/default.jpg
+!StudyApp/static/profile_pics/.gitkeep
