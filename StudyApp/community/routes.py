@@ -1,4 +1,4 @@
-from flask import render_template, Blueprint, abort, redirect, url_for, flash, request
+from flask import render_template, Blueprint, abort, redirect, url_for, flash, request, jsonify
 from flask_login import login_required, current_user
 from StudyApp.forms import *
 from StudyApp.models import *
@@ -31,15 +31,47 @@ def blog_post(blog_title):
     with open(file_path, 'r') as json_file:
         data = json.load(json_file)
     
+    found = False
+    exercises = []
+
     for d in data:
         if d["blog_post_id"] == blog.id:
-            exercise = d
-        else:
-            exercise = False
+            exercises.append(d)
+            found = True
+    if not found:
+        exercises = False
     
-    #{'blog_post_id': 1, 'alternatives': {'A': 'Alt1', 'B': 'Alt2', 'C': 'Alt3', 'D': 'Alt4'}, 'answer': 'A'}
+    # {'blog_post_id': 1, 'alternatives': {'A': 'Alt1', 'B': 'Alt2', 'C': 'Alt3', 'D': 'Alt4'}, 'answer': 'A'}
 
-    return render_template("community/blog_post.html", title=f"{blog.title}", blog=blog, paragraphs=paragraphs, exercise=exercise)
+    return render_template("community/blog_post.html", title=f"{blog.title}", blog=blog, paragraphs=paragraphs, exercises=exercises)
+
+
+@community.route("/submit-quiz", methods=["POST"])
+def submit_quiz():
+    data = request.get_json()
+    user_answers = data.get("user_answer", [])
+    blog_id = data.get("blog_id")
+    
+    with open(file_path, 'r') as json_file:
+        data = json.load(json_file)
+    
+    exercises = []
+
+    for d in data:
+        if d["blog_post_id"] == blog_id:
+            exercises.append(d)
+
+    if not exercises:
+        return jsonify({"error": "No exercises found"}), 404
+
+    correct = 0
+    for user_ans, ex in zip(user_answers, exercises):
+        if user_ans == ex["answer"]:
+            print("b")
+            correct += 1
+    
+
+    return jsonify({"correct": correct, "total": len(exercises)})
 
 @login_required
 @community.route("/blog/create_post/", methods=["GET", "POST"])
@@ -69,28 +101,28 @@ def create_blog():
         for t, p in zip(titles, paragraphs):
             db.session.add(BlogPostParagraph(title=t, content=p, blog_post_id=blog_post.id))
 
+        question = request.form.getlist('question[]')
         alternativeA = request.form.getlist('alternativeA[]')
         alternativeB = request.form.getlist('alternativeB[]')
         alternativeC = request.form.getlist('alternativeC[]')
-        alternativeD = request.form.getlist('alternativeD[]')
         answer = request.form.getlist('answer[]')
         
         with open(file_path, 'r') as json_file:
             exercise = json.load(json_file)
 
-        for a, b, c, d, nswr in zip(alternativeA, alternativeB, alternativeC, alternativeD, answer):
-            if not nswr.upper().strip() in ["A", "B", "C", "D"]:
+        for q, a, b, c, nswr in zip(question, alternativeA, alternativeB, alternativeC, answer):
+            if not nswr.upper().strip() in ["A", "B", "C"]:
                 BlogPost.query.filter_by(id=blog_post.id).delete()
                 db.session.commit()
-                flash({"title": "Error!", "message": f"The Answer must be A, B, C or D!"}, "error")
+                flash({"title": "Error!", "message": f"The Answer must be A, B or C!"}, "error")
                 return redirect(url_for('main.index'))
             excercise_dict = {
                 "blog_post_id" : blog_post.id,
+                "question" : q,
                 "alternatives" : {
                     "A" : a,
                     "B" : b,
-                    "C" : c,
-                    "D" : d
+                    "C" : c
                 },
                 "answer" : nswr.upper().strip()
             }

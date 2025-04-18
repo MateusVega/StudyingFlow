@@ -1,12 +1,22 @@
 [
     {
         "blog_post_id": 1,
+        "question" : "Question",
         "alternatives": {
             "A": "Alt1",
             "B": "Alt2",
-            "C": "Alt3",
-            "D": "Alt4"
+            "C": "Alt3"
         },
         "answer": "C"
+    },
+    {
+        "blog_post_id": 1,
+        "question" : "Question 2",
+        "alternatives": {
+            "A": "Alt1",
+            "B": "Alt2",
+            "C": "Alt3"
+        },
+        "answer": "A"
     }
 ]

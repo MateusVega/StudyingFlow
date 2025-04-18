@@ -12,14 +12,114 @@
                  src="{{ url_for('static', filename='blog_pics/' +blog.image_file) }}"
                  alt="{{ blog.title }}">
         </header>
-        <article>
+        <article class="prose prose-lg max-w-none">
             {% for paragraph in paragraphs %}
-                {% if paragraph.title %}<h2 class="font-bold text-2xl my-2">{{ paragraph.title }}</h2>{% endif %}
-                <p class="md:text-lg text-xl my-4">{{ paragraph.content | safe }}</p>
+                {% if paragraph.title %}
+                    <h2 class="text-2xl font-semibold text-gray-800 mt-8 mb-2">{{ paragraph.title }}</h2>
+                {% endif %}
+                <p class="text-gray-700 leading-relaxed my-4">{{ paragraph.content | safe }}</p>
             {% endfor %}
         </article>
     </section>
-    <section class="md:w-[45vw] w-[90%] mx-auto mb-5">
-        
+    <section class="w-[90%] md:w-[45vw] mx-auto my-10 p-6 space-y-12 bg-white border border-gray-200 rounded-3xl shadow-md">
+        {% if exercises != false %}
+            {% for ex in exercises %}
+                <div id="{{ loop.index }}" class="{% if loop.index != 1 %} hidden {% endif %} mb-0">
+                    <div class="text-center">
+                        <h2 class="text-3xl font-semibold text-gray-800">📝 Exercise</h2>
+                        <p class="text-xl text-gray-700 leading-relaxed">{{ ex.question }}</p>
+                    </div>
+    
+                    <div class="flex flex-col gap-3 my-8">
+                        <label class="flex items-center gap-3 cursor-pointer px-3 py-2  border border-gray-300 rounded-4xl">
+                            <input onchange="radio_change('A')" type="radio" name="{{ ex.question }}" id="A-{{ loop.index }}" class="accent-black scale-125">
+                            <span class="text-base text-gray-600">A. {{ ex.alternatives.A }}</span>
+                        </label>
+    
+                        <label class="flex items-center gap-3 cursor-pointer px-3 py-2  border border-gray-300 rounded-4xl">
+                            <input onchange="radio_change('B')" type="radio" name="{{ ex.question }}" id="B-{{ loop.index }}" class="accent-black scale-125">
+                            <span class="text-base text-gray-600">B. {{ ex.alternatives.B }}</span>
+                        </label>
+    
+                        <label class="flex items-center gap-3 cursor-pointer px-3 py-2  border border-gray-300 rounded-4xl">
+                            <input onchange="radio_change('C')" type="radio" name="{{ ex.question }}" id="C-{{ loop.index }}" class="accent-black scale-125">
+                            <span class="text-base text-gray-600">C. {{ ex.alternatives.C }}</span>
+                        </label>
+                    </div>
+    
+                    <div class="text-center">
+                        <a onclick="submit({{ loop.index }})" class="px-8 py-2 mt-4 cursor-pointer bg-black text-white rounded-xl hover:bg-white hover:text-black hover:border hover:border-gray-300 hover:scale-105 transition duration-300 ease-in-out">
+                            Submit
+                        </a>
+                    </div>
+                </div>
+            {% endfor %}
+            <div id="result" class="hidden">
+                <div class="text-center mb-6">
+                    <h2 class="text-4xl font-bold text-gray-900">🎉 Results</h2>
+                    <p class="text-lg text-gray-600 mt-2">Here's how you did:</p>
+                </div>
+            
+                <div class="flex justify-center items-center my-10">
+                    <div class="bg-gray-100 px-10 py-6 rounded-2xl shadow-inner">
+                        <p id="p-score" class="text-5xl font-bold text-green-600">
+                            You got <span id="score">1/2</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
     </section>
+    <script>
+        let lenght = 0;
+        {% if exercises != false %}
+            {% for ex in exercises %}
+                lenght += 1;
+            {% endfor %}
+        {% endif %}
+        let temp_user_answer;
+        let user_answer = [];
+        function radio_change(c){
+            temp_user_answer = c
+        }
+        // submit before
+        function submit(ex) {
+            user_answer.push(temp_user_answer)
+            document.getElementById(ex).classList.add('hidden')
+            if (ex + 1 <= lenght) {
+                document.getElementById(ex + 1).classList.remove('hidden')
+            } else {
+                fetch("/submit-quiz", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-CSRFToken": "{{ csrf_token() }}"
+                    },
+                    body: JSON.stringify({
+                        user_answer : user_answer,
+                        blog_id : {{ blog.id }}
+                    })
+                })
+                .then(res => res.json())
+                .then(data => {
+                    document.getElementById("score").innerText = `${data.correct}/${data.total}`;
+                    const result = document.getElementById("result");
+                    const scoreEl = document.getElementById("p-score");
+
+                    scoreEl.classList.remove("text-green-600", "text-red-600", "text-yellow-500");
+
+                    if (data.correct === 0) {
+                        scoreEl.classList.add("text-red-600");
+                    } else if (data.correct <= data.total / 2) {
+                        scoreEl.classList.add("text-yellow-500");
+                    } else {
+                        scoreEl.classList.add("text-green-600");
+                    }
+
+                    result.classList.remove("hidden");
+                });
+            }
+        }
+    </script>
 {% endblock content %}
+  
