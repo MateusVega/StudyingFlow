@@ -8,6 +8,8 @@ import json
 
 community = Blueprint("community", __name__)
 
+file_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'static', 'exercises.json')
+
 @community.route("/blog/", methods=["GET"])
 def blog():
     categories = Category.query.all()
@@ -25,7 +27,19 @@ def blog_category(category):
 def blog_post(blog_title):
     blog = BlogPost.query.filter_by(title=blog_title).first_or_404()
     paragraphs = BlogPostParagraph.query.filter_by(blog_post_id=blog.id)
-    return render_template("community/blog_post.html", title=f"{blog.title}", blog=blog, paragraphs=paragraphs)
+
+    with open(file_path, 'r') as json_file:
+        data = json.load(json_file)
+    
+    for d in data:
+        if d["blog_post_id"] == blog.id:
+            exercise = d
+        else:
+            exercise = False
+    
+    #{'blog_post_id': 1, 'alternatives': {'A': 'Alt1', 'B': 'Alt2', 'C': 'Alt3', 'D': 'Alt4'}, 'answer': 'A'}
+
+    return render_template("community/blog_post.html", title=f"{blog.title}", blog=blog, paragraphs=paragraphs, exercise=exercise)
 
 @login_required
 @community.route("/blog/create_post/", methods=["GET", "POST"])
@@ -61,7 +75,6 @@ def create_blog():
         alternativeD = request.form.getlist('alternativeD[]')
         answer = request.form.getlist('answer[]')
         
-        file_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'static', 'exercises.json')
         with open(file_path, 'r') as json_file:
             exercise = json.load(json_file)
 

@@ -3,8 +3,12 @@ from StudyApp import bcrypt
 from StudyApp.models import *
 from StudyApp.admin.forms import *
 from StudyApp.utils import save_blog_picture
+import os
+import json
 
 admin = Blueprint("admin", __name__)
+
+file_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'static', 'exercises.json')
 
 def verify_admin():
     if not current_user.is_authenticated or not current_user.is_admin:
@@ -135,6 +139,16 @@ def blog_post_delete(blog_post_id):
     for p in BlogPostParagraph.query.filter_by(blog_post_id=id).all():
         db.session.delete(p)
 
+    with open(file_path, 'r') as json_file:
+        exercise = json.load(json_file)
+
+    for e in exercise:
+        if e["blog_post_id"] == id:
+            exercise.remove(e)
+
+    with open(file_path, 'w') as json_file:
+        json.dump(exercise, json_file, indent=4)
+
     BlogPost.query.filter_by(id=blog_post_id).delete()
     db.session.commit()
     flash({"title": "Congratulations!", "message": f"{title} deleted!"}, "success")
@@ -156,6 +170,7 @@ def blog_post_edit(blog_post_id):
         flash({"title": "Congratulations!", "message": f"{form.title.data} edited!"}, "success")
         return redirect(url_for("admin.blog_post"))
     else:
+        form.id.data = post.id
         form.title.data = post.title
         form.subtitle.data = post.subtitle
         form.category.data = post.category_id

@@ -51,14 +51,12 @@
                                     {% set ns.found_paragraph = True %}
                                 {% endif %}
                             {% endfor %}
-                            
                             {% if ns.found_paragraph %}
                                 <a class="cursor-pointer text-blue-600 hover:text-blue-800"
-                                    onclick="show_paragraphs(this, '{{ post.id }}')">Show Paragraphs
-                                </a>
+                                   onclick="show_paragraphs(this, '{{ post.id }}')">Show Paragraphs</a>
                             {% endif %}
                             <a href="{{ url_for('admin.paragraphs_add', blog_post_id=post.id) }}"
-                                class="material-symbols-outlined transition duration-300 ease-in-out hover:scale-110">
+                               class="material-symbols-outlined transition duration-300 ease-in-out hover:scale-110">
                                 add
                             </a>
                         </div>
@@ -75,9 +73,7 @@
                                        class="material-symbols-outlined transition duration-300 ease-in-out hover:scale-110">delete</a>
                                 </div>
                             </td>
-                            <td>
-                                {{ paragraph.id }}
-                            </td>
+                            <td>{{ paragraph.id }}</td>
                             <td colspan="2">
                                 <strong class="text-sm">Title:</strong>{{ paragraph.title }}
                             </td>

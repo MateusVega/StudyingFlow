@@ -1,21 +1,11 @@
 [
     {
-        "blog_post_id": 0,
+        "blog_post_id": 1,
         "alternatives": {
-            "A": "Alternative A",
-            "B": "Alternative B",
-            "C": "Alternative C",
-            "D": "Alternative D"
-        },
-        "answer": "A"
-    },
-    {
-        "blog_post_id": 3,
-        "alternatives": {
-            "A": "sasasf",
-            "B": "dsdsdw",
-            "C": "ewesfdfs",
-            "D": "dsdw"
+            "A": "Alt1",
+            "B": "Alt2",
+            "C": "Alt3",
+            "D": "Alt4"
         },
         "answer": "C"
     }

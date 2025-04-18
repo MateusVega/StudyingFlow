@@ -74,7 +74,7 @@ class BlogPostParagraph(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100), nullable=True)
     content = db.Column(db.Text, nullable=False)
-    blog_post_id = db.Column(db.Integer, db.ForeignKey("blog_post.id", ondelete="CASCADE"), nullable=False)
+    blog_post_id = db.Column(db.Integer, db.ForeignKey("blog_post.id"), nullable=False)
 
     def __repr__(self):
         return f"Paragraph('{self.content[:30]}...', ID: {self.id})"
