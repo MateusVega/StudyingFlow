@@ -27,9 +27,11 @@ class Stats(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True, nullable=False)
     pomodoro_focus = db.Column(db.Integer, default=0)
     pomodoro_breaks = db.Column(db.Integer, default=0)
+    exercises_answered = db.Column(db.Integer, default=0)
+    correct_exercises = db.Column(db.Integer, default=0)
 
     def __repr__(self):
-        return f"Post('{self.title}', '{self.date_posted}')"
+        return f"Stats('{self.user_id}')"
 
 class KanbanBoard(db.Model):
     id = db.Column(db.String(36), primary_key=True, default=generate_uuid)

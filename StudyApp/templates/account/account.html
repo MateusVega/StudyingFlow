@@ -46,6 +46,14 @@
                         {% endif %}
                     </p>
                 </div>
+                <div class="relative w-40 h-55 inline-block text-center mx-auto">
+                    <img src="{{ url_for('static', filename='stats_pics/correct_ex.png') }}"
+                         alt="Correct Exercises"
+                         class="block w-full">
+                    <p class="absolute bottom-6 left-1/2 transform -translate-x-1/2 text-white font-bold text-sm">
+                        {{ stats.correct_exercises }}/{{ stats.exercises_answered }}
+                    </p>
+                </div>
             </footer>
         </div>
     </section>

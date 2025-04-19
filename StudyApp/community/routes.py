@@ -41,8 +41,6 @@ def blog_post(blog_title):
     if not found:
         exercises = False
     
-    # {'blog_post_id': 1, 'alternatives': {'A': 'Alt1', 'B': 'Alt2', 'C': 'Alt3', 'D': 'Alt4'}, 'answer': 'A'}
-
     return render_template("community/blog_post.html", title=f"{blog.title}", blog=blog, paragraphs=paragraphs, exercises=exercises)
 
 
@@ -70,6 +68,12 @@ def submit_quiz():
             print("b")
             correct += 1
     
+    stats = Stats.query.filter_by(user_id=current_user.id).first()
+
+    stats.exercises_answered += len(exercises)
+    stats.correct_exercises += correct
+
+    db.session.commit()
 
     return jsonify({"correct": correct, "total": len(exercises)})
 

@@ -109,6 +109,7 @@ def logout():
 @login_required
 def account():
     stats = Stats.query.get(current_user.id)
+    
     return render_template("account/account.html", title="Account", stats=stats)
 
 @users.route("/account/update/", methods=["GET", "POST"])
