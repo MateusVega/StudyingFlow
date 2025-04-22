@@ -82,12 +82,6 @@
             {% endif %}
         </section>
         <script>
-            if (!localStorage.getItem("has_seen") || localStorage.getItem("has_seen") != "false"){
-                localStorage.setItem("has_seen", "false")
-            } else {
-                document.getElementById("ex_section").remove()
-            }
-            localStorage.getItem("hes_seen")
             let lenght = 0;
             {% if exercises != false %}
                 {% for ex in exercises %}lenght += 1;{% endfor %}

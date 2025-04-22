@@ -1,4 +1,4 @@
-from flask import render_template, Blueprint, abort, redirect, url_for, flash
+from flask import render_template, Blueprint, abort, redirect, url_for, flash, request
 from StudyApp import bcrypt
 from StudyApp.models import *
 from StudyApp.admin.forms import *
@@ -8,13 +8,23 @@ import json
 
 admin = Blueprint("admin", __name__)
 
-file_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'static', 'exercises.json')
+file_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'static/data', 'exercises.json')
 
 def verify_admin():
     if not current_user.is_authenticated or not current_user.is_admin:
         abort(403)
     else:
         return True
+
+@admin.route("/static/data/<string:filename>")
+def protect_static_files(filename):
+    if filename in ["exercises.json"]:
+        verify_admin()
+        with open(file_path, 'r') as json_file:
+            data = json.load(json_file)
+        return data
+    else:
+        abort(403)
 
 @admin.route("/admin/")
 def admin_panel():
@@ -215,3 +225,17 @@ def paragraphs_add(blog_post_id):
         return redirect(url_for("admin.blog_post"))
 
     return render_template("admin/paragraph/paragraph_add.html", form=form)
+
+@admin.route("/admin/exercises/", methods=["GET", "POST"])
+def exercises():
+    verify_admin()
+    if request.method == "POST":
+        modified_exercises = request.form["exercises"]
+        with open(file_path, 'w') as json_file:
+            json.dump(json.loads(modified_exercises), json_file, indent=4)
+        return redirect(url_for('admin.exercises'))
+    else:
+        with open(file_path, 'r') as json_file:
+            exercises = json.load(json_file)
+        formatted_exercises = json.dumps(exercises, indent=4)
+        return render_template("admin/exercises/exercises.html", exercises=formatted_exercises)

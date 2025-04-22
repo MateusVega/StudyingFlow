@@ -8,7 +8,7 @@ import json
 
 community = Blueprint("community", __name__)
 
-file_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'static', 'exercises.json')
+file_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'static/data', 'exercises.json')
 
 @community.route("/blog/", methods=["GET"])
 def blog():

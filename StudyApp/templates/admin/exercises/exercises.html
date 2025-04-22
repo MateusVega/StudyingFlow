@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+{% block content %}
+    <section class="mx-5 my-4">
+        <form method="post">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <textarea name="exercises" id="exercises" class="block w-[80vw] h-[80vh] border-2 border-gray-300 mx-auto">
+                {{ exercises }}
+            </textarea>
+            <button type="submit"
+                    class="block w-fit px-10 border-y-2 mx-auto my-2 bg-black text-white p-2 rounded-lg hover:bg-white hover:text-black hover:border hover:border-gray-300 hover:scale-[103%] transition duration-300 ease-in-out">
+                Modify
+            </button>
+        </form>
+    </section>
+{% endblock content %}

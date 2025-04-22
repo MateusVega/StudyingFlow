@@ -484,6 +484,9 @@
   .h-\[45vh\] {
     height: 45vh;
   }
+  .h-\[80vh\] {
+    height: 80vh;
+  }
   .h-auto {
     height: auto;
   }
@@ -736,6 +739,10 @@
   .border-2 {
     border-style: var(--tw-border-style);
     border-width: 2px;
+  }
+  .border-y-2 {
+    border-block-style: var(--tw-border-style);
+    border-block-width: 2px;
   }
   .border-t {
     border-top-style: var(--tw-border-style);
