@@ -1,22 +1,32 @@
 [
     {
         "blog_post_id": 1,
-        "question": "Question",
+        "question": "What is the slope of y = 5x - 3",
         "alternatives": {
-            "A": "Alt1",
-            "B": "Alt2",
-            "C": "Alt3"
+            "A": "3",
+            "B": "5",
+            "C": "-3"
         },
-        "answer": "C"
+        "answer": "B"
     },
     {
-        "blog_post_id": 1,
-        "question": "Question 2",
+        "blog_post_id": 2,
+        "question": "a",
         "alternatives": {
-            "A": "Alt1",
-            "B": "Alt2",
-            "C": "Alt3"
+            "A": "A",
+            "B": "B",
+            "C": "C"
         },
-        "answer": "C"
+        "answer": "B"
+    },
+    {
+        "blog_post_id": 3,
+        "question": "a",
+        "alternatives": {
+            "A": "a",
+            "B": "a",
+            "C": "a"
+        },
+        "answer": "A"
     }
 ]

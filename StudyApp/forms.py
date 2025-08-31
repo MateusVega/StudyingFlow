@@ -75,7 +75,7 @@ class NewBlogPostForm(FlaskForm):
     subtitle = StringField('Subtitle',
                            validators=[DataRequired(), Length(min=2, max=300)])
     category = SelectField("Choose a category", choices=[])
-    picture = FileField('Update Profile Picture', validators=[DataRequired(), FileAllowed(['jpg', 'png'])])
+    picture = FileField('Blog post Picture', validators=[DataRequired(), FileAllowed(['jpg', 'png'])])
     title_paragraph = StringField('Title of Paragraph')
     paragraph = TextAreaField('Paragraph')
     

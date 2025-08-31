@@ -26,6 +26,7 @@
                 <th>Is Admin</th>
                 <th>Pomo Focus</th>
                 <th>Pomo Breaks</th>
+                <th>Exercises</th>
             </tr>
             {% for user, stat in users_stats %}
                 <tr>
@@ -42,6 +43,7 @@
                     <td class="{% if user.is_admin %} bg-green-500 {% else %} bg-red-500 {% endif %}">{{ user.is_admin }}</td>
                     <td>{{ stat.pomodoro_focus }}</td>
                     <td>{{ stat.pomodoro_breaks }}</td>
+                    <td>{{ stat.exercises_answered }}/{{ stat.correct_exercises }}</td>
                 </tr>
             {% endfor %}
         </table>
