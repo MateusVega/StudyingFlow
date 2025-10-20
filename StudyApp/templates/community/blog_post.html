@@ -88,6 +88,17 @@
             {% endif %}
             let temp_user_answer;
             let user_answer = [];
+
+            let storage_item = "has_done-{{ blog.id }}"
+
+            if (localStorage.getItem(storage_item) == null) {
+                localStorage.setItem(storage_item, "False");
+            }
+
+            if (localStorage.getItem(storage_item) == "True") {
+                document.getElementById("ex_section").remove()
+            }
+
             function radio_change(c){
                 temp_user_answer = c
             }
@@ -126,6 +137,7 @@
                         }
 
                         result.classList.remove("hidden");
+                        localStorage.setItem(storage_item, "True");
                     });
                 }
             }

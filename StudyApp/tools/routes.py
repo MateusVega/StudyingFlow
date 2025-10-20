@@ -132,7 +132,6 @@ def add_tasks(board_id):
 def studyingcicle():
     return render_template("tools/studyingcicle.html", title="Studying Cicle")
 
-
 @tools.route("/schedule/", methods=["GET"])
 def schedule():
     return render_template("tools/schedule.html", title="Schedule")
@@ -140,3 +139,7 @@ def schedule():
 @tools.route("/gpacalculator/", methods=["GET"])
 def gpacalculator():
     return render_template("tools/gpacalculator.html", title="GPA Calculator")
+
+@tools.route("/whiteboard/", methods=["GET"])
+def whiteboard():
+    return render_template("tools/whiteboard.html", title="Whiteboard - Excalidraw")

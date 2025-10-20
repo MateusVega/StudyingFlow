@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+{% block content %}
+<section class="w-screen h-[75vh] overflow-hidden flex flex-col items-center px-4">
+    <h1 class="text-4xl font-bold mb-4 text-center mt-6">
+        Whiteboard - Powered by 
+        <a target="_blank" class="text-indigo-800 hover:underline" href="https://excalidraw.com">Excalidraw</a>
+    </h1>
+    <div class="w-full h-full max-w-7xl flex justify-center">
+        <iframe 
+            class="w-full h-full rounded-md border border-gray-300" 
+            src="https://excalidraw.com/" 
+            title="Excalidraw"
+        ></iframe>
+    </div>
+</section>
+{% endblock content %}
