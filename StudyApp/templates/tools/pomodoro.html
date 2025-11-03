@@ -6,7 +6,10 @@
     </audio>
     <section class="flex justify-center min-h-screen w-full">
         <div class="h-fit text-center bg-white p-7 rounded-full">
-            <h1 class="text-4xl font-bold mb-2">Pomodoro Timer</h1>
+            <h1 class="text-4xl font-bold mb-2">Pomodoro Timer
+                <span class="material-symbols-outlined text-3xl cursor-pointer transition duration-300 ease-in-out hover:scale-110"
+                          onclick="open_guide()">info</span>
+            </h1>
             <nav class="mb-2">
                 <button id="pomodoro"
                         onclick="change_mode(this)"
@@ -36,6 +39,61 @@
                     onclick="resetTimer(25)">Reset</button>
         </div>
     </section>
+    <div id="guide" class="overflow-hidden fixed flex justify-center items-center z-50 top-0 left-0 w-screen h-screen bg-black/40 backdrop-blur-sm">
+        <div class="w-11/12 sm:w-3/4 md:w-2/3 lg:w-1/2 h-[90%] sm:h-4/5 md:h-2/3 bg-white/90 border border-gray-200 rounded-3xl shadow-2xl relative animate-fadeIn overflow-y-auto">
+            <h2 class="text-center text-3xl sm:text-4xl md:text-5xl py-4 sm:py-5">Pomodoro Timer — Guide</h2>
+            <div class="w-[90%] sm:w-4/5 h-auto mx-auto flex flex-col justify-center items-center text-base sm:text-lg md:text-xl text-center text-gray-700 leading-relaxed pb-8">
+                <p class="mb-4 text-xl md:text-lg lg:text-base">
+                    The <strong>Pomodoro Timer</strong> helps you study with focus and balance.  
+                    The method is simple: work in short, concentrated sessions, then take a break.  
+                    It boosts productivity and prevents mental fatigue.
+                </p>
+                <p class="mb-4 text-xl md:text-lg lg:text-base">
+                    <strong>How to use:</strong><br>
+                    1. Choose a mode — <em>Pomodoro</em> (25 min), <em>Short Break</em> (5 min), or <em>Long Break</em> (15 min).<br>
+                    2. Click <strong>Start</strong> to begin.<br>
+                    3. When the alarm rings, move on to the next cycle.<br>
+                    4. Use <strong>Pause</strong> to stop and <strong>Reset</strong> to restart.
+                </p>
+                <p class="text-xl md:text-lg lg:text-base">
+                    After four focus cycles, take a long break.<br>
+                    Stay consistent — that’s what brings real results.<br><br>
+                    <em>You control the time. The Pomodoro just guides you.</em>
+                </p>
+                <button
+                    onclick="close_guide()"
+                    id="close-guide"
+                    class="mt-6 px-6 py-2 bg-black text-white rounded-full hover:bg-white hover:text-black hover:border hover:border-gray-300 hover:scale-[103%] transition duration-300 ease-in-out">
+                    Got it
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var first_visit = false;
+        const GUIDE_OBJ = document.getElementById("guide");
+
+        checkFirstVisit();
+        function checkFirstVisit(){
+            if(localStorage.getItem('pomodoro_was_visited')){
+                GUIDE_OBJ.style.display = "none";
+                return;
+            }
+            first_visit = true;
+            localStorage.setItem('pomodoro_was_visited', 1);
+        }
+        
+        function close_guide() {
+            GUIDE_OBJ.style.display = "none";
+        }
+
+        function open_guide() {
+            GUIDE_OBJ.style.display = "flex";
+        }
+
+    </script>
+
     <script>
         let timer;
         let timing = 25;

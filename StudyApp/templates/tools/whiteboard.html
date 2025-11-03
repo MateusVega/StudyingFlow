@@ -1,16 +1,70 @@
 {% extends "layout.html" %}
 {% block content %}
-<section class="w-screen h-[75vh] overflow-hidden flex flex-col items-center px-4">
-    <h1 class="text-4xl font-bold mb-4 text-center mt-6">
-        Whiteboard - Powered by 
-        <a target="_blank" class="text-indigo-800 hover:underline" href="https://excalidraw.com">Excalidraw</a>
-    </h1>
-    <div class="w-full h-full max-w-7xl flex justify-center">
-        <iframe 
-            class="w-full h-full rounded-md border border-gray-300" 
-            src="https://excalidraw.com/" 
-            title="Excalidraw"
-        ></iframe>
+    <section class="w-screen h-[75vh] overflow-hidden flex flex-col items-center px-4">
+        <h1 class="text-4xl font-bold mb-4 text-center mt-6">
+            Whiteboard - Powered by 
+            <a target="_blank" class="text-indigo-800 hover:underline" href="https://excalidraw.com">Excalidraw</a>
+            <span class="material-symbols-outlined text-3xl cursor-pointer transition duration-300 ease-in-out hover:scale-110"
+                          onclick="open_guide()">info</span>
+        </h1>
+        <div class="w-full h-full max-w-7xl flex justify-center">
+            <iframe 
+                class="w-full h-full rounded-md border border-gray-300" 
+                src="https://excalidraw.com/" 
+                title="Excalidraw"
+            ></iframe>
+        </div>
+    </section>
+    <div id="guide" class="overflow-hidden fixed flex justify-center items-center z-50 top-0 left-0 w-screen h-screen bg-black/40 backdrop-blur-sm">
+        <div class="w-11/12 sm:w-3/4 md:w-2/3 lg:w-1/2 h-[90%] sm:h-4/5 md:h-2/3 bg-white/90 border border-gray-200 rounded-3xl shadow-2xl relative animate-fadeIn overflow-y-auto">
+            <h2 class="text-center text-3xl sm:text-4xl md:text-5xl py-4 sm:py-5">Whiteboard — Guide</h2>
+            <div class="w-[90%] sm:w-4/5 h-auto mx-auto flex flex-col justify-center items-center text-base sm:text-lg md:text-xl text-center text-gray-700 leading-relaxed pb-8">
+                <p class="mb-4 text-xl md:text-lg lg:text-base">
+                    The <strong>Whiteboard</strong> is a space to sketch, brainstorm, and visualize ideas freely.  
+                    It’s powered by 
+                    <a href="https://excalidraw.com" target="_blank" class="text-indigo-700 hover:underline font-semibold">Excalidraw</a>, 
+                    a collaborative tool for diagrams and creative thinking.
+                </p>
+                <p class="mb-4 text-xl md:text-lg lg:text-base">
+                    <strong>How to use:</strong><br>
+                    1. Use the toolbar to draw, add shapes, or write text.<br>
+                    2. Organize your thoughts, mind maps, or plans visually.<br>
+                    3. Export or share your drawings directly from Excalidraw.
+                </p>
+                <p class="text-xl md:text-lg lg:text-base">
+                    Perfect for quick ideas, study notes, or team brainstorming.<br><br>
+                    <em>Think visually. Create freely.</em>
+                </p>
+                <button
+                    onclick="close_guide()"
+                    id="close-guide"
+                    class="mt-6 px-6 py-2 bg-black text-white rounded-full hover:bg-white hover:text-black hover:border hover:border-gray-300 hover:scale-[103%] transition duration-300 ease-in-out">
+                    Got it
+                </button>
+            </div>
+        </div>
     </div>
-</section>
+    <script>
+        var first_visit = false;
+        const GUIDE_OBJ = document.getElementById("guide");
+
+        checkFirstVisit();
+        function checkFirstVisit(){
+            if(localStorage.getItem('whiteboard_was_visited')){
+                GUIDE_OBJ.style.display = "none";
+                return;
+            }
+            first_visit = true;
+            localStorage.setItem('whiteboard_was_visited', 1);
+        }
+        
+        function close_guide() {
+            GUIDE_OBJ.style.display = "none";
+        }
+
+        function open_guide() {
+            GUIDE_OBJ.style.display = "flex";
+        }
+
+    </script>
 {% endblock content %}

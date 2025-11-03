@@ -7,6 +7,8 @@
             {% else %}
                 My Kanban Board
             {% endif %}
+            <span class="material-symbols-outlined text-3xl cursor-pointer transition duration-300 ease-in-out hover:scale-110"
+                          onclick="open_guide()">info</span>
         </h2>
         <div class="flex justify-center min-h-[100vh] md:flex-row flex-col w-2/3 gap-5">
             <div id="todo"
@@ -79,6 +81,62 @@
                 {% endif %}
             </div>
         </div>
+
+        <div id="guide" class="overflow-hidden fixed flex justify-center items-center z-50 top-0 left-0 w-screen h-screen bg-black/40 backdrop-blur-sm">
+            <div class="w-11/12 sm:w-3/4 md:w-2/3 lg:w-1/2 h-[90%] sm:h-4/5 md:h-2/3 bg-white/90 border border-gray-200 rounded-3xl shadow-2xl relative animate-fadeIn overflow-y-auto">
+                <h2 class="text-center text-3xl sm:text-4xl md:text-5xl py-4 sm:py-5">Kanban Board — Guide</h2>
+                <div class="w-[90%] sm:w-4/5 h-auto mx-auto flex flex-col justify-center items-center text-base sm:text-lg md:text-xl text-center text-gray-700 leading-relaxed pb-8">
+                    <p class="mb-4 text-xl md:text-lg lg:text-base">
+                        The <strong>Kanban Board</strong> helps you organize your tasks visually.  
+                        It’s built around three simple stages: <em>To Do</em>, <em>In Progress</em>, and <em>Done</em>.  
+                        Move tasks between these columns to track your progress with clarity.
+                    </p>
+                    <p class="mb-4 text-xl md:text-lg lg:text-base">
+                        <strong>How to use:</strong><br>
+                        1. Click <strong>+ Add Task</strong> to create a new task.<br>
+                        2. Drag and drop tasks between columns to update their status.<br>
+                        3. Click the <strong>x</strong> button to delete a task.<br>
+                        4. Your tasks are saved automatically when you edit or move them.
+                    </p>
+                    <p class="text-xl md:text-lg lg:text-base">
+                        Use this board to plan your day, manage projects, or track study goals.  
+                        Keeping tasks visible helps you stay organized and focused.<br><br>
+                        <em>Small steps. Clear progress.</em>
+                    </p>
+                    <button
+                        onclick="close_guide()"
+                        id="close-guide"
+                        class="mt-6 px-6 py-2 bg-black text-white rounded-full hover:bg-white hover:text-black hover:border hover:border-gray-300 hover:scale-[103%] transition duration-300 ease-in-out">
+                        Got it
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            var first_visit = false;
+            const GUIDE_OBJ = document.getElementById("guide");
+
+            checkFirstVisit();
+            function checkFirstVisit(){
+                if(localStorage.getItem('kanban_was_visited')){
+                    GUIDE_OBJ.style.display = "none";
+                    return;
+                }
+                first_visit = true;
+                localStorage.setItem('kanban_was_visited', 1);
+            }
+            
+            function close_guide() {
+                GUIDE_OBJ.style.display = "none";
+            }
+
+            function open_guide() {
+                GUIDE_OBJ.style.display = "flex";
+            }
+
+        </script>
+
         <script>
             const logged_in = "{{ current_user.is_authenticated }}"
 
